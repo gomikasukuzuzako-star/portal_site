@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スタートページ</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* 時計エリア */
+        .clock-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .time {
+            font-size: 4rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .date {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        /* メイングリッド */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* 各カードの共通スタイル */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .card h2 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #38bdf8;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* 編集ボタンのスタイル */
+        .edit-btn {
+            background: #38bdf8;
+            color: #0f172a;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.2s;
+        }
+
+        .edit-btn:hover {
+            background: #0ea5e9;
+        }
+
+        /* リンク（ショートカット）スタイル */
+        .shortcut-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .shortcut-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .shortcut-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            color: #fff;
+            text-decoration: none;
+            transition: 0.2s;
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .shortcut-item:hover {
+            background: rgba(56, 189, 248, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* 削除用のバツボタン（編集モード時のみ表示） */
+        .delete-link-btn {
+            display: none;
+            position: absolute;
+            right: 8px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            line-height: 18px;
+            text-align: center;
+        }
+
+        /* 編集フォームのスタイル */
+        .edit-form {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .edit-form input {
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 0.85rem;
+        }
+
+        /* トレンドランキングのスタイル */
+        .trend-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .trend-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 8px 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .trend-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .trend-rank {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #38bdf8;
+            width: 25px;
+            text-align: center;
+        }
+
+        .trend-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .trend-link:hover {
+            text-decoration: underline;
+        }
+
+        .trend-vol {
+            font-size: 0.75rem;
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: bold;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            white-space: nowrap;
+        }
+
+        .loading {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="clock-container">
+        <div class="time" id="clock">00:00:00</div>
+        <div class="date" id="date">2026年1月1日 (木)</div>
+    </div>
+
+    <div class="dashboard-grid">
+        
+        <div class="card">
+            <h2>
+                お気に入り 
+                <button onclick="toggleEditMode()" id="editModeBtn" class="edit-btn">編集</button>
+            </h2>
+            <div id="shortcutList" class="shortcut-list">
+                </div>
+
+            <div id="editForm" class="edit-form">
+                <input type="text" id="linkName" placeholder="サイト名（例: Google）">
+                <input type="text" id="linkUrl" placeholder="URL（例: https://google.com）">
+                <button onclick="addLink()" class="edit-btn" style="width: 100%;">リンクを追加</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>主要ニュース TOP5</h2>
+            <div id="trendContainer" class="trend-list">
+                <div class="loading">最新ニュースを読み込み中...</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 時計の更新機能
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+            
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            const date = now.getDate();
+            const dayNames = ['日', '月', '火', '水', '木', '金', '土'];
+            const day = dayNames[now.getDay()];
+            document.getElementById('date').textContent = `${year}年${month}月${date}日 (${day})`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // --- お気に入り管理機能 ---
+        // 初期のデフォルトお気に入りデータ
+        const defaultLinks = [
+            { name: "🔍 Google", url: "https://www.google.com" },
+            { name: "📺 YouTube", url: "https://www.youtube.com" },
+            { name: "💻 GitHub", url: "https://github.com" },
+            { name: "🐦 X (Twitter)", url: "https://twitter.com" }
+        ];
+
+        let links = JSON.parse(localStorage.getItem('myDashboardLinks')) || defaultLinks;
+        let isEditMode = false;
+
+        function renderLinks() {
+            const list = document.getElementById('shortcutList');
+            list.innerHTML = '';
+
+            links.forEach((link, index) => {
+                const container = document.createElement('div');
+                container.className = 'shortcut-container';
+                
+                container.innerHTML = `
+                    <a href="${link.url}" target="_blank" class="shortcut-item" id="link-${index}">${link.name}</a>
+                    <button class="delete-link-btn" id="del-${index}" onclick="deleteLink(${index})">✕</button>
+                `;
+                list.appendChild(container);
+            });
+
+            // モードに応じた表示の切り替え
+            applyEditModeStyles();
+        }
+
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            const btn = document.getElementById('editModeBtn');
+            const form = document.getElementById('editForm');
+            
+            if (isEditMode) {
+                btn.textContent = "終了";
+                btn.style.background = "#ef4444";
+                btn.style.color = "#fff";
+                form.style.display = "flex";
+            } else {
+                btn.textContent = "編集";
+                btn.style.background = "#38bdf8";
+                btn.style.color = "#0f172a";
+                form.style.display = "none";
+            }
+            applyEditModeStyles();
+        }
+
+        function applyEditModeStyles() {
+            links.forEach((_, index) => {
+                const delBtn = document.getElementById(`del-${index}`);
+                const linkItem = document.getElementById(`link-${index}`);
+                if (delBtn && linkItem) {
+                    if (isEditMode) {
+                        delBtn.style.display = "block";
+                        linkItem.removeAttribute('href'); // 編集中の誤クリック防止
+                        linkItem.style.cursor = "default";
+                    } else {
+                        delBtn.style.display = "none";
+                        linkItem.setAttribute('href', links[index].url);
+                        linkItem.style.cursor = "pointer";
+                    }
+                }
+            });
+        }
+
+        function addLink() {
+            const nameInput = document.getElementById('linkName');
+            const urlInput = document.getElementById('linkUrl');
+            
+            let name = nameInput.value.trim();
+            let url = urlInput.value.trim();
+
+            if (name === '' || url === '') {
+                alert('サイト名とURLの両方を入力してください。');
+                return;
+            }
+
+            // http等の補完
+            if (!/^https?:\/\//i.test(url)) {
+                url = 'https://' + url;
+            }
+
+            links.push({ name: name, url: url });
+            localStorage.setItem('myDashboardLinks', JSON.stringify(links));
+            
+            nameInput.value = '';
+            urlInput.value = '';
+            renderLinks();
+        }
+
+        function deleteLink(index) {
+            links.splice(index, 1);
+            localStorage.setItem('myDashboardLinks', JSON.stringify(links));
+            renderLinks();
+        }
+
+
+        // --- ニュース取得機能 ---
+        async function fetchStableNews() {
+            const container = document.getElementById('trendContainer');
+            const rssUrl = encodeURIComponent('https://news.yahoo.co.jp/rss/topics/top-picks.xml');
+            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                if (data.status === 'ok' && data.items.length > 0) {
+                    container.innerHTML = ''; 
+                    data.items.slice(0, 5).forEach((item, index) => {
+                        let timeString = "最新";
+                        try {
+                            const pubDate = new Date(item.pubDate);
+                            const diffMs = new Date() - pubDate;
+                            const diffMins = Math.floor(diffMs / (1000 * 60));
+                            const diffHours = Math.floor(diffMins / 60);
+
+                            if (diffMins < 60) {
+                                timeString = `${diffMins}分前`;
+                            } else if (diffHours < 24) {
+                                timeString = `${diffHours}時間前`;
+                            } else {
+                                timeString = "本日";
+                            }
+                        } catch(e) {}
+
+                        const trendItem = document.createElement('div');
+                        trendItem.className = 'trend-item';
+                        trendItem.innerHTML = `
+                            <span class="trend-rank">${index + 1}</span>
+                            <a href="${item.link}" target="_blank" class="trend-link">${item.title}</a>
+                            <span class="trend-vol">${timeString}</span>
+                        `;
+                        container.appendChild(trendItem);
+                    });
+                } else {
+                    container.innerHTML = '<div class="loading">ニュースの解析に失敗しました。</div>';
+                }
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = '<div class="loading">接続エラーが発生しました。</div>';
+            }
+        }
+
+        // 初期実行
+        renderLinks();
+        fetchStableNews();
+    </script>
+</body>
+</html>
