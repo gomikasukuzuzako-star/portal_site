@@ -13,70 +13,81 @@
         }
 
         body {
+            /* 初期値（画像未設定時）のグラデーション */
             background: linear-gradient(135deg, #0f172a, #1e293b);
             color: #f8fafc;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
+            justify-content: flex-start;
+            padding: 50px 20px;
+            /* 背景画像の共通設定 */
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            background-size: cover;
+            transition: background 0.5s ease; /* 背景切り替えをなめらかに */
         }
 
         /* 時計エリア */
         .clock-container {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
         }
 
         .time {
-            font-size: 4rem;
+            font-size: 5.5rem;
             font-weight: bold;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
         }
 
         .date {
-            font-size: 1.2rem;
-            color: #94a3b8;
-            margin-top: 5px;
+            font-size: 1.6rem;
+            color: #e2e8f0;
+            margin-top: 10px;
         }
 
         /* メイングリッド */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 30px;
             width: 100%;
-            max-width: 800px;
+            max-width: 1200px;
         }
 
-        /* 各カードの共通スタイル */
+        /* 各カードの共通スタイル（すりガラス効果） */
         .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
+            background: rgba(15, 23, 42, 0.5); 
+            backdrop-filter: blur(16px);       
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 25px;
+            height: fit-content;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
         .card h2 {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
             color: #38bdf8;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 8px;
+            padding-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        /* 編集ボタンのスタイル */
+        /* 編集ボタン */
         .edit-btn {
             background: #38bdf8;
             color: #0f172a;
-            padding: 4px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-size: 1rem;
             cursor: pointer;
             font-weight: bold;
             border: none;
@@ -87,11 +98,40 @@
             background: #0ea5e9;
         }
 
-        /* リンク（ショートカット）スタイル */
+        /* カテゴリーセクション */
+        .category-section {
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .category-header {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #e2e8f0;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-del-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        /* リンク（ショートカット） */
         .shortcut-list {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 12px;
         }
 
         .shortcut-container {
@@ -103,8 +143,9 @@
         .shortcut-item {
             display: flex;
             align-items: center;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
+            gap: 12px;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.07);
             border-radius: 8px;
             color: #fff;
             text-decoration: none;
@@ -113,75 +154,99 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
         .shortcut-item:hover {
-            background: rgba(56, 189, 248, 0.2);
+            background: rgba(56, 189, 248, 0.25);
             transform: translateY(-2px);
         }
 
-        /* 削除用のバツボタン（編集モード時のみ表示） */
+        .shortcut-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: contain;
+        }
+
+        /* 削除ボタン */
         .delete-link-btn {
             display: none;
             position: absolute;
-            right: 8px;
+            right: 12px;
             background: #ef4444;
             color: white;
             border: none;
             border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 0.7rem;
+            width: 24px;
+            height: 24px;
+            font-size: 0.9rem;
             cursor: pointer;
-            line-height: 18px;
+            line-height: 24px;
             text-align: center;
         }
 
-        /* 編集フォームのスタイル */
+        /* 編集フォーム */
         .edit-form {
             display: none;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 10px;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
             flex-direction: column;
             gap: 8px;
         }
 
-        .edit-form input {
-            padding: 8px;
-            border-radius: 5px;
-            border: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            font-size: 0.85rem;
+        .form-group label {
+            font-size: 1.05rem;
+            color: #38bdf8;
+            font-weight: bold;
         }
 
-        /* トレンドランキングのスタイル */
+        .edit-form input, .edit-form select {
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #38bdf8;
+            background: #1e293b;
+            color: #ffffff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .edit-form select option {
+            background: #1e293b;
+            color: #ffffff;
+        }
+
+        /* トレンドランキング */
         .trend-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
         .trend-item {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 8px 10px;
+            padding: 10px 12px;
             background: rgba(255, 255, 255, 0.02);
             border-radius: 8px;
-            transition: 0.2s;
-        }
-
-        .trend-item:hover {
-            background: rgba(255, 255, 255, 0.08);
         }
 
         .trend-rank {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: #38bdf8;
-            width: 25px;
+            width: 30px;
             text-align: center;
         }
 
@@ -193,6 +258,8 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
         .trend-link:hover {
@@ -200,10 +267,10 @@
         }
 
         .trend-vol {
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             background: rgba(56, 189, 248, 0.15);
             color: #38bdf8;
-            padding: 2px 8px;
+            padding: 4px 10px;
             border-radius: 20px;
             font-weight: bold;
             border: 1px solid rgba(56, 189, 248, 0.3);
@@ -212,7 +279,7 @@
 
         .loading {
             color: #94a3b8;
-            font-size: 0.9rem;
+            font-size: 1.1rem;
             text-align: center;
             padding: 20px 0;
         }
@@ -229,16 +296,38 @@
         
         <div class="card">
             <h2>
-                お気に入り 
+                マイリンク（カテゴリー別）
                 <button onclick="toggleEditMode()" id="editModeBtn" class="edit-btn">編集</button>
             </h2>
-            <div id="shortcutList" class="shortcut-list">
+            
+            <div id="categoriesContainer">
                 </div>
 
             <div id="editForm" class="edit-form">
-                <input type="text" id="linkName" placeholder="サイト名（例: Google）">
-                <input type="text" id="linkUrl" placeholder="URL（例: https://google.com）">
-                <button onclick="addLink()" class="edit-btn" style="width: 100%;">リンクを追加</button>
+                <div class="form-group" style="margin-bottom:5px; border-bottom:1px dashed rgba(255,255,255,0.2); padding-bottom:15px;">
+                    <label>🖼 壁紙画像を変更（画像URLを入力）</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="bgUrlInput" placeholder="https://example.com/image.jpg" style="flex:1;">
+                        <button onclick="updateBackground()" class="edit-btn">適用</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>【1】新しいカテゴリーを追加</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="newCatName" placeholder="例: ニュース" style="flex:1;">
+                        <button onclick="addCategory()" class="edit-btn">作成</button>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top:5px; border-top:1px dashed rgba(255,255,255,0.2); padding-top:20px;">
+                    <label>【2】サイトを追加</label>
+                    <select id="linkCategorySelect">
+                        </select>
+                    <input type="text" id="linkName" placeholder="サイト名（例: Google）" style="margin-top:8px;">
+                    <input type="text" id="linkUrl" placeholder="URL（例: google.com）" style="margin-top:8px;">
+                    <button onclick="addLink()" class="edit-btn" style="width: 100%; margin-top:12px;">サイトを登録</button>
+                </div>
             </div>
         </div>
 
@@ -270,34 +359,101 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // --- お気に入り管理機能 ---
-        // 初期のデフォルトお気に入りデータ
-        const defaultLinks = [
-            { name: "🔍 Google", url: "https://www.google.com" },
-            { name: "📺 YouTube", url: "https://www.youtube.com" },
-            { name: "💻 GitHub", url: "https://github.com" },
-            { name: "🐦 X (Twitter)", url: "https://twitter.com" }
-        ];
+        // --- カテゴリー＆リンクデータ管理 ---
+        const defaultData = {
+            "🔍 検索エンジン": [
+                { name: "Google", url: "https://www.google.com" },
+                { name: "Yahoo! JAPAN", url: "https://www.yahoo.co.jp" }
+            ],
+            "🛠 業務効率化ツール": [
+                { name: "GitHub", url: "https://github.com" },
+                { name: "ChatGPT", url: "https://chatgpt.com" }
+            ],
+            "📺 エンタメ・SNS": [
+                { name: "YouTube", url: "https://www.youtube.com" },
+                { name: "X (Twitter)", url: "https://twitter.com" }
+            ]
+        };
 
-        let links = JSON.parse(localStorage.getItem('myDashboardLinks')) || defaultLinks;
+        let dashboardData = JSON.parse(localStorage.getItem('myCategorizedLinks')) || defaultData;
         let isEditMode = false;
 
-        function renderLinks() {
-            const list = document.getElementById('shortcutList');
-            list.innerHTML = '';
+        // 👑 背景画像の読み込みと初期セット
+        const defaultBg = "https://images.unsplash.com/photo-1515621061946-eff1c2a352bd?q=80&w=1920";
+        let savedBgUrl = localStorage.getItem('myDashboardBg') || defaultBg;
 
-            links.forEach((link, index) => {
-                const container = document.createElement('div');
-                container.className = 'shortcut-container';
-                
-                container.innerHTML = `
-                    <a href="${link.url}" target="_blank" class="shortcut-item" id="link-${index}">${link.name}</a>
-                    <button class="delete-link-btn" id="del-${index}" onclick="deleteLink(${index})">✕</button>
+        function applySavedBackground() {
+            if (savedBgUrl) {
+                // 文字が見やすくなるよう薄暗いマスクを重ねて画像を適用
+                document.body.style.background = `linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)), url('${savedBgUrl}') no-repeat center center fixed`;
+                document.body.style.backgroundSize = "cover";
+                document.getElementById('bgUrlInput').value = savedBgUrl;
+            }
+        }
+
+        // 👑 画面から背景を変更する関数
+        function updateBackground() {
+            const input = document.getElementById('bgUrlInput');
+            const newUrl = input.value.trim();
+            if (newUrl) {
+                savedBgUrl = newUrl;
+                localStorage.setItem('myDashboardBg', newUrl);
+                applySavedBackground();
+            } else {
+                // 空っぽにして適用した場合はデフォルト画像に戻す
+                savedBgUrl = defaultBg;
+                localStorage.setItem('myDashboardBg', defaultBg);
+                applySavedBackground();
+            }
+        }
+
+        function renderDashboard() {
+            const container = document.getElementById('categoriesContainer');
+            const select = document.getElementById('linkCategorySelect');
+            
+            container.innerHTML = '';
+            select.innerHTML = '';
+
+            Object.keys(dashboardData).forEach((catName) => {
+                const option = document.createElement('option');
+                option.value = catName;
+                option.textContent = catName;
+                select.appendChild(option);
+
+                const section = document.createElement('div');
+                section.className = 'category-section';
+
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.innerHTML = `
+                    <span>${catName}</span>
+                    <button class="category-del-btn" onclick="deleteCategory('${catName}')">カテゴリー削除</button>
                 `;
-                list.appendChild(container);
+                section.appendChild(header);
+
+                const list = document.createElement('div');
+                list.className = 'shortcut-list';
+
+                dashboardData[catName].forEach((link, index) => {
+                    const shortcutContainer = document.createElement('div');
+                    shortcutContainer.className = 'shortcut-container';
+
+                    const faviconUrl = `https://www.google.com/s2/favicons?sz=64&domain=${encodeURIComponent(link.url)}`;
+
+                    shortcutContainer.innerHTML = `
+                        <a href="${link.url}" target="_blank" class="shortcut-item" id="link-${catName}-${index}">
+                            <img src="${faviconUrl}" class="shortcut-icon" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23fff\' stroke-width=\'2\'><circle cx=\'12\' cy=\'12\' r=\'10\'></circle></svg>'">
+                            ${link.name}
+                        </a>
+                        <button class="delete-link-btn" id="del-${catName}-${index}" onclick="deleteLink('${catName}', ${index})">✕</button>
+                    `;
+                    list.appendChild(shortcutContainer);
+                });
+
+                section.appendChild(list);
+                container.appendChild(section);
             });
 
-            // モードに応じた表示の切り替え
             applyEditModeStyles();
         }
 
@@ -321,104 +477,136 @@
         }
 
         function applyEditModeStyles() {
-            links.forEach((_, index) => {
-                const delBtn = document.getElementById(`del-${index}`);
-                const linkItem = document.getElementById(`link-${index}`);
-                if (delBtn && linkItem) {
-                    if (isEditMode) {
-                        delBtn.style.display = "block";
-                        linkItem.removeAttribute('href'); // 編集中の誤クリック防止
-                        linkItem.style.cursor = "default";
-                    } else {
-                        delBtn.style.display = "none";
-                        linkItem.setAttribute('href', links[index].url);
-                        linkItem.style.cursor = "pointer";
+            const catDelBtns = document.querySelectorAll('.category-del-btn');
+            catDelBtns.forEach(b => b.style.display = isEditMode ? 'block' : 'none');
+
+            Object.keys(dashboardData).forEach(catName => {
+                dashboardData[catName].forEach((_, index) => {
+                    const delBtn = document.getElementById(`del-${catName}-${index}`);
+                    const linkItem = document.getElementById(`link-${catName}-${index}`);
+                    if (delBtn && linkItem) {
+                        if (isEditMode) {
+                            delBtn.style.display = "block";
+                            linkItem.removeAttribute('href');
+                            linkItem.style.cursor = "default";
+                        } else {
+                            delBtn.style.display = "none";
+                            linkItem.setAttribute('href', dashboardData[catName][index].url);
+                            linkItem.style.cursor = "pointer";
+                        }
                     }
-                }
+                });
             });
         }
 
+        function addCategory() {
+            const input = document.getElementById('newCatName');
+            const name = input.value.trim();
+            if (name && !dashboardData[name]) {
+                dashboardData[name] = [];
+                saveData();
+                input.value = '';
+                renderDashboard();
+            }
+        }
+
+        function deleteCategory(catName) {
+            if (confirm(`カテゴリー「${catName}」と中身のリンクをすべて削除しますか？`)) {
+                delete dashboardData[catName];
+                saveData();
+                renderDashboard();
+            }
+        }
+
         function addLink() {
+            const catSelect = document.getElementById('linkCategorySelect');
             const nameInput = document.getElementById('linkName');
             const urlInput = document.getElementById('linkUrl');
-            
+
+            const cat = catSelect.value;
             let name = nameInput.value.trim();
             let url = urlInput.value.trim();
 
-            if (name === '' || url === '') {
-                alert('サイト名とURLの両方を入力してください。');
+            if (!cat || !name || !url) {
+                alert('すべての項目を入力・選択してください。');
                 return;
             }
+            if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
 
-            // http等の補完
-            if (!/^https?:\/\//i.test(url)) {
-                url = 'https://' + url;
-            }
+            dashboardData[cat].push({ name: name, url: url });
+            saveData();
 
-            links.push({ name: name, url: url });
-            localStorage.setItem('myDashboardLinks', JSON.stringify(links));
-            
             nameInput.value = '';
             urlInput.value = '';
-            renderLinks();
+            renderDashboard();
         }
 
-        function deleteLink(index) {
-            links.splice(index, 1);
-            localStorage.setItem('myDashboardLinks', JSON.stringify(links));
-            renderLinks();
+        function deleteLink(catName, index) {
+            dashboardData[catName].splice(index, 1);
+            saveData();
+            renderDashboard();
         }
 
+        function saveData() {
+            localStorage.setItem('myCategorizedLinks', JSON.stringify(dashboardData));
+        }
 
         // --- ニュース取得機能 ---
         async function fetchStableNews() {
             const container = document.getElementById('trendContainer');
-            const rssUrl = encodeURIComponent('https://news.yahoo.co.jp/rss/topics/top-picks.xml');
-            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+            const rssUrl = 'https://news.yahoo.co.jp/rss/topics/top-picks.xml';
+            const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
 
             try {
                 const response = await fetch(apiUrl);
-                const data = await response.json();
+                if (!response.ok) throw new Error('Network response was not ok');
+                const json = await response.json();
+                
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(json.contents, "text/xml");
+                const items = xmlDoc.getElementsByTagName('item');
 
-                if (data.status === 'ok' && data.items.length > 0) {
+                if (items.length > 0) {
                     container.innerHTML = ''; 
-                    data.items.slice(0, 5).forEach((item, index) => {
+                    for (let index = 0; index < Math.min(items.length, 5); index++) {
+                        const item = items[index];
+                        const title = item.getElementsByTagName('title')[0].textContent;
+                        const link = item.getElementsByTagName('link')[0].textContent;
+                        
                         let timeString = "最新";
                         try {
-                            const pubDate = new Date(item.pubDate);
+                            const pubDateText = item.getElementsByTagName('pubDate')[0].textContent;
+                            const pubDate = new Date(pubDateText);
                             const diffMs = new Date() - pubDate;
                             const diffMins = Math.floor(diffMs / (1000 * 60));
                             const diffHours = Math.floor(diffMins / 60);
 
-                            if (diffMins < 60) {
-                                timeString = `${diffMins}分前`;
-                            } else if (diffHours < 24) {
-                                timeString = `${diffHours}時間前`;
-                            } else {
-                                timeString = "本日";
-                            }
+                            if (diffMins < 60 && diffMins >= 0) timeString = `${diffMins}分前`;
+                            else if (diffHours < 24 && diffHours > 0) timeString = `${diffHours}時間前`;
+                            else timeString = "本日";
                         } catch(e) {}
 
                         const trendItem = document.createElement('div');
                         trendItem.className = 'trend-item';
                         trendItem.innerHTML = `
                             <span class="trend-rank">${index + 1}</span>
-                            <a href="${item.link}" target="_blank" class="trend-link">${item.title}</a>
+                            <a href="${link}" target="_blank" class="trend-link">${title}</a>
                             <span class="trend-vol">${timeString}</span>
                         `;
                         container.appendChild(trendItem);
-                    });
+                    }
                 } else {
-                    container.innerHTML = '<div class="loading">ニュースの解析に失敗しました。</div>';
+                    container.innerHTML = '<div class="loading">ニュースデータの解析に失敗しました。</div>';
                 }
             } catch (error) {
-                console.error(error);
-                container.innerHTML = '<div class="loading">接続エラーが発生しました。</div>';
+                console.error("News Fetch Error:", error);
+                container.innerHTML = '<div class="loading">ニュースの読み込み中にエラーが発生しました。</div>';
             }
         }
 
         // 初期実行
-        renderLinks();
+        applySavedBackground();
+        renderDashboard();
         fetchStableNews();
     </script>
 </body>
