@@ -58,13 +58,14 @@
             font-weight: 500;
         }
 
-        /* メイングリッド (2カラム構成) */
+        /* メイングリッド (2カラム構成・高さを揃えやすく設定) */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1.2fr 0.8fr;
             gap: 30px;
             width: 100%;
             max-width: 1200px;
+            align-items: start;
         }
 
         /* 各カードの共通スタイル（すりガラス効果） */
@@ -75,9 +76,9 @@
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 16px;
             padding: 25px;
-            height: fit-content;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             margin-bottom: 25px;
+            overflow: hidden; /* 子要素のはみ出し防止 */
         }
 
         .card h2 {
@@ -89,9 +90,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            height: 30px; /* 見出しの高さを統一してズレを防ぐ */
         }
 
-        /* カテゴリーカード */
+        /* カテゴリーカード（左カラム） */
         .category-card {
             background: rgba(15, 23, 42, 0.5); 
             backdrop-filter: blur(16px);       
@@ -99,7 +101,6 @@
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 16px;
             padding: 25px;
-            height: fit-content;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             margin-bottom: 25px;
         }
@@ -116,7 +117,7 @@
             align-items: center;
         }
 
-        /* 管理用ヘッダーカード（常に一番下に配置） */
+        /* 管理用ヘッダーカード */
         .admin-card {
             background: rgba(15, 23, 42, 0.35);
             border: 1px dashed rgba(255, 255, 255, 0.15);
@@ -221,6 +222,7 @@
             color: white;
             display: block;
             transition: 0.2s ease;
+            height: 154px; /* お天気エリアの高さを完全に固定してブレを解消 */
         }
 
         .weather-panel-detailed:hover {
@@ -268,6 +270,7 @@
             display: flex;
             justify-content: space-between;
             color: #cbd5e1;
+            white-space: nowrap; /* 文字列の折り返しによるズレを防ぐ */
         }
 
         .weather-grid-item span {
@@ -280,6 +283,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            height: 150px; /* ニュースエリア全体の高さを固定 */
         }
 
         .news-item {
@@ -292,9 +296,13 @@
             font-size: 0.9rem;
             transition: 0.2s;
             border-left: 3px solid #38bdf8;
+            
+            /* 文字数によって複数行にまたがってレイアウトを崩さないための厳密な設定 */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            height: 40px; /* 個々のニュースの高さを固定 */
+            line-height: 20px;
         }
 
         .news-item:hover {
@@ -486,8 +494,7 @@
 
         <div class="right-column">
             
-            <div class="card">
-                <h2>☀️ 本日のライフ情報</h2>
+            <div class="card" style="height: 440px;"> <h2>☀️ 本日のライフ情報</h2>
                 
                 <a href="https://weather.yahoo.co.jp/weather/28/6310.html" target="_blank" class="weather-panel-detailed">
                     <div class="weather-header">
@@ -568,12 +575,12 @@
 
         // --- 朝刊ニュース風デモヘッドライン ---
         const newsDataList = [
-            { title: "【速報】次世代AIアシスタントの普及率が日本国内で急増", url: "https://yahoo.co.jp" },
-            { title: "【経済】日経平均株価、ハイテク株牽引で好調な動きを維持", url: "https://yahoo.co.jp" },
-            { title: "【気象】週末にかけて穏やかな晴天、洗濯日和に", url: "https://yahoo.co.jp" },
-            { title: "【ガジェット】新型スマートグラス、薄型軽量化に成功し秋発売か", url: "https://yahoo.co.jp" },
-            { title: "【ライフ】朝の「白湯」がもたらす健康効果、改めて注目集まる", url: "https://yahoo.co.jp" },
-            { title: "【トレンド】昭和レトロな純喫茶風プリン、Z世代で空前のヒット", url: "https://yahoo.co.jp" }
+            { title: "【速報】次世代AIアシスタントの普及率が日本国内で急増する見込み、多くの企業が業務効率化に導入", url: "https://yahoo.co.jp" },
+            { title: "【経済】日経平均株価、ハイテク株牽引で好調な動きを維持し、明日の取引に期待がかかる展開", url: "https://yahoo.co.jp" },
+            { title: "【気象】週末にかけて穏やかな晴天、全国的な洗濯日和になりお出かけにも最適な環境に", url: "https://yahoo.co.jp" },
+            { title: "【ガジェット】新型スマートグラス、劇的な薄型軽量化に成功し今年の秋頃に全世界で発売か", url: "https://yahoo.co.jp" },
+            { title: "【ライフ】朝一番の「白湯」がもたらす素晴らしい健康効果、美容関係者の間で改めて大きな注目集まる", url: "https://yahoo.co.jp" },
+            { title: "【トレンド】昭和レトロな純喫茶風の固めプリン、SNSをきっかけにZ世代の間で空前の大ヒットを記録中", url: "https://yahoo.co.jp" }
         ];
 
         function renderNewsFeed() {
@@ -581,7 +588,7 @@
             feed.innerHTML = '';
             
             const shuffled = [...newsDataList].sort(() => 0.5 - Math.random());
-            const selected = shuffled.slice(0, 3);
+            const selected = shuffled.slice(0, 3); // 常に3件を表示
 
             selected.forEach(news => {
                 const a = document.createElement('a');
