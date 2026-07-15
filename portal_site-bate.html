@@ -853,13 +853,45 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // --- 改良版：リアルタイム予測変換（一文字ずつの滑らかな連携） ---
+        // --- JSONP方式による確実な予測変換（CORSブロック回避） ---
         const queryInput = document.getElementById('portalSearchInput');
         const suggestionBox = document.getElementById('suggestionBox');
         let debounceTimeout = null;
         let isComposing = false; // IME（日本語入力）の入力中フラグ
 
-        // 日本語の変換確定前スタンスを検出
+        // グローバルにコールバック関数を定義してAPIレスポンスを受け取る
+        window.handleGoogleSuggest = function(data) {
+            if (!data || !data[1]) return;
+            
+            const val = queryInput.value.trim();
+            // コールバックが戻ってきた時点で入力欄が空なら表示しない
+            if (val.length < 1) {
+                suggestionBox.style.display = 'none';
+                return;
+            }
+
+            const suggestions = data[1];
+            suggestionBox.innerHTML = '';
+
+            if (suggestions && suggestions.length > 0) {
+                suggestionBox.style.display = 'block';
+                suggestions.slice(0, 6).forEach(s => {
+                    const div = document.createElement('div');
+                    div.className = 'suggestion-item';
+                    div.textContent = s;
+                    div.onclick = () => {
+                        queryInput.value = s;
+                        suggestionBox.style.display = 'none';
+                        document.getElementById('portalSearchForm').submit();
+                    };
+                    suggestionBox.appendChild(div);
+                });
+            } else {
+                suggestionBox.style.display = 'none';
+            }
+        };
+
+        // 日本語の変換確定前のステータスを検出
         queryInput.addEventListener('compositionstart', () => { isComposing = true; });
         queryInput.addEventListener('compositionend', () => { 
             isComposing = false; 
@@ -867,48 +899,33 @@
         });
 
         queryInput.addEventListener('input', () => {
-            // IME入力中はタイピングごとの過剰なAPI通信を防ぐ（ただしアルファベットなどは通す）
+            const val = queryInput.value.trim();
+            if (val.length < 1) { 
+                suggestionBox.style.display = 'none'; 
+                return; 
+            }
             if (isComposing) return;
             
-            // デバウンス処理: タイピングが少し止まった瞬間（150ms）にデータをフェッチ
             clearTimeout(debounceTimeout);
             debounceTimeout = setTimeout(fetchSuggestions, 150);
         });
 
-        async function fetchSuggestions() {
+        function fetchSuggestions() {
             const val = queryInput.value.trim();
             if (val.length < 1) { 
                 suggestionBox.style.display = 'none'; 
                 return; 
             }
 
-            try {
-                // Chrome用GoogleサジェストAPIをフック
-                const url = `https://suggestqueries.google.com/complete/search?client=chrome&q=${encodeURIComponent(val)}`;
-                const response = await fetch(url);
-                const data = await response.json();
-                const suggestions = data[1];
+            // 古いJSONP用のscriptタグがあれば削除する
+            const oldScript = document.getElementById('suggestScript');
+            if (oldScript) oldScript.remove();
 
-                suggestionBox.innerHTML = '';
-                if (suggestions && suggestions.length > 0) {
-                    suggestionBox.style.display = 'block';
-                    suggestions.slice(0, 6).forEach(s => {
-                        const div = document.createElement('div');
-                        div.className = 'suggestion-item';
-                        div.textContent = s;
-                        div.onclick = () => {
-                            queryInput.value = s;
-                            suggestionBox.style.display = 'none';
-                            document.getElementById('portalSearchForm').submit();
-                        };
-                        suggestionBox.appendChild(div);
-                    });
-                } else {
-                    suggestionBox.style.display = 'none';
-                }
-            } catch (e) {
-                console.error("予測変換データの取得に失敗しました", e);
-            }
+            // JSONP方式: scriptタグを動的に生成して挿入することでブラウザのCORS制限を突破する
+            const script = document.createElement('script');
+            script.id = 'suggestScript';
+            script.src = `https://suggestqueries.google.com/complete/search?client=youtube&hl=ja&ds=yt&q=${encodeURIComponent(val)}&callback=handleGoogleSuggest`;
+            document.body.appendChild(script);
         }
 
         // 検索窓の外側をクリックしたときに候補リストを閉じる
