@@ -249,7 +249,7 @@
             transform: translateY(-2px);
         }
 
-        /* マーケットテーブル */
+        /* 👑 マーケットテーブルとミニグラフ */
         .market-table {
             width: 100%;
             border-collapse: collapse;
@@ -257,9 +257,10 @@
         }
 
         .market-table th, .market-table td {
-            padding: 12px;
+            padding: 12px 6px;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            vertical-align: middle;
         }
 
         .market-table th {
@@ -269,8 +270,14 @@
         }
 
         .market-table td {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        .market-sparkline {
+            width: 70px;
+            height: 25px;
+            vertical-align: middle;
         }
 
         .price-down {
@@ -355,19 +362,26 @@
                         <tr>
                             <th>指標</th>
                             <th>現在値</th>
-                            <th>前日比</th>
+                            <th style="width: 80px; text-align: center;">推移</th>
+                            <th style="text-align: right; padding-right: 12px;">前日比</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>日経平均株価</strong></td>
+                            <td><strong>日経平均</strong></td>
                             <td>66,970.98円</td>
-                            <td class="price-down">-1,586.75円</td>
+                            <td style="text-align: center;">
+                                <canvas id="chartNikkei" class="market-sparkline" width="70" height="25"></canvas>
+                            </td>
+                            <td class="price-down" style="text-align: right; padding-right: 12px;">-1,586.75円</td>
                         </tr>
                         <tr>
-                            <td><strong>米ドル / 円</strong></td>
+                            <td><strong>ドル / 円</strong></td>
                             <td>162.05円</td>
-                            <td class="price-up">+0.36円 (円安)</td>
+                            <td style="text-align: center;">
+                                <canvas id="chartUsdJpy" class="market-sparkline" width="70" height="25"></canvas>
+                            </td>
+                            <td class="price-up" style="text-align: right; padding-right: 12px;">+0.36円</td>
                         </tr>
                     </tbody>
                 </table>
@@ -397,6 +411,61 @@
         setInterval(updateClock, 1000);
         updateClock();
 
+        // --- 👑 ミニトレンドグラフ（スパークライン）描画スクリプト ---
+        function drawSparkline(canvasId, dataPoints, strokeColor) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            // 高解像度ディスプレイ向けにクリアにする
+            const dpr = window.devicePixelRatio || 1;
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.scale(dpr, dpr);
+
+            ctx.clearRect(0, 0, width, height);
+
+            const min = Math.min(...dataPoints);
+            const max = Math.max(...dataPoints);
+            const range = max - min === 0 ? 1 : max - min;
+
+            ctx.beginPath();
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.strokeStyle = strokeColor;
+
+            // 各点の座標を計算してプロット
+            dataPoints.forEach((val, i) => {
+                const x = (i / (dataPoints.length - 1)) * (width - 4) + 2;
+                const y = height - ((val - min) / range) * (height - 6) - 3;
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            ctx.stroke();
+
+            // 下部に半透明のグラデーション影を落とす
+            ctx.lineTo((width - 4) + 2, height);
+            ctx.lineTo(2, height);
+            ctx.closePath();
+            ctx.fillStyle = strokeColor === '#ef4444' ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)';
+            ctx.fill();
+        }
+
+        // グラフ用デモデータ（今日の株価・ドル円の値動きイメージ）
+        // 日経平均：大幅下落傾向の推移
+        drawSparkline('chartNikkei', [68500, 68200, 67900, 67500, 67800, 67200, 66970], '#ef4444');
+        // ドル円：じわじわ上昇（円安）傾向の推移
+        drawSparkline('chartUsdJpy', [161.60, 161.75, 161.70, 161.90, 161.85, 162.00, 162.05], '#10b981');
+
+
         // --- カテゴリー＆リンクデータ管理 ---
         const defaultData = {
             "🔍 検索エンジン": [
@@ -416,7 +485,7 @@
         let dashboardData = JSON.parse(localStorage.getItem('myCategorizedLinks')) || defaultData;
         let isEditMode = false;
 
-        // 👑 デフォルト背景に指定の「山の4K壁紙」をセット
+        // デフォルト背景に指定の「山の4K壁紙」をセット
         const defaultBg = "https://divnil.com/wallpaper/ipad/img/app/m/o/mountains-4k-wallpaper-3840x2160-2048x2048_0b97954feb5ddc0033010b30ba3fd21d_raw.jpg";
         let savedBgUrl = localStorage.getItem('myDashboardBg') || defaultBg;
 
