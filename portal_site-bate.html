@@ -107,10 +107,11 @@
             align-items: center;
         }
 
-        /* 管理用ヘッダーカード（編集ボタンや編集フォーム用） */
+        /* 管理用ヘッダーカード（常に一番下に配置） */
         .admin-card {
             background: rgba(15, 23, 42, 0.35);
             border: 1px dashed rgba(255, 255, 255, 0.15);
+            margin-top: 20px;
         }
 
         /* 編集ボタン */
@@ -335,7 +336,10 @@
         
         <div class="left-column">
             
-            <div class="card admin-card" style="padding: 18px 25px; margin-bottom: 25px;">
+            <div id="categoriesContainer">
+                </div>
+
+            <div class="card admin-card" style="padding: 18px 25px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-weight: bold; color: #94a3b8;">🛠 ダッシュボード設定</span>
                     <button onclick="toggleEditMode()" id="editModeBtn" class="edit-btn">編集モード</button>
@@ -368,9 +372,6 @@
                     </div>
                 </div>
             </div>
-
-            <div id="categoriesContainer">
-                </div>
 
         </div>
 
@@ -562,7 +563,7 @@
                 option.textContent = catName;
                 select.appendChild(option);
 
-                // 👑 カテゴリーごとに独立した .category-card を作成
+                // カテゴリーごとに独立した .category-card を作成
                 const section = document.createElement('div');
                 section.className = 'category-card';
 
