@@ -68,6 +68,7 @@
             padding: 25px;
             height: fit-content;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            margin-bottom: 25px;
         }
 
         .card h2 {
@@ -226,62 +227,67 @@
             color: #ffffff;
         }
 
-        /* トレンドランキング */
-        .trend-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .trend-item {
+        /* 新しいサイドバーパーツのスタイル */
+        .trend-card-link {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 10px 12px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 8px;
-        }
-
-        .trend-rank {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #38bdf8;
-            width: 30px;
-            text-align: center;
-        }
-
-        .trend-link {
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 18px;
+            border-radius: 10px;
             color: #fff;
             text-decoration: none;
-            font-weight: 500;
-            flex: 1;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: 0.2s;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        .trend-card-link:hover {
+            background: rgba(56, 189, 248, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* マーケットテーブル */
+        .market-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .market-table th, .market-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .market-table th {
+            color: #94a3b8;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .market-table td {
             font-size: 1.1rem;
             text-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
-        .trend-link:hover {
-            text-decoration: underline;
-        }
-
-        .trend-vol {
-            font-size: 0.85rem;
-            background: rgba(56, 189, 248, 0.15);
-            color: #38bdf8;
-            padding: 4px 10px;
-            border-radius: 20px;
+        .price-down {
+            color: #ef4444; /* 下落（赤）*/
             font-weight: bold;
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            white-space: nowrap;
         }
 
-        .loading {
+        .price-up {
+            color: #10b981; /* 上昇（緑）*/
+            font-weight: bold;
+        }
+
+        .market-date {
+            font-size: 0.8rem;
             color: #94a3b8;
-            font-size: 1.1rem;
-            text-align: center;
-            padding: 20px 0;
+            text-align: right;
+            margin-top: 12px;
         }
     </style>
 </head>
@@ -331,11 +337,43 @@
             </div>
         </div>
 
-        <div class="card">
-            <h2>主要ニュース TOP5</h2>
-            <div id="trendContainer" class="trend-list">
-                <div class="loading">最新ニュースを読み込み中...</div>
+        <div class="right-column">
+            
+            <div class="card">
+                <h2>🌐 トレンドキーワード</h2>
+                <p style="font-size: 0.95rem; color: #cbd5e1; margin-bottom: 15px; line-height: 1.5;">今、世の中で何が一番検索されているかリアルタイムでチェックします。</p>
+                <a href="https://trends.google.co.jp/trends/trendingsearches/daily?geo=JP" target="_blank" class="trend-card-link">
+                    📈 Google急上昇ワードを開く
+                    <span>➔</span>
+                </a>
             </div>
+
+            <div class="card">
+                <h2>📈 マーケット情報</h2>
+                <table class="market-table">
+                    <thead>
+                        <tr>
+                            <th>指標</th>
+                            <th>現在値</th>
+                            <th>前日比</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>日経平均株価</strong></td>
+                            <td>66,970.98円</td>
+                            <td class="price-down">-1,586.75円</td>
+                        </tr>
+                        <tr>
+                            <td><strong>米ドル / 円</strong></td>
+                            <td>162.05円</td>
+                            <td class="price-up">+0.36円 (円安)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="market-date" id="market-update-time">2026年7月15日 現在</div>
+            </div>
+
         </div>
 
     </div>
@@ -378,8 +416,8 @@
         let dashboardData = JSON.parse(localStorage.getItem('myCategorizedLinks')) || defaultData;
         let isEditMode = false;
 
-        // 👑 背景画像の読み込みと初期セット
-        const defaultBg = "https://kabekin.com/uploads/converted/22/12/20/1629334072-4kbeautifulworld_wallpaper_kabekin-qYDp-3840x2160-MM-100.jpg";
+        // 👑 デフォルト背景に指定の「山の4K壁紙」をセット
+        const defaultBg = "https://divnil.com/wallpaper/ipad/img/app/m/o/mountains-4k-wallpaper-3840x2160-2048x2048_0b97954feb5ddc0033010b30ba3fd21d_raw.jpg";
         let savedBgUrl = localStorage.getItem('myDashboardBg') || defaultBg;
 
         function applySavedBackground() {
@@ -391,7 +429,7 @@
             }
         }
 
-        // 👑 画面から背景を変更する関数
+        // 画面から背景を変更する関数
         function updateBackground() {
             const input = document.getElementById('bgUrlInput');
             const newUrl = input.value.trim();
@@ -551,63 +589,9 @@
             localStorage.setItem('myCategorizedLinks', JSON.stringify(dashboardData));
         }
 
-        // --- ニュース取得機能 ---
-        async function fetchStableNews() {
-            const container = document.getElementById('trendContainer');
-            const rssUrl = 'https://news.yahoo.co.jp/rss/topics/top-picks.xml';
-            const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
-
-            try {
-                const response = await fetch(apiUrl);
-                if (!response.ok) throw new Error('Network response was not ok');
-                const json = await response.json();
-                
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(json.contents, "text/xml");
-                const items = xmlDoc.getElementsByTagName('item');
-
-                if (items.length > 0) {
-                    container.innerHTML = ''; 
-                    for (let index = 0; index < Math.min(items.length, 5); index++) {
-                        const item = items[index];
-                        const title = item.getElementsByTagName('title')[0].textContent;
-                        const link = item.getElementsByTagName('link')[0].textContent;
-                        
-                        let timeString = "最新";
-                        try {
-                            const pubDateText = item.getElementsByTagName('pubDate')[0].textContent;
-                            const pubDate = new Date(pubDateText);
-                            const diffMs = new Date() - pubDate;
-                            const diffMins = Math.floor(diffMs / (1000 * 60));
-                            const diffHours = Math.floor(diffMins / 60);
-
-                            if (diffMins < 60 && diffMins >= 0) timeString = `${diffMins}分前`;
-                            else if (diffHours < 24 && diffHours > 0) timeString = `${diffHours}時間前`;
-                            else timeString = "本日";
-                        } catch(e) {}
-
-                        const trendItem = document.createElement('div');
-                        trendItem.className = 'trend-item';
-                        trendItem.innerHTML = `
-                            <span class="trend-rank">${index + 1}</span>
-                            <a href="${link}" target="_blank" class="trend-link">${title}</a>
-                            <span class="trend-vol">${timeString}</span>
-                        `;
-                        container.appendChild(trendItem);
-                    }
-                } else {
-                    container.innerHTML = '<div class="loading">ニュースデータの解析に失敗しました。</div>';
-                }
-            } catch (error) {
-                console.error("News Fetch Error:", error);
-                container.innerHTML = '<div class="loading">ニュースの読み込み中にエラーが発生しました。</div>';
-            }
-        }
-
         // 初期実行
         applySavedBackground();
         renderDashboard();
-        fetchStableNews();
     </script>
 </body>
 </html>
