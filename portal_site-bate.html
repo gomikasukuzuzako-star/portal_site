@@ -13,7 +13,6 @@
         }
 
         body {
-            /* 初期値（画像未設定時）のグラデーション */
             background: linear-gradient(135deg, #0f172a, #1e293b);
             color: #f8fafc;
             min-height: 100vh;
@@ -22,12 +21,11 @@
             align-items: center;
             justify-content: flex-start;
             padding: 40px 20px;
-            /* 背景画像の共通設定 */
             background-repeat: no-repeat;
             background-position: center center;
             background-attachment: fixed;
             background-size: cover;
-            transition: background 0.5s ease; /* 背景切り替えをなめらかに */
+            transition: background 0.5s ease;
         }
 
         /* ヘッダーエリア */
@@ -232,34 +230,72 @@
             text-align: center;
         }
 
-        /* ライフ（天気・ニュース）スタイル */
-        .weather-panel {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            padding: 14px;
-            border-radius: 10px;
-            margin-bottom: 15px;
+        /* ライフ情報：詳細お天気パネルスタイル */
+        .weather-panel-detailed {
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 20px;
             text-decoration: none;
             color: white;
-            transition: 0.2s;
+            display: block;
+            transition: 0.2s ease;
         }
 
-        .weather-panel:hover {
-            background: rgba(56, 189, 248, 0.2);
+        .weather-panel-detailed:hover {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: rgba(56, 189, 248, 0.4);
             transform: translateY(-2px);
         }
 
-        .weather-icon {
-            font-size: 2.2rem;
+        .weather-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
         }
 
-        .weather-info {
-            line-height: 1.4;
+        .weather-main {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
         }
 
+        .weather-big-icon {
+            font-size: 3rem;
+            line-height: 1;
+        }
+
+        .weather-temp-now {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .weather-grid-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            font-size: 0.85rem;
+            background: rgba(15, 23, 42, 0.3);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .weather-grid-item {
+            display: flex;
+            justify-content: space-between;
+            color: #cbd5e1;
+        }
+
+        .weather-grid-item span {
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        /* ニュースリスト */
         .news-list {
             display: flex;
             flex-direction: column;
@@ -348,7 +384,7 @@
             transform: translateY(-2px);
         }
 
-        /* マーケットテーブルとミニグラフ */
+        /* マーケットテーブル */
         .market-table {
             width: 100%;
             border-collapse: collapse;
@@ -373,7 +409,6 @@
             text-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
-        /* クリック可能な行のホバースタイル */
         .clickable-row {
             cursor: pointer;
             transition: background-color 0.2s ease, transform 0.1s ease;
@@ -394,12 +429,12 @@
         }
 
         .price-down {
-            color: #ef4444; /* 下落（赤）*/
+            color: #ef4444;
             font-weight: bold;
         }
 
         .price-up {
-            color: #10b981; /* 上昇（緑）*/
+            color: #10b981;
             font-weight: bold;
         }
 
@@ -410,7 +445,6 @@
             margin-top: 12px;
         }
 
-        /* レスポンシブ対応 */
         @media (max-width: 1024px) {
             .dashboard-grid {
                 grid-template-columns: 1fr;
@@ -478,12 +512,27 @@
             <div class="card">
                 <h2>☀️ 本日のライフ情報</h2>
                 
-                <a href="https://weather.yahoo.co.jp/weather/" target="_blank" class="weather-panel">
-                    <span class="weather-icon" id="weatherIcon">☀️</span>
-                    <div class="weather-info">
-                        <div style="font-weight: bold; font-size: 1.05rem;">川西市近郊の天気</div>
-                        <div style="font-size: 0.9rem; color: #e2e8f0;" id="weatherText">晴れ時々曇り / 降水確率 10%</div>
-                        <div style="font-size: 0.9rem; color: #e2e8f0;">気温: <span style="color:#ef4444; font-weight:bold;">28℃</span> / <span style="color:#38bdf8; font-weight:bold;">19℃</span></div>
+                <a href="https://weather.yahoo.co.jp/weather/28/6310.html" target="_blank" class="weather-panel-detailed">
+                    <div class="weather-header">
+                        <span style="font-weight: bold; font-size: 1.05rem; color: #38bdf8;">📍 川西市近郊の天気</span>
+                        <span style="font-size: 0.8rem; color: #94a3b8; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">Yahoo!天気</span>
+                    </div>
+                    
+                    <div class="weather-main">
+                        <span class="weather-big-icon" id="weatherIcon">☀️</span>
+                        <div>
+                            <div class="weather-temp-now" id="weatherText">晴のち曇</div>
+                            <div style="font-size: 0.85rem; color: #cbd5e1; margin-top: 2px;">
+                                気温: <span style="color:#ef4444; font-weight:bold;">28℃</span> / <span style="color:#38bdf8; font-weight:bold;">19℃</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="weather-grid-details">
+                        <div class="weather-grid-item">降水(午前): <span style="color: #38bdf8;">10%</span></div>
+                        <div class="weather-grid-item">降水(午後): <span style="color: #38bdf8;">20%</span></div>
+                        <div class="weather-grid-item">湿度: <span>55%</span></div>
+                        <div class="weather-grid-item">風速: <span>北西 2m/s</span></div>
                     </div>
                 </a>
 
@@ -514,7 +563,7 @@
                     <tbody id="market-table-body">
                         </tbody>
                 </table>
-                <div class="market-date" id="market-update-time">2026年7月15日 13:00 現在</div>
+                <div class="market-date" id="market-update-time">現在データロード中...</div>
             </div>
 
         </div>
@@ -681,7 +730,6 @@
                 const changeClass = isUp ? 'price-up' : 'price-down';
                 const prefix = isUp ? '+' : '';
                 
-                // 表示用数値フォーマット
                 const formattedVal = item.currentVal.toLocaleString(undefined, { minimumFractionDigits: item.decimals, maximumFractionDigits: item.decimals });
                 const formattedChange = item.change.toLocaleString(undefined, { minimumFractionDigits: item.decimals, maximumFractionDigits: item.decimals });
 
@@ -697,36 +745,28 @@
                 `;
                 tbody.appendChild(tr);
 
-                // ミニグラフ描画
                 const strokeColor = isUp ? '#10b981' : '#ef4444';
                 drawSparkline(`canvas-${key}`, item.history, strokeColor);
             });
 
-            // 更新タイムスタンプ
             const now = new Date();
             const formatTime = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日 ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')} 現在`;
             document.getElementById('market-update-time').textContent = formatTime;
         }
 
-        // 10秒ごとにデータを微変動させてリアルタイム感を出す関数
         function updateMarketData() {
             Object.keys(marketData).forEach(key => {
                 const item = marketData[key];
-                
-                // 変動量調整
                 const changePercent = (Math.random() - 0.5) * 0.0002; 
                 const delta = item.currentVal * changePercent;
 
                 item.currentVal += delta;
                 item.change += delta;
-
-                // グラフデータ履歴の最新値を更新
                 item.history[item.history.length - 1] = item.currentVal;
             });
             renderMarketTable();
-            renderNewsFeed(); // 一緒にニュースもローテーション
+            renderNewsFeed();
         }
-
 
         // --- カテゴリー＆リンクデータ管理 ---
         const defaultData = {
@@ -766,7 +806,6 @@
         let dashboardData = JSON.parse(localStorage.getItem('myCategorizedLinks')) || defaultData;
         let isEditMode = false;
 
-        // デフォルト背景
         const defaultBg = "https://divnil.com/wallpaper/ipad/img/app/m/o/mountains-4k-wallpaper-3840x2160-2048x2048_0b97954feb5ddc0033010b30ba3fd21d_raw.jpg";
         let savedBgUrl = localStorage.getItem('myDashboardBg') || defaultBg;
 
@@ -805,7 +844,6 @@
                 option.textContent = catName;
                 select.appendChild(option);
 
-                // カテゴリーごとに独立した .category-card を作成
                 const section = document.createElement('div');
                 section.className = 'category-card';
 
@@ -935,15 +973,11 @@
             localStorage.setItem('myCategorizedLinks', JSON.stringify(dashboardData));
         }
 
-        // --- 初期実行 ＆ タイマー起動 ---
         applySavedBackground();
         renderDashboard();
         renderNewsFeed();
-
-        // 最初の一回目の描画
         renderMarketTable();
         
-        // 【10秒に1回】マーケットとニュースを自動更新
         setInterval(updateMarketData, 10000);
     </script>
 </body>
