@@ -227,7 +227,7 @@
             color: #ffffff;
         }
 
-        /* 新しいサイドバーパーツのスタイル */
+        /* トレンドリンクスタイル */
         .trend-card-link {
             display: flex;
             align-items: center;
@@ -249,7 +249,7 @@
             transform: translateY(-2px);
         }
 
-        /* 👑 マーケットテーブルとミニグラフ */
+        /* マーケットテーブルとミニグラフ */
         .market-table {
             width: 100%;
             border-collapse: collapse;
@@ -272,6 +272,20 @@
         .market-table td {
             font-size: 1.05rem;
             text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        /* クリック可能な行のホバースタイル */
+        .clickable-row {
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .clickable-row:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .clickable-row:active {
+            transform: scale(0.99);
         }
 
         .market-sparkline {
@@ -300,13 +314,16 @@
 </head>
 <body>
 
+    <!-- 時計 -->
     <div class="clock-container">
         <div class="time" id="clock">00:00:00</div>
         <div class="date" id="date">2026年1月1日 (木)</div>
     </div>
 
+    <!-- コンテンツエリア -->
     <div class="dashboard-grid">
         
+        <!-- 左：カテゴリー別お気に入り -->
         <div class="card">
             <h2>
                 マイリンク（カテゴリー別）
@@ -314,9 +331,12 @@
             </h2>
             
             <div id="categoriesContainer">
-                </div>
+                <!-- JavaScriptで自動生成 -->
+            </div>
 
+            <!-- 編集管理フォーム -->
             <div id="editForm" class="edit-form">
+                <!-- 背景画像URL変更エリア -->
                 <div class="form-group" style="margin-bottom:5px; border-bottom:1px dashed rgba(255,255,255,0.2); padding-bottom:15px;">
                     <label>🖼 壁紙画像を変更（画像URLを入力）</label>
                     <div style="display:flex; gap:10px;">
@@ -336,7 +356,8 @@
                 <div class="form-group" style="margin-top:5px; border-top:1px dashed rgba(255,255,255,0.2); padding-top:20px;">
                     <label>【2】サイトを追加</label>
                     <select id="linkCategorySelect">
-                        </select>
+                        <!-- 自動生成 -->
+                    </select>
                     <input type="text" id="linkName" placeholder="サイト名（例: Google）" style="margin-top:8px;">
                     <input type="text" id="linkUrl" placeholder="URL（例: google.com）" style="margin-top:8px;">
                     <button onclick="addLink()" class="edit-btn" style="width: 100%; margin-top:12px;">サイトを登録</button>
@@ -344,8 +365,10 @@
             </div>
         </div>
 
+        <!-- 右：トレンド ＆ マーケット情報 -->
         <div class="right-column">
             
+            <!-- Google 急上昇キーワード -->
             <div class="card">
                 <h2>🌐 トレンドキーワード</h2>
                 <p style="font-size: 0.95rem; color: #cbd5e1; margin-bottom: 15px; line-height: 1.5;">今、世の中で何が一番検索されているかリアルタイムでチェックします。</p>
@@ -355,6 +378,7 @@
                 </a>
             </div>
 
+            <!-- マーケット情報 -->
             <div class="card">
                 <h2>📈 マーケット情報</h2>
                 <table class="market-table">
@@ -367,7 +391,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <!-- 日経平均 -->
+                        <tr class="clickable-row" onclick="window.open('https://share.google/3Ngjuj9SP9m8xhgCZ', '_blank')">
                             <td><strong>日経平均</strong></td>
                             <td>66,970.98円</td>
                             <td style="text-align: center;">
@@ -375,7 +400,8 @@
                             </td>
                             <td class="price-down" style="text-align: right; padding-right: 12px;">-1,586.75円</td>
                         </tr>
-                        <tr>
+                        <!-- ドル円 -->
+                        <tr class="clickable-row" onclick="window.open('https://share.google/UO5xFqVRG9pD4utTG', '_blank')">
                             <td><strong>ドル / 円</strong></td>
                             <td>162.05円</td>
                             <td style="text-align: center;">
@@ -411,7 +437,7 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // --- 👑 ミニトレンドグラフ（スパークライン）描画スクリプト ---
+        // ミニトレンドグラフ（スパークライン）描画スクリプト
         function drawSparkline(canvasId, dataPoints, strokeColor) {
             const canvas = document.getElementById(canvasId);
             if (!canvas) return;
@@ -419,7 +445,6 @@
             const width = canvas.width;
             const height = canvas.height;
 
-            // 高解像度ディスプレイ向けにクリアにする
             const dpr = window.devicePixelRatio || 1;
             canvas.style.width = width + 'px';
             canvas.style.height = height + 'px';
@@ -439,7 +464,6 @@
             ctx.lineJoin = 'round';
             ctx.strokeStyle = strokeColor;
 
-            // 各点の座標を計算してプロット
             dataPoints.forEach((val, i) => {
                 const x = (i / (dataPoints.length - 1)) * (width - 4) + 2;
                 const y = height - ((val - min) / range) * (height - 6) - 3;
@@ -451,7 +475,6 @@
             });
             ctx.stroke();
 
-            // 下部に半透明のグラデーション影を落とす
             ctx.lineTo((width - 4) + 2, height);
             ctx.lineTo(2, height);
             ctx.closePath();
@@ -459,22 +482,33 @@
             ctx.fill();
         }
 
-        // グラフ用デモデータ（今日の株価・ドル円の値動きイメージ）
-        // 日経平均：大幅下落傾向の推移
+        // グラフ用デモデータ
         drawSparkline('chartNikkei', [68500, 68200, 67900, 67500, 67800, 67200, 66970], '#ef4444');
-        // ドル円：じわじわ上昇（円安）傾向の推移
         drawSparkline('chartUsdJpy', [161.60, 161.75, 161.70, 161.90, 161.85, 162.00, 162.05], '#10b981');
 
 
-        // --- カテゴリー＆リンクデータ管理 ---
+        // --- カテゴリー＆リンクデータ管理（「🛠 業務効率化ツール」の中身を充実化） ---
         const defaultData = {
             "🔍 検索エンジン": [
                 { name: "Google", url: "https://www.google.com" },
-                { name: "Yahoo! JAPAN", url: "https://www.yahoo.co.jp" }
+                { name: "Yahoo! JAPAN", url: "https://www.yahoo.co.jp" },
+                { name: "Microsoft Bing", url: "https://www.bing.com" },
+                { name: "Perplexity AI", url: "https://www.perplexity.ai" },
+                { name: "DuckDuckGo", url: "https://duckduckgo.com" }
+            ],
+            "🤖 AIツール": [
+                { name: "ChatGPT", url: "https://chatgpt.com" },
+                { name: "Claude", url: "https://claude.ai" },
+                { name: "Gemini", url: "https://gemini.google.com" },
+                { name: "DeepL", url: "https://www.deepl.com" }
             ],
             "🛠 業務効率化ツール": [
                 { name: "GitHub", url: "https://github.com" },
-                { name: "ChatGPT", url: "https://chatgpt.com" }
+                { name: "Notion", url: "https://www.notion.so" },
+                { name: "Trello", url: "https://trello.com" },
+                { name: "Slack", url: "https://slack.com" },
+                { name: "Zoom", url: "https://zoom.us" },
+                { name: "Google ドライブ", url: "https://drive.google.com" }
             ],
             "📺 エンタメ・SNS": [
                 { name: "YouTube", url: "https://www.youtube.com" },
@@ -482,23 +516,24 @@
             ]
         };
 
+        // ※ブラウザのLocal Storageに過去の保存データがある場合はそちらがロードされます。
+        // 最新のデフォルトデータ（6つの業務効率化ツール）を強制適用したい場合は、
+        // 画面の「編集」ボタンより不要なものを削除するか、新しく登録を追加してください。
         let dashboardData = JSON.parse(localStorage.getItem('myCategorizedLinks')) || defaultData;
         let isEditMode = false;
 
-        // デフォルト背景に指定の「山の4K壁紙」をセット
+        // デフォルト背景
         const defaultBg = "https://divnil.com/wallpaper/ipad/img/app/m/o/mountains-4k-wallpaper-3840x2160-2048x2048_0b97954feb5ddc0033010b30ba3fd21d_raw.jpg";
         let savedBgUrl = localStorage.getItem('myDashboardBg') || defaultBg;
 
         function applySavedBackground() {
             if (savedBgUrl) {
-                // 文字が見やすくなるよう薄暗いマスクを重ねて画像を適用
                 document.body.style.background = `linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)), url('${savedBgUrl}') no-repeat center center fixed`;
                 document.body.style.backgroundSize = "cover";
                 document.getElementById('bgUrlInput').value = savedBgUrl;
             }
         }
 
-        // 画面から背景を変更する関数
         function updateBackground() {
             const input = document.getElementById('bgUrlInput');
             const newUrl = input.value.trim();
@@ -507,7 +542,6 @@
                 localStorage.setItem('myDashboardBg', newUrl);
                 applySavedBackground();
             } else {
-                // 空っぽにして適用した場合はデフォルト画像に戻す
                 savedBgUrl = defaultBg;
                 localStorage.setItem('myDashboardBg', defaultBg);
                 applySavedBackground();
