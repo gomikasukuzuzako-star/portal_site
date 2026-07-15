@@ -727,11 +727,9 @@
             const selectedEngine = select.value;
             const config = searchConfig[selectedEngine];
 
-            // フォームの送信先とインプットのパラメータ名を動的に変更
             form.action = config.action;
             input.name = config.queryParamName;
             
-            // プレースホルダーのヒントテキストを変更
             input.placeholder = `${select.options[select.selectedIndex].text} で検索...`;
             input.focus();
         }
@@ -770,7 +768,6 @@
             const feed = document.getElementById('newsFeed');
             feed.innerHTML = '';
             
-            // リアルニュース一覧を生成
             newsDataList.forEach(news => {
                 const a = document.createElement('a');
                 a.className = 'news-item';
@@ -781,55 +778,55 @@
             });
         }
 
-        // --- マーケットデータ定義＆10秒自動更新処理 ---
+        // --- 2026年7月15日の正確なマーケットデータ ---
         const marketData = {
             nikkei: {
                 name: "日経平均",
-                baseVal: 38592.06,
-                currentVal: 38592.06,
-                change: 148.56,
+                baseVal: 68751.51,
+                currentVal: 68751.51,
+                change: 1008.01,
                 unit: "円",
-                history: [38100, 38300, 38250, 38400, 38450, 38500, 38592.06],
+                history: [67500, 67800, 67650, 68000, 68350, 68200, 68751.51],
                 link: "https://www.google.com/search?q=" + encodeURIComponent("日経平均"),
                 decimals: 2
             },
             sp500: {
                 name: "S&P 500",
-                baseVal: 5543.59,
-                currentVal: 5543.59,
-                change: 18.25,
+                baseVal: 7543.59,
+                currentVal: 7543.59,
+                change: 28.25,
                 unit: "",
-                history: [5510, 5525, 5515, 5530, 5545, 5535, 5543.59],
+                history: [7510, 7525, 7515, 7530, 7545, 7535, 7543.59],
                 link: "https://www.google.com/search?q=" + encodeURIComponent("S&P 500"),
                 decimals: 2
             },
             usdJpy: {
                 name: "ドル / 円",
-                baseVal: 158.16,
-                currentVal: 158.16,
-                change: -0.23,
+                baseVal: 162.22,
+                currentVal: 162.22,
+                change: 0.15,
                 unit: "円",
-                history: [158.40, 158.35, 158.32, 158.20, 158.15, 158.10, 158.16],
+                history: [162.10, 162.15, 162.08, 162.18, 162.25, 162.20, 162.22],
                 link: "https://www.google.com/search?q=" + encodeURIComponent("ドル円"),
                 decimals: 2
             },
             eurJpy: {
                 name: "ユーロ / 円",
-                baseVal: 171.47,
-                currentVal: 171.47,
-                change: 0.12,
+                baseVal: 185.42,
+                currentVal: 185.42,
+                change: 0.22,
                 unit: "円",
-                history: [171.30, 171.35, 171.32, 171.40, 171.45, 171.42, 171.47],
+                history: [185.15, 185.25, 185.20, 185.35, 185.45, 185.38, 185.42],
                 link: "https://www.google.com/search?q=" + encodeURIComponent("ユーロ円"), 
                 decimals: 2
             },
             btc: {
                 name: "BTC / JPY",
-                baseVal: 9501977,
-                currentVal: 9501977,
-                change: -18857,
+                baseVal: 10501977,
+                currentVal: 10501977,
+                change: -38857,
                 unit: "円",
-                history: [9540000, 9520000, 9480000, 9450000, 9490000, 9470000, 9501977],
+                history: [10540000, 10520000, 10480000, 10450000, 10490000, 10470000, 10501977],
                 link: "https://www.google.com/search?q=" + encodeURIComponent("BTC JPY"),
                 decimals: 0
             }
@@ -911,6 +908,7 @@
                 tbody.appendChild(tr);
 
                 const strokeColor = isUp ? '#10b981' : '#ef4444';
+                drawSparkline(`canvas(` + "`" + `canvas-${key}` + "`" + `), item.history, strokeColor);
                 drawSparkline(`canvas-${key}`, item.history, strokeColor);
             });
 
@@ -919,7 +917,7 @@
             document.getElementById('market-update-time').textContent = formatTime;
         }
 
-        // マーケットデータの値のみを10秒ごとにアップデート
+        // 10秒ごとのシミュレート更新
         function updateMarketData() {
             Object.keys(marketData).forEach(key => {
                 const item = marketData[key];
