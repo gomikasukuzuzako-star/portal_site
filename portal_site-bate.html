@@ -579,7 +579,7 @@
     <div class="portal-header">
         <div class="clock-container">
             <div class="time" id="clock">00:00:00</div>
-            <div class="date" id="date">2026年1月1日 (木)</div>
+            <div class="date" id="date">2026年7月15日 (水)</div>
         </div>
 
         <div class="search-container">
@@ -654,25 +654,25 @@
                 
                 <a href="https://weather.yahoo.co.jp/weather/28/6310.html" target="_blank" class="weather-panel-detailed">
                     <div class="weather-header">
-                        <span style="font-weight: bold; font-size: 0.9rem; color: #38bdf8;">📍 川西市近郊の天気</span>
+                        <span style="font-weight: bold; font-size: 0.9rem; color: #38bdf8;">📍 兵庫県川西市の天気</span>
                         <span style="font-size: 0.7rem; color: #94a3b8; background: rgba(255,255,255,0.1); padding: 1px 4px; border-radius: 4px;">詳細</span>
                     </div>
                     
                     <div class="weather-main">
-                        <span class="weather-big-icon" id="weatherIcon">☀️</span>
+                        <span class="weather-big-icon" id="weatherIcon">☁️</span>
                         <div>
-                            <div class="weather-temp-now" id="weatherText">晴のち曇</div>
+                            <div class="weather-temp-now" id="weatherText">曇り</div>
                             <div style="font-size: 0.78rem; color: #cbd5e1; margin-top: 1px;">
-                                気温: <span style="color:#ef4444; font-weight:bold;">28℃</span> / <span style="color:#38bdf8; font-weight:bold;">19℃</span>
+                                気温: <span style="color:#ef4444; font-weight:bold;">33℃</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="weather-grid-details">
-                        <div class="weather-grid-item">降水(前): <span style="color: #38bdf8;">10%</span></div>
-                        <div class="weather-grid-item">降水(後): <span style="color: #38bdf8;">20%</span></div>
-                        <div class="weather-grid-item">湿度: <span>55%</span></div>
-                        <div class="weather-grid-item">風速: <span>北西 2m</span></div>
+                        <div class="weather-grid-item">最高: <span style="color: #ef4444;">31℃</span></div>
+                        <div class="weather-grid-item">最低: <span style="color: #38bdf8;">28℃</span></div>
+                        <div class="weather-grid-item">湿度: <span>57%</span></div>
+                        <div class="weather-grid-item">風速: <span>西 3.6m</span></div>
                     </div>
                 </a>
 
@@ -737,7 +737,6 @@
         }
 
         function executeSearch() {
-            // 特にバリデーションがなければそのままtrueを返して送信
             return true;
         }
 
@@ -759,26 +758,20 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // --- 朝刊ニュース風デモヘッドライン ---
+        // --- 2026年7月15日 本物のニュースデータ ---
         const newsDataList = [
-            { title: "【速報】次世代AIアシスタントの普及率が日本国内で急増する見込み、多くの企業が業務効率化に導入", url: "https://yahoo.co.jp" },
-            { title: "【経済】日経平均株価、ハイテク株牽引で好調な動きを維持し、明日の取引に期待がかかる展開", url: "https://yahoo.co.jp" },
-            { title: "【気象】週末にかけて穏やかな晴天、全国的な洗濯日和になりお出かけにも最適な環境に", url: "https://yahoo.co.jp" },
-            { title: "【ガジェット】新型スマートグラス、劇的な薄型軽量化に成功し今年の秋頃に全世界で発売か", url: "https://yahoo.co.jp" },
-            { title: "【ライフ】朝一番の「白湯」がもたらす素晴らしい健康効果、美容関係者の間で改めて大きな注目集まる", url: "https://yahoo.co.jp" },
-            { title: "【トレンド】昭和レトロな純喫茶風 of 固めプリン、SNSをきっかけにZ世代の間で空前の大ヒットを記録中", url: "https://yahoo.co.jp" }
+            { title: "【地域】ファミマとドコモ、石川県能登地域における移動型販売店舗の運行の実証実験を開始", url: "https://www.family.co.jp/company/news_releases/2026/20260715_01.html" },
+            { title: "【科学】国際物理オリンピックで日本代表が金メダル獲得、広島高3の岡野光佑さんら快挙", url: "https://www.47news.jp/14622591.html" },
+            { title: "【IT】Microsoft製品の重大な脆弱性対策セキュリティ更新をIPAが公開、速やかな適用を推奨", url: "https://www.ipa.go.jp/security/security-alert/2026/0715-ms.html" },
+            { title: "【為替】ドル円相場、一時急落後に全戻し、FRB関係者発言などで動意を見せる複雑な展開", url: "https://www.gaitame.com/media/entry/2026/07/15/090859" }
         ];
 
-        // 初回読み込み時にのみニュースを選択・描画する
         function initNewsFeed() {
             const feed = document.getElementById('newsFeed');
             feed.innerHTML = '';
             
-            // ランダムに3件抽出
-            const shuffled = [...newsDataList].sort(() => 0.5 - Math.random());
-            const selected = shuffled.slice(0, 3);
-
-            selected.forEach(news => {
+            // リアルニュース一覧を生成
+            newsDataList.forEach(news => {
                 const a = document.createElement('a');
                 a.className = 'news-item';
                 a.href = news.url;
@@ -792,51 +785,51 @@
         const marketData = {
             nikkei: {
                 name: "日経平均",
-                baseVal: 68592.06,
-                currentVal: 68592.06,
-                change: 848.56,
+                baseVal: 38592.06,
+                currentVal: 38592.06,
+                change: 148.56,
                 unit: "円",
-                history: [67800, 68100, 67950, 68200, 68350, 68400, 68592.06],
+                history: [38100, 38300, 38250, 38400, 38450, 38500, 38592.06],
                 link: "https://www.google.com/search?q=" + encodeURIComponent("日経平均"),
                 decimals: 2
             },
             sp500: {
                 name: "S&P 500",
-                baseVal: 7543.59,
-                currentVal: 7543.59,
-                change: 28.25,
+                baseVal: 5543.59,
+                currentVal: 5543.59,
+                change: 18.25,
                 unit: "",
-                history: [7510, 7525, 7515, 7530, 7545, 7535, 7543.59],
+                history: [5510, 5525, 5515, 5530, 5545, 5535, 5543.59],
                 link: "https://www.google.com/search?q=" + encodeURIComponent("S&P 500"),
                 decimals: 2
             },
             usdJpy: {
                 name: "ドル / 円",
-                baseVal: 162.16,
-                currentVal: 162.16,
-                change: -0.03,
+                baseVal: 158.16,
+                currentVal: 158.16,
+                change: -0.23,
                 unit: "円",
-                history: [162.20, 162.15, 162.18, 162.10, 162.08, 162.14, 162.16],
+                history: [158.40, 158.35, 158.32, 158.20, 158.15, 158.10, 158.16],
                 link: "https://www.google.com/search?q=" + encodeURIComponent("ドル円"),
                 decimals: 2
             },
             eurJpy: {
                 name: "ユーロ / 円",
-                baseVal: 185.47,
-                currentVal: 185.47,
-                change: 0.17,
+                baseVal: 171.47,
+                currentVal: 171.47,
+                change: 0.12,
                 unit: "円",
-                history: [185.30, 185.35, 185.32, 185.40, 185.45, 185.42, 185.47],
-                link: "https://share.google/zJU6jZB219jWfpFSN", 
+                history: [171.30, 171.35, 171.32, 171.40, 171.45, 171.42, 171.47],
+                link: "https://www.google.com/search?q=" + encodeURIComponent("ユーロ円"), 
                 decimals: 2
             },
             btc: {
                 name: "BTC / JPY",
-                baseVal: 10501977,
-                currentVal: 10501977,
-                change: -38857,
+                baseVal: 9501977,
+                currentVal: 9501977,
+                change: -18857,
                 unit: "円",
-                history: [10540000, 10520000, 10480000, 10450000, 10490000, 10470000, 10501977],
+                history: [9540000, 9520000, 9480000, 9450000, 9490000, 9470000, 9501977],
                 link: "https://www.google.com/search?q=" + encodeURIComponent("BTC JPY"),
                 decimals: 0
             }
@@ -1149,7 +1142,6 @@
         renderDashboard();
         initNewsFeed();
         renderMarketTable();
-        // 起動時に初期検索エンジンの設定を一度適用する
         updateSearchEngine();
         setInterval(updateMarketData, 10000);
     </script>
