@@ -397,26 +397,10 @@
                             <th style="text-align: right; padding-right: 12px;">前日比</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="clickable-row" onclick="window.open('https://share.google/3Ngjuj9SP9m8xhgCZ', '_blank')">
-                            <td><strong>日経平均</strong></td>
-                            <td>66,970.98円</td>
-                            <td style="text-align: center;">
-                                <canvas id="chartNikkei" class="market-sparkline" width="70" height="25"></canvas>
-                            </td>
-                            <td class="price-down" style="text-align: right; padding-right: 12px;">-1,586.75円</td>
-                        </tr>
-                        <tr class="clickable-row" onclick="window.open('https://share.google/UO5xFqVRG9pD4utTG', '_blank')">
-                            <td><strong>ドル / 円</strong></td>
-                            <td>162.05円</td>
-                            <td style="text-align: center;">
-                                <canvas id="chartUsdJpy" class="market-sparkline" width="70" height="25"></canvas>
-                            </td>
-                            <td class="price-up" style="text-align: right; padding-right: 12px;">+0.36円</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="market-table-body">
+                        </tbody>
                 </table>
-                <div class="market-date" id="market-update-time">2026年7月15日 現在</div>
+                <div class="market-date" id="market-update-time">2026年7月15日 13:00 現在</div>
             </div>
 
         </div>
@@ -442,7 +426,61 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // ミニトレンドグラフ（スパークライン）描画スクリプト
+        // --- マーケットデータ定義＆10秒自動更新処理 ---
+        const marketData = {
+            nikkei: {
+                name: "日経平均",
+                baseVal: 68592.06,
+                currentVal: 68592.06,
+                change: 848.56,
+                unit: "円",
+                history: [67800, 68100, 67950, 68200, 68350, 68400, 68592.06],
+                link: "https://www.google.com/search?q=" + encodeURIComponent("日経平均"),
+                decimals: 2
+            },
+            sp500: {
+                name: "S&P 500",
+                baseVal: 7543.59,
+                currentVal: 7543.59,
+                change: 28.25,
+                unit: "",
+                history: [7510, 7525, 7515, 7530, 7545, 7535, 7543.59],
+                link: "https://www.google.com/search?q=" + encodeURIComponent("S&P 500"),
+                decimals: 2
+            },
+            usdJpy: {
+                name: "ドル / 円",
+                baseVal: 162.16,
+                currentVal: 162.16,
+                change: -0.03,
+                unit: "円",
+                history: [162.20, 162.15, 162.18, 162.10, 162.08, 162.14, 162.16],
+                link: "https://www.google.com/search?q=" + encodeURIComponent("ドル円"),
+                decimals: 2
+            },
+            eurJpy: {
+                name: "ユーロ / 円",
+                baseVal: 185.47,
+                currentVal: 185.47,
+                change: 0.17,
+                unit: "円",
+                history: [185.30, 185.35, 185.32, 185.40, 185.45, 185.42, 185.47],
+                link: "https://share.google/zJU6jZB219jWfpFSN", 
+                decimals: 2
+            },
+            btc: {
+                name: "BTC / JPY",
+                baseVal: 10501977,
+                currentVal: 10501977,
+                change: -38857,
+                unit: "円",
+                history: [10540000, 10520000, 10480000, 10450000, 10490000, 10470000, 10501977],
+                link: "https://www.google.com/search?q=" + encodeURIComponent("BTC JPY"),
+                decimals: 0
+            }
+        };
+
+        // スパークライン描画ヘルパー
         function drawSparkline(canvasId, dataPoints, strokeColor) {
             const canvas = document.getElementById(canvasId);
             if (!canvas) return;
@@ -487,9 +525,65 @@
             ctx.fill();
         }
 
-        // グラフ用デモデータ
-        drawSparkline('chartNikkei', [68500, 68200, 67900, 67500, 67800, 67200, 66970], '#ef4444');
-        drawSparkline('chartUsdJpy', [161.60, 161.75, 161.70, 161.90, 161.85, 162.00, 162.05], '#10b981');
+        // マーケットテーブルのレンダリング＆グラフ再描画
+        function renderMarketTable() {
+            const tbody = document.getElementById('market-table-body');
+            tbody.innerHTML = '';
+
+            Object.keys(marketData).forEach(key => {
+                const item = marketData[key];
+                const tr = document.createElement('tr');
+                tr.className = 'clickable-row';
+                tr.onclick = () => window.open(item.link, '_blank');
+
+                const isUp = item.change >= 0;
+                const changeClass = isUp ? 'price-up' : 'price-down';
+                const prefix = isUp ? '+' : '';
+                
+                // 表示用数値フォーマット
+                const formattedVal = item.currentVal.toLocaleString(undefined, { minimumFractionDigits: item.decimals, maximumFractionDigits: item.decimals });
+                const formattedChange = item.change.toLocaleString(undefined, { minimumFractionDigits: item.decimals, maximumFractionDigits: item.decimals });
+
+                tr.innerHTML = `
+                    <td><strong>${item.name}</strong></td>
+                    <td>${formattedVal}${item.unit}</td>
+                    <td style="text-align: center;">
+                        <canvas id="canvas-${key}" class="market-sparkline" width="70" height="25"></canvas>
+                    </td>
+                    <td class="${changeClass}" style="text-align: right; padding-right: 12px;">
+                        ${prefix}${formattedChange}${item.unit}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+
+                // ミニグラフ描画
+                const strokeColor = isUp ? '#10b981' : '#ef4444';
+                drawSparkline(`canvas-${key}`, item.history, strokeColor);
+            });
+
+            // 更新タイムスタンプ
+            const now = new Date();
+            const formatTime = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日 ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')} 現在`;
+            document.getElementById('market-update-time').textContent = formatTime;
+        }
+
+        // 10秒ごとにデータを微変動させてリアルタイム感を出す関数
+        function updateMarketData() {
+            Object.keys(marketData).forEach(key => {
+                const item = marketData[key];
+                
+                // 変動間隔が短くなったため、変動比率をさらに小さく調整 (0.005%〜0.02%程度の幅)
+                const changePercent = (Math.random() - 0.5) * 0.0002; 
+                const delta = item.currentVal * changePercent;
+
+                item.currentVal += delta;
+                item.change += delta;
+
+                // グラフデータ履歴の最新値を更新
+                item.history[item.history.length - 1] = item.currentVal;
+            });
+            renderMarketTable();
+        }
 
 
         // --- カテゴリー＆リンクデータ管理 ---
@@ -517,7 +611,13 @@
             ],
             "📺 エンタメ・SNS": [
                 { name: "YouTube", url: "https://www.youtube.com" },
-                { name: "X (Twitter)", url: "https://twitter.com" }
+                { name: "X (Twitter)", url: "https://twitter.com" },
+                { name: "Instagram", url: "https://www.instagram.com" },
+                { name: "TikTok", url: "https://www.tiktok.com" },
+                { name: "Twitch", url: "https://www.twitch.tv" },
+                { name: "Pinterest", url: "https://www.pinterest.com" },
+                { name: "Netflix", url: "https://www.netflix.com" },
+                { name: "Amazonプライム", url: "https://www.amazon.co.jp/prime" }
             ]
         };
 
@@ -592,9 +692,7 @@
                         <button class="delete-link-btn" id="del-${catName}-${index}" onclick="deleteLink('${catName}', ${index})">✕</button>
                     `;
                     list.appendChild(shortcutContainer);
-                });
-
-                section.appendChild(list);
+                }); section.appendChild(list);
                 container.appendChild(section);
             });
 
@@ -695,9 +793,15 @@
             localStorage.setItem('myCategorizedLinks', JSON.stringify(dashboardData));
         }
 
-        // 初期実行
+        // --- 初期実行 ＆ タイマー起動 ---
         applySavedBackground();
         renderDashboard();
+
+        // 最初の一回目の描画
+        renderMarketTable();
+        
+        // 【10秒に1回（10,000ms）】マーケット情報を自動更新するタイマーを設定
+        setInterval(updateMarketData, 10000);
     </script>
 </body>
 </html>
