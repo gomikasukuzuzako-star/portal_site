@@ -31,32 +31,11 @@
         /* ヘッダーエリア */
         .portal-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
             text-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
             position: relative;
             width: 100%;
             max-width: 1200px;
-        }
-
-        .portal-badge {
-            display: inline-block;
-            background: #ef4444;
-            color: #ffffff;
-            font-size: 0.85rem;
-            font-weight: bold;
-            padding: 4px 10px;
-            border-radius: 20px;
-            margin-bottom: 12px;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
-        }
-
-        .portal-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            color: #ffffff;
-            margin-bottom: 25px;
         }
 
         /* 時計エリア */
@@ -66,19 +45,20 @@
         }
 
         .time {
-            font-size: 4rem;
+            font-size: 4.2rem;
             font-weight: bold;
             letter-spacing: 2px;
             color: #ffffff;
         }
 
         .date {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             color: #cbd5e1;
             margin-top: 5px;
+            font-weight: 500;
         }
 
-        /* メイングリッド (2カラム構成に再調整) */
+        /* メイングリッド (2カラム構成) */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1.2fr 0.8fr;
@@ -111,7 +91,7 @@
             align-items: center;
         }
 
-        /* カテゴリーを個別の枠（カード）にするためのクラス */
+        /* カテゴリーカード */
         .category-card {
             background: rgba(15, 23, 42, 0.5); 
             backdrop-filter: blur(16px);       
@@ -455,9 +435,6 @@
 <body>
 
     <div class="portal-header">
-        <span class="portal-badge">PORTAL SYSTEM β</span>
-        <h1 class="portal-title">総合マイポータル</h1>
-        
         <div class="clock-container">
             <div class="time" id="clock">00:00:00</div>
             <div class="date" id="date">2026年1月1日 (木)</div>
