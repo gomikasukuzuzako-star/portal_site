@@ -19,8 +19,8 @@
 
         /* カスタムスクロールバーのデザイン設定 */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
         }
 
         ::-webkit-scrollbar-track {
@@ -47,34 +47,35 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 40px 20px;
+            padding: 50px 24px;
             background-repeat: no-repeat;
             background-position: center center;
             background-attachment: fixed;
             background-size: cover;
             transition: background 0.5s ease;
             -webkit-overflow-scrolling: touch; /* モバイルでの慣性スクロール */
+            font-size: 1.15rem; /* 全体フォントサイズを拡大 */
         }
 
         /* ヘッダーエリア */
         .portal-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             text-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
             position: relative;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1300px;
         }
 
         /* 時計エリア */
         .clock-container {
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
         }
 
         /* アニメーション対応の時計表示スタイル */
         .time {
-            font-size: 4.2rem;
+            font-size: 5rem; /* 時計をさらに大きく */
             font-weight: bold;
             letter-spacing: 2px;
             color: #ffffff;
@@ -86,10 +87,10 @@
         /* 各桁（数字1文字分）の表示エリア */
         .digit-container {
             display: inline-block;
-            height: 5rem; /* 文字の高さに固定 */
+            height: 6rem; /* 高さを拡大 */
             overflow: hidden; /* はみ出た数字を隠す */
             position: relative;
-            width: 2.8rem; /* 文字の横幅を固定してガタつきを防ぐ */
+            width: 3.4rem; /* 横幅を拡大してガタつきを防ぐ */
             text-align: center;
         }
 
@@ -106,91 +107,130 @@
 
         .digit-strip span {
             display: inline-block;
-            height: 5rem;
-            line-height: 5rem;
+            height: 6rem;
+            line-height: 6rem;
         }
 
-        /* コロン（:）用スタイル（点滅アニメーションなし） */
+        /* コロン（:）用スタイル */
         .time-colon {
             display: inline-block;
-            line-height: 4.6rem;
-            width: 1.5rem;
+            line-height: 5.6rem;
+            width: 1.8rem;
             text-align: center;
         }
 
         .date {
-            font-size: 1.25rem;
+            font-size: 1.6rem; /* 日付を大きく */
             color: #cbd5e1;
-            margin-top: 5px;
+            margin-top: 10px;
             font-weight: 500;
         }
 
         /* 直通検索バーのスタイル（すりガラス・サイバーネオン仕様） */
         .search-container {
             width: 100%;
-            max-width: 650px;
-            margin: 0 auto 25px auto;
+            max-width: 780px; /* 検索窓を少し広げてプルダウンの余裕を持たせる */
+            margin: 0 auto 30px auto;
             position: relative;
         }
 
         .search-form {
             display: flex;
             align-items: center;
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(15, 23, 42, 0.5);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(56, 189, 248, 0.4);
-            border-radius: 50px;
-            padding: 4px 6px 4px 18px;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.15), inset 0 0 10px rgba(56, 189, 248, 0.05);
-            transition: 0.3s ease;
+            border: 1.5px solid rgba(56, 189, 248, 0.4); 
+            border-radius: 60px; 
+            padding: 6px 12px 6px 12px;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.12), inset 0 0 12px rgba(56, 189, 248, 0.03);
+            transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .search-form:focus-within {
             border-color: #38bdf8;
-            box-shadow: 0 0 25px rgba(56, 189, 248, 0.35), inset 0 0 15px rgba(56, 189, 248, 0.1);
-            transform: scale(1.01);
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.45), inset 0 0 18px rgba(56, 189, 248, 0.15);
+            transform: scale(1.015);
         }
 
+        /* かっこいいプルダウンのラッパー */
         .search-select-wrapper {
             position: relative;
             display: flex;
             align-items: center;
-            margin-right: 12px;
         }
 
+        /* 近未来感のあるSF風セレクトボックス */
         .search-select {
-            background: transparent;
+            background: rgba(30, 41, 59, 0.4);
             color: #38bdf8;
-            border: none;
+            border: 1px solid rgba(56, 189, 248, 0.3);
             outline: none;
-            font-size: 0.95rem;
-            font-weight: bold;
+            font-size: 1.1rem; 
+            font-weight: 700;
             cursor: pointer;
-            padding-right: 18px;
+            padding: 8px 36px 8px 18px; /* 右側に矢印用の余白 */
+            border-radius: 30px;
             appearance: none;
             -webkit-appearance: none;
+            transition: all 0.25s ease;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 6px rgba(56, 189, 248, 0.5); /* 文字のネオン発光 */
         }
 
+        /* ホバーした時の発光強化 */
+        .search-select:hover {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: #38bdf8;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+            color: #ffffff;
+            text-shadow: 0 0 8px #ffffff;
+        }
+
+        /* フォーカス（クリック）された時 */
+        .search-select:focus {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: #38bdf8;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+        }
+
+        /* シャープなネオンブルーのカスタムカスタム矢印(▼) */
         .search-select-wrapper::after {
-            content: "▼";
-            font-size: 0.65rem;
-            color: #38bdf8;
+            content: "";
             position: absolute;
-            right: 2px;
+            right: 16px;
+            top: 52%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 6px solid #38bdf8; /* 三角形の色 */
             pointer-events: none;
+            transition: all 0.25s ease;
+            filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.8));
         }
 
+        /* セレクトボックスホバー時に矢印の色も白く輝かせる */
+        .search-select-wrapper:hover::after {
+            border-top-color: #ffffff;
+            filter: drop-shadow(0 0 5px #ffffff);
+        }
+
+        /* プルダウンを展開した時の選択肢メニューのデザイン */
         .search-select option {
             background: #0f172a;
-            color: #ffffff;
+            color: #38bdf8;
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 10px;
         }
 
         .search-divider {
-            width: 1px;
-            height: 22px;
+            width: 1.5px;
+            height: 26px; 
             background: rgba(255, 255, 255, 0.15);
-            margin-right: 15px;
+            margin: 0 16px;
         }
 
         .search-input {
@@ -199,58 +239,38 @@
             border: none;
             outline: none;
             color: #ffffff;
-            font-size: 1.05rem;
-            padding: 8px 0;
+            font-size: 1.25rem; /* 入力文字を大きく */
+            padding: 10px 0;
         }
 
         .search-input::placeholder {
             color: #94a3b8;
         }
 
-        .search-submit-btn {
-            background: #38bdf8;
-            color: #0f172a;
-            border: none;
-            border-radius: 50%;
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.2s ease;
-            font-weight: bold;
-        }
-
-        .search-submit-btn:hover {
-            background: #0ea5e9;
-            transform: scale(1.05);
-        }
-
         /* 予測変換候補ボックスのデザイン */
         #suggestionBox {
             position: absolute;
-            top: 54px;
+            top: 72px; /* 位置を微調整 */
             left: 0;
             width: 100%;
             background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(56, 189, 248, 0.4);
-            border-radius: 16px;
+            border: 1.5px solid rgba(56, 189, 248, 0.5);
+            border-radius: 20px;
             z-index: 1000;
             overflow: hidden;
             display: none;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(56, 189, 248, 0.1);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.15);
             margin-top: 5px;
         }
 
         .suggestion-item {
-            padding: 12px 20px;
+            padding: 16px 24px; /* 余白を拡大 */
             cursor: pointer;
             color: #cbd5e1;
             transition: 0.2s;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 1.15rem; /* 予測文字を大きく */
             text-align: left;
         }
 
@@ -258,8 +278,9 @@
             border-bottom: none;
         }
 
-        .suggestion-item:hover {
-            background: rgba(56, 189, 248, 0.2);
+        /* マウスホバー時、またはキーボード選択時のスタイル */
+        .suggestion-item:hover, .suggestion-item.selected {
+            background: rgba(56, 189, 248, 0.25);
             color: #ffffff;
         }
 
@@ -267,9 +288,9 @@
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1.4fr 0.6fr;
-            gap: 25px;
+            gap: 30px; /* 間隔を少し広げる */
             width: 100%;
-            max-width: 1250px;
+            max-width: 1350px; /* 最大幅を拡大 */
             align-items: start;
         }
 
@@ -279,29 +300,28 @@
             backdrop-filter: blur(16px);       
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
-            padding: 22px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            margin-bottom: 22px;
+            border-radius: 20px; /* 角丸を少し大きく */
+            padding: 28px; /* 余白を広く */
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+            margin-bottom: 28px;
         }
 
         .card h2 {
-            font-size: 1.15rem;
-            margin-bottom: 15px;
+            font-size: 1.4rem; /* カードの見出しを大きく */
+            margin-bottom: 20px;
             color: #38bdf8;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            padding-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 25px;
         }
 
-        /* ライフ情報専用のカードスタイル（レイアウト崩れ対策） */
+        /* ライフ情報専用のカードスタイル */
         .life-info-card {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
         /* カテゴリーカード（左カラム） */
@@ -310,19 +330,19 @@
             backdrop-filter: blur(16px);       
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            margin-bottom: 25px;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+            margin-bottom: 30px;
         }
 
         .category-card-header {
-            font-size: 1.3rem;
+            font-size: 1.5rem; /* カテゴリー見出しを大きく */
             font-weight: bold;
             color: #38bdf8;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 12px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            padding-bottom: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -331,17 +351,17 @@
         /* 管理用ヘッダーカード */
         .admin-card {
             background: rgba(15, 23, 42, 0.35);
-            border: 1px dashed rgba(255, 255, 255, 0.15);
-            margin-top: 20px;
+            border: 1.5px dashed rgba(255, 255, 255, 0.2);
+            margin-top: 25px;
         }
 
         /* 各種ボタン */
         .edit-btn {
             background: #38bdf8;
             color: #0f172a;
-            padding: 6px 16px;
-            border-radius: 6px;
-            font-size: 0.95rem;
+            padding: 8px 20px; /* ボタンサイズ拡大 */
+            border-radius: 8px;
+            font-size: 1.05rem;
             cursor: pointer;
             font-weight: bold;
             border: none;
@@ -358,7 +378,7 @@
             border: none;
             color: #ef4444;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 1.05rem;
             font-weight: bold;
         }
 
@@ -366,7 +386,7 @@
         .shortcut-list {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 16px; /* ボタン同士の間隔を広げる */
         }
 
         .shortcut-container {
@@ -378,10 +398,10 @@
         .shortcut-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 14px;
+            gap: 15px; /* アイコンと文字の間隔 */
+            padding: 18px; /* 中の余白を増やして押しやすく */
             background: rgba(255, 255, 255, 0.07);
-            border-radius: 8px;
+            border-radius: 12px;
             color: #fff;
             text-decoration: none;
             transition: 0.2s;
@@ -389,7 +409,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-size: 1.05rem;
+            font-size: 1.2rem; /* 文字を大きく */
             text-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
@@ -399,9 +419,9 @@
         }
 
         .shortcut-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
+            width: 30px; /* アイコンを大きく */
+            height: 30px;
+            border-radius: 6px;
             object-fit: contain;
         }
 
@@ -409,16 +429,16 @@
         .delete-link-btn {
             display: none;
             position: absolute;
-            right: 12px;
+            right: 15px;
             background: #ef4444;
             color: white;
             border: none;
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            font-size: 0.9rem;
+            width: 30px; /* 削除ボタンも大きく */
+            height: 30px;
+            font-size: 1.1rem;
             cursor: pointer;
-            line-height: 24px;
+            line-height: 30px;
             text-align: center;
         }
 
@@ -426,13 +446,13 @@
         .weather-panel-detailed {
             background: rgba(56, 189, 248, 0.08);
             border: 1px solid rgba(56, 189, 248, 0.25);
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 16px;
+            padding: 20px;
             text-decoration: none;
             color: white;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
             transition: 0.2s ease;
             box-sizing: border-box;
         }
@@ -452,27 +472,27 @@
         .weather-main {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 20px;
         }
 
         .weather-big-icon {
-            font-size: 2.5rem;
+            font-size: 3.2rem; /* 天気アイコンを大きく */
             line-height: 1;
         }
 
         .weather-temp-now {
-            font-size: 1.5rem;
+            font-size: 1.8rem; /* 気温を大きく */
             font-weight: bold;
         }
 
         .weather-grid-details {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            font-size: 0.8rem;
+            gap: 10px;
+            font-size: 0.95rem; /* 詳細文字を大きく */
             background: rgba(15, 23, 42, 0.4);
-            padding: 10px;
-            border-radius: 8px;
+            padding: 14px;
+            border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -492,63 +512,63 @@
         .news-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-top: 5px;
+            gap: 12px;
+            margin-top: 8px;
         }
 
         .news-item {
             display: block;
-            padding: 10px 12px;
+            padding: 14px 16px; /* 余白を拡大 */
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
+            border-radius: 8px;
             color: #e2e8f0;
             text-decoration: none;
-            font-size: 0.82rem;
+            font-size: 1rem; /* ニュース文字を大きく */
             transition: 0.2s;
-            border-left: 3px solid #38bdf8;
+            border-left: 4px solid #38bdf8;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            line-height: 1.2;
+            line-height: 1.3;
         }
 
         .news-item:hover {
             background: rgba(255, 255, 255, 0.1);
             color: white;
-            transform: translateX(4px);
+            transform: translateX(6px);
         }
 
         /* 編集フォーム */
         .edit-form {
             display: none;
-            margin-top: 20px;
-            padding: 20px;
+            margin-top: 25px;
+            padding: 25px;
             background: rgba(15, 23, 42, 0.95);
-            border-radius: 10px;
-            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            border: 1.5px dashed rgba(255, 255, 255, 0.2);
             flex-direction: column;
-            gap: 18px;
+            gap: 22px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .form-group label {
-            font-size: 1rem;
+            font-size: 1.15rem;
             color: #38bdf8;
             font-weight: bold;
         }
 
         .edit-form input, .edit-form select {
-            padding: 12px;
-            border-radius: 6px;
+            padding: 14px;
+            border-radius: 8px;
             border: 1px solid #38bdf8;
             background: #1e293b;
             color: #ffffff;
-            font-size: 1rem;
+            font-size: 1.1rem;
             outline: none;
         }
 
@@ -564,11 +584,11 @@
             justify-content: space-between;
             background: rgba(255, 255, 255, 0.07);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px 15px;
-            border-radius: 10px;
+            padding: 16px 20px;
+            border-radius: 12px;
             color: #fff;
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 1.15rem; /* 文字を大きく */
             font-weight: bold;
             transition: 0.2s;
             text-shadow: 0 2px 4px rgba(0,0,0,0.4);
@@ -583,11 +603,11 @@
         .market-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 5px;
+            margin-top: 8px;
         }
 
         .market-table th, .market-table td {
-            padding: 8px 4px;
+            padding: 12px 6px; /* セルの余白を広く */
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             vertical-align: middle;
@@ -596,11 +616,11 @@
         .market-table th {
             color: #94a3b8;
             font-weight: bold;
-            font-size: 0.75rem;
+            font-size: 0.9rem; /* ヘッダー文字を大きく */
         }
 
         .market-table td {
-            font-size: 0.85rem;
+            font-size: 1.05rem; /* 値の文字を大きく */
             text-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
@@ -618,8 +638,8 @@
         }
 
         .market-sparkline {
-            width: 50px;
-            height: 20px;
+            width: 60px; /* グラフを少し幅広に */
+            height: 24px;
             vertical-align: middle;
         }
 
@@ -634,10 +654,32 @@
         }
 
         .market-date {
-            font-size: 0.72rem;
+            font-size: 0.85rem; /* 更新時間の文字を大きく */
             color: #94a3b8;
             text-align: right;
-            margin-top: 8px;
+            margin-top: 12px;
+        }
+
+        .search-submit-btn {
+            background: #38bdf8;
+            color: #0f172a;
+            border: none;
+            border-radius: 50%;
+            width: 46px; /* ボタンを大きく */
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s ease;
+            font-weight: bold;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+        }
+
+        .search-submit-btn:hover {
+            background: #0ea5e9;
+            transform: scale(1.08);
+            box-shadow: 0 0 18px rgba(56, 189, 248, 0.6);
         }
 
         @media (max-width: 1024px) {
@@ -681,7 +723,7 @@
                 <div class="search-divider"></div>
                 <input type="text" id="portalSearchInput" name="q" class="search-input" placeholder="検索キーワードを入力..." required autocomplete="off">
                 <button type="submit" class="search-submit-btn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
@@ -696,9 +738,9 @@
         <div class="left-column">
             <div id="categoriesContainer"></div>
 
-            <div class="card admin-card" style="padding: 18px 25px;">
+            <div class="card admin-card" style="padding: 22px 30px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-weight: bold; color: #94a3b8; font-size: 0.95rem;">🛠 ポータルシステム設定</span>
+                    <span style="font-weight: bold; color: #94a3b8; font-size: 1.1rem;">🛠 ポータルシステム設定</span>
                     <button onclick="toggleEditMode()" id="editModeBtn" class="edit-btn">編集モード</button>
                 </div>
 
@@ -736,15 +778,15 @@
                 
                 <a href="https://weather.yahoo.co.jp/weather/28/6310.html" target="_blank" class="weather-panel-detailed">
                     <div class="weather-header">
-                        <span style="font-weight: bold; font-size: 0.9rem; color: #38bdf8;">📍 兵庫県川西市の天気</span>
-                        <span style="font-size: 0.7rem; color: #94a3b8; background: rgba(255,255,255,0.1); padding: 1px 4px; border-radius: 4px;">詳細</span>
+                        <span style="font-weight: bold; font-size: 1.05rem; color: #38bdf8;">📍 兵庫県川西市の天気</span>
+                        <span style="font-size: 0.8rem; color: #94a3b8; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">詳細</span>
                     </div>
                     
                     <div class="weather-main">
                         <span class="weather-big-icon" id="weatherIcon">☀️</span>
                         <div>
                             <div class="weather-temp-now" id="weatherText">晴れのち曇</div>
-                            <div style="font-size: 0.78rem; color: #cbd5e1; margin-top: 1px;">
+                            <div style="font-size: 0.95rem; color: #cbd5e1; margin-top: 2px;">
                                 気温: <span style="color:#ef4444; font-weight:bold;">28℃ / 19℃</span>
                             </div>
                         </div>
@@ -763,7 +805,7 @@
 
             <div class="card">
                 <h2>🌐 トレンドキーワード</h2>
-                <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 12px; line-height: 1.4;">今、世の中で一番検索されているワードを瞬時にチェック。</p>
+                <p style="font-size: 0.95rem; color: #cbd5e1; margin-bottom: 15px; line-height: 1.5;">今、世の中で一番検索されているワードを瞬時にチェック。</p>
                 <a href="https://trends.google.co.jp/trends/trendingsearches/daily?geo=JP" target="_blank" class="trend-card-link">
                     📈 急上昇ワードを開く
                     <span>➔</span>
@@ -777,7 +819,7 @@
                         <tr>
                             <th>指標</th>
                             <th>現在値</th>
-                            <th style="width: 55px; text-align: center;">推移</th>
+                            <th style="width: 65px; text-align: center;">推移</th>
                             <th style="text-align: right; padding-right: 4px;">比率</th>
                         </tr>
                     </thead>
@@ -812,7 +854,7 @@
             input.placeholder = `${select.options[select.selectedIndex].text} で検索...`;
             
             // 予測変換ボックスを非表示にリセット
-            document.getElementById('suggestionBox').style.display = 'none';
+            closeSuggestionBox();
             input.focus();
         }
 
@@ -831,7 +873,7 @@
             function setDigit(id, value) {
                 const strip = document.getElementById(id);
                 if (strip) {
-                    const yOffset = value * 5; 
+                    const yOffset = value * 6; // 高さに合わせる (6rem)
                     strip.style.transform = `translateY(-${yOffset}rem)`;
                 }
             }
@@ -853,41 +895,78 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // --- JSONP方式による確実な予測変換（CORSブロック回避） ---
+        // --- キーボード矢印操作に対応した予測変換（サジェスト）機能 ---
         const queryInput = document.getElementById('portalSearchInput');
         const suggestionBox = document.getElementById('suggestionBox');
         let debounceTimeout = null;
         let isComposing = false; // IME（日本語入力）の入力中フラグ
+        let currentSelectedIndex = -1; // キーボードで選択されている候補のインデックス
 
-        // グローバルにコールバック関数を定義してAPIレスポンスを受け取る
+        // サジェストボックスを閉じる共通関数
+        function closeSuggestionBox() {
+            suggestionBox.style.display = 'none';
+            currentSelectedIndex = -1;
+        }
+
+        // グローバルコールバック関数（APIレスポンス処理）
         window.handleGoogleSuggest = function(data) {
-            if (!data || !data[1]) return;
-            
-            const val = queryInput.value.trim();
-            // コールバックが戻ってきた時点で入力欄が空なら表示しない
-            if (val.length < 1) {
-                suggestionBox.style.display = 'none';
-                return;
-            }
+            try {
+                // 基本的な構造チェック
+                if (!data || !Array.isArray(data) || !data[1] || !Array.isArray(data[1])) {
+                    console.warn("サジェストデータの構造が想定外です:", data);
+                    closeSuggestionBox();
+                    return;
+                }
+                
+                const val = queryInput.value.trim();
+                if (val.length < 1) {
+                    closeSuggestionBox();
+                    return;
+                }
 
-            const suggestions = data[1];
-            suggestionBox.innerHTML = '';
+                const suggestions = data[1];
+                suggestionBox.innerHTML = '';
+                currentSelectedIndex = -1; 
 
-            if (suggestions && suggestions.length > 0) {
-                suggestionBox.style.display = 'block';
-                suggestions.slice(0, 6).forEach(s => {
-                    const div = document.createElement('div');
-                    div.className = 'suggestion-item';
-                    div.textContent = s;
-                    div.onclick = () => {
-                        queryInput.value = s;
-                        suggestionBox.style.display = 'none';
-                        document.getElementById('portalSearchForm').submit();
-                    };
-                    suggestionBox.appendChild(div);
+                // どんなデータ型（配列、オブジェクト、文字列）が来ても安全に「テキスト情報」を抽出する処理
+                const validSuggestions = [];
+                suggestions.forEach(item => {
+                    if (typeof item === 'string') {
+                        // 通常の文字列候補
+                        if (item.trim().length > 0) validSuggestions.push(item.trim());
+                    } else if (Array.isArray(item) && item.length > 0 && typeof item[0] === 'string') {
+                        // 候補がさらに入れ子配列 [ "キーワード", 0, [ ... ] ] になっている場合への対策
+                        if (item[0].trim().length > 0) validSuggestions.push(item[0].trim());
+                    } else if (item && typeof item === 'object' && item.phrase) {
+                        // オブジェクトの中に phrase などのキーがある場合への対策
+                        validSuggestions.push(String(item.phrase).trim());
+                    }
                 });
-            } else {
-                suggestionBox.style.display = 'none';
+
+                // 重複を除去
+                const uniqueSuggestions = [...new Set(validSuggestions)];
+
+                if (uniqueSuggestions.length > 0) {
+                    suggestionBox.style.display = 'block';
+                    uniqueSuggestions.slice(0, 6).forEach((s, idx) => {
+                        const div = document.createElement('div');
+                        div.className = 'suggestion-item';
+                        div.textContent = s;
+                        
+                        // クリック時の処理
+                        div.onclick = () => {
+                            queryInput.value = s;
+                            closeSuggestionBox();
+                            document.getElementById('portalSearchForm').submit();
+                        };
+                        suggestionBox.appendChild(div);
+                    });
+                } else {
+                    closeSuggestionBox();
+                }
+            } catch (error) {
+                console.error("サジェスト処理内でエラーが発生しました:", error);
+                closeSuggestionBox();
             }
         };
 
@@ -895,13 +974,13 @@
         queryInput.addEventListener('compositionstart', () => { isComposing = true; });
         queryInput.addEventListener('compositionend', () => { 
             isComposing = false; 
-            fetchSuggestions(); // 確定した瞬間に即座に検索
+            fetchSuggestions(); // 確定した瞬間に検索
         });
 
         queryInput.addEventListener('input', () => {
             const val = queryInput.value.trim();
             if (val.length < 1) { 
-                suggestionBox.style.display = 'none'; 
+                closeSuggestionBox(); 
                 return; 
             }
             if (isComposing) return;
@@ -913,32 +992,76 @@
         function fetchSuggestions() {
             const val = queryInput.value.trim();
             if (val.length < 1) { 
-                suggestionBox.style.display = 'none'; 
+                closeSuggestionBox(); 
                 return; 
             }
 
-            // 古いJSONP用のscriptタグがあれば削除する
             const oldScript = document.getElementById('suggestScript');
             if (oldScript) oldScript.remove();
 
-            // JSONP方式: scriptタグを動的に生成して挿入することでブラウザのCORS制限を突破する
             const script = document.createElement('script');
             script.id = 'suggestScript';
+            // YouTubeのサジェストAPIを呼び出す
             script.src = `https://suggestqueries.google.com/complete/search?client=youtube&hl=ja&ds=yt&q=${encodeURIComponent(val)}&callback=handleGoogleSuggest`;
+            
+            // スクリプトの読み込み自体が失敗した場合の保険コード
+            script.onerror = function() {
+                console.error("サジェストAPIのスクリプト読み込みに失敗しました。一時的な通信制限の可能性があります。");
+            };
+
             document.body.appendChild(script);
         }
 
-        // 検索窓の外側をクリックしたときに候補リストを閉じる
-        document.addEventListener('click', (e) => {
-            if (!queryInput.contains(e.target) && !suggestionBox.contains(e.target)) {
-                suggestionBox.style.display = 'none';
+        // キーボード操作（上下矢印キー、Enter、Esc）の制御
+        queryInput.addEventListener('keydown', (e) => {
+            if (isComposing) return;
+
+            const items = suggestionBox.querySelectorAll('.suggestion-item');
+            if (suggestionBox.style.display === 'block' && items.length > 0) {
+                
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault(); 
+                    currentSelectedIndex++;
+                    if (currentSelectedIndex >= items.length) {
+                        currentSelectedIndex = -1; 
+                    }
+                    updateActiveSuggestion(items);
+                } 
+                else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    currentSelectedIndex--;
+                    if (currentSelectedIndex < -1) {
+                        currentSelectedIndex = items.length - 1; 
+                    }
+                    updateActiveSuggestion(items);
+                } 
+                else if (e.key === 'Enter') {
+                    if (currentSelectedIndex >= 0) {
+                        e.preventDefault(); 
+                        queryInput.value = items[currentSelectedIndex].textContent;
+                        closeSuggestionBox();
+                        document.getElementById('portalSearchForm').submit();
+                    }
+                } 
+                else if (e.key === 'Escape') {
+                    closeSuggestionBox();
+                }
             }
         });
 
-        // キーボード操作への最適化（Escキーで閉じる）
-        queryInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                suggestionBox.style.display = 'none';
+        function updateActiveSuggestion(items) {
+            items.forEach((item, idx) => {
+                if (idx === currentSelectedIndex) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!queryInput.contains(e.target) && !suggestionBox.contains(e.target)) {
+                closeSuggestionBox();
             }
         });
 
@@ -1039,7 +1162,7 @@
             const range = max - min === 0 ? 1 : max - min;
 
             ctx.beginPath();
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 2.5; 
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
             ctx.strokeStyle = strokeColor;
@@ -1083,7 +1206,7 @@
                     <td><strong>${item.name}</strong></td>
                     <td>${formattedVal}</td>
                     <td style="text-align: center;">
-                        <canvas id="canvas-${key}" class="market-sparkline" width="50" height="20"></canvas>
+                        <canvas id="canvas-${key}" class="market-sparkline" width="60" height="24"></canvas>
                     </td>
                     <td class="${changeClass}" style="text-align: right; padding-right: 4px;">
                         ${prefix}${formattedChange}
