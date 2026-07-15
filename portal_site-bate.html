@@ -72,11 +72,56 @@
             margin-bottom: 15px;
         }
 
+        /* アニメーション対応の時計表示スタイル */
         .time {
             font-size: 4.2rem;
             font-weight: bold;
             letter-spacing: 2px;
             color: #ffffff;
+            display: flex;
+            justify-content: center;
+            gap: 2px;
+        }
+
+        /* 各桁（数字1文字分）の表示エリア */
+        .digit-container {
+            display: inline-block;
+            height: 5rem; /* 文字の高さに固定 */
+            overflow: hidden; /* はみ出た数字を隠す */
+            position: relative;
+            width: 2.8rem; /* 文字の横幅を固定してガタつきを防ぐ */
+            text-align: center;
+        }
+
+        /* 縦に並ぶ数字の帯（0〜9） */
+        .digit-strip {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* スムーズで美しい加減速 */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .digit-strip span {
+            display: inline-block;
+            height: 5rem;
+            line-height: 5rem;
+        }
+
+        /* コロン（:）用スタイル */
+        .time-colon {
+            display: inline-block;
+            line-height: 4.6rem;
+            width: 1.5rem;
+            text-align: center;
+            animation: blink 1s infinite; /* コロンを点滅させる効果 */
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         .date {
@@ -222,11 +267,11 @@
             height: 25px;
         }
 
-        /* ライフ情報専用のカードスタイル */
+        /* ライフ情報専用のカードスタイル（レイアウト崩れ対策） */
         .life-info-card {
             display: flex;
             flex-direction: column;
-            gap: 15px; /* 要素同士の縦の隙間を完全に固定 */
+            gap: 15px; /* 要素同士の縦の間隔をしっかりと固定 */
         }
 
         /* カテゴリーカード（左カラム） */
@@ -347,7 +392,7 @@
             text-align: center;
         }
 
-        /* ライフ情報：お天気パネル（完全にレイアウトを独立化） */
+        /* ライフ情報：お天気パネル（完全にレイアウトを独立化して重なりを防止） */
         .weather-panel-detailed {
             background: rgba(56, 189, 248, 0.08);
             border: 1px solid rgba(56, 189, 248, 0.25);
@@ -576,7 +621,20 @@
 
     <div class="portal-header">
         <div class="clock-container">
-            <div class="time" id="clock">00:00:00</div>
+            <div class="time" id="clock">
+                <span class="digit-container"><span class="digit-strip" id="h1"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span>
+                <span class="digit-container"><span class="digit-strip" id="h2"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span>
+                
+                <span class="time-colon">:</span>
+                
+                <span class="digit-container"><span class="digit-strip" id="m1"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span>
+                <span class="digit-container"><span class="digit-strip" id="m2"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span>
+                
+                <span class="time-colon">:</span>
+                
+                <span class="digit-container"><span class="digit-strip" id="s1"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span>
+                <span class="digit-container"><span class="digit-strip" id="s2"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span>
+            </div>
             <div class="date" id="date">2026年7月15日 (水)</div>
         </div>
 
@@ -736,14 +794,34 @@
             return true;
         }
 
-        // 時計の更新機能
+        // --- 3. アニメーション対応版の時計・日付更新機能 ---
         function updateClock() {
             const now = new Date();
+            
+            // 時・分・秒をそれぞれ2桁の文字列にする（例: "09", "15"）
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+
+            // 各桁の数字の帯（縦に0〜9が並んだパーツ）をスライドさせる関数
+            function setDigit(id, value) {
+                const strip = document.getElementById(id);
+                if (strip) {
+                    // 1つの文字の高さは5rem。値を掛けて適切な位置へスライドさせる
+                    const yOffset = value * 5; 
+                    strip.style.transform = `translateY(-${yOffset}rem)`;
+                }
+            }
+
+            // 各桁をそれぞれの数字へアニメーション
+            setDigit('h1', parseInt(hours[0]));
+            setDigit('h2', parseInt(hours[1]));
+            setDigit('m1', parseInt(minutes[0]));
+            setDigit('m2', parseInt(minutes[1]));
+            setDigit('s1', parseInt(seconds[0]));
+            setDigit('s2', parseInt(seconds[1]));
             
+            // 日付の更新
             const year = now.getFullYear();
             const month = now.getMonth() + 1;
             const date = now.getDate();
