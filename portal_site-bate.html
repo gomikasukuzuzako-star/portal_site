@@ -59,7 +59,7 @@
         /* ヘッダーエリア */
         .portal-header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
             text-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
             position: relative;
             width: 100%;
@@ -69,7 +69,7 @@
         /* 時計エリア */
         .clock-container {
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .time {
@@ -86,10 +86,112 @@
             font-weight: 500;
         }
 
-        /* メイングリッド (2カラム構成：左メインを広く、右サイドをスリムなタブ風に) */
+        /* 直通検索バーのスタイル（すりガラス・サイバーネオン仕様） */
+        .search-container {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto 25px auto;
+            position: relative;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            border-radius: 50px;
+            padding: 4px 6px 4px 18px;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.15), inset 0 0 10px rgba(56, 189, 248, 0.05);
+            transition: 0.3s ease;
+        }
+
+        .search-form:focus-within {
+            border-color: #38bdf8;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.35), inset 0 0 15px rgba(56, 189, 248, 0.1);
+            transform: scale(1.01);
+        }
+
+        .search-select-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-right: 12px;
+        }
+
+        .search-select {
+            background: transparent;
+            color: #38bdf8;
+            border: none;
+            outline: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            padding-right: 18px;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .search-select-wrapper::after {
+            content: "▼";
+            font-size: 0.65rem;
+            color: #38bdf8;
+            position: absolute;
+            right: 2px;
+            pointer-events: none;
+        }
+
+        .search-select option {
+            background: #0f172a;
+            color: #ffffff;
+        }
+
+        .search-divider {
+            width: 1px;
+            height: 22px;
+            background: rgba(255, 255, 255, 0.15);
+            margin-right: 15px;
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            font-size: 1.05rem;
+            padding: 8px 0;
+        }
+
+        .search-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .search-submit-btn {
+            background: #38bdf8;
+            color: #0f172a;
+            border: none;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s ease;
+            font-weight: bold;
+        }
+
+        .search-submit-btn:hover {
+            background: #0ea5e9;
+            transform: scale(1.05);
+        }
+
+        /* メイングリッド (2カラム構成) */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: 1.4fr 0.6fr; /* 1.2fr 0.8fr から変更して右幅をスリム化 */
+            grid-template-columns: 1.4fr 0.6fr;
             gap: 25px;
             width: 100%;
             max-width: 1250px;
@@ -110,7 +212,7 @@
         }
 
         .card h2 {
-            font-size: 1.15rem; /* 少し文字サイズを小さく */
+            font-size: 1.15rem;
             margin-bottom: 15px;
             color: #38bdf8;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -245,7 +347,7 @@
             text-align: center;
         }
 
-        /* ライフ情報：詳細お天気パネルスタイル (コンパクト化) */
+        /* ライフ情報：詳細お天気パネルスタイル */
         .weather-panel-detailed {
             background: rgba(56, 189, 248, 0.08);
             border: 1px solid rgba(56, 189, 248, 0.25);
@@ -382,7 +484,7 @@
             color: #ffffff;
         }
 
-        /* トレンドリンクスタイル (スリム化) */
+        /* トレンドリンクスタイル */
         .trend-card-link {
             display: flex;
             align-items: center;
@@ -404,7 +506,7 @@
             transform: translateY(-2px);
         }
 
-        /* マーケットテーブル (サイドバーに合わせて超軽量・コンパクトに) */
+        /* マーケットテーブル */
         .market-table {
             width: 100%;
             border-collapse: collapse;
@@ -443,7 +545,7 @@
         }
 
         .market-sparkline {
-            width: 50px; /* スパークラインを狭く */
+            width: 50px;
             height: 20px;
             vertical-align: middle;
         }
@@ -478,6 +580,27 @@
         <div class="clock-container">
             <div class="time" id="clock">00:00:00</div>
             <div class="date" id="date">2026年1月1日 (木)</div>
+        </div>
+
+        <div class="search-container">
+            <form id="portalSearchForm" action="https://www.google.com/search" method="get" target="_blank" class="search-form" onsubmit="return executeSearch()">
+                <div class="search-select-wrapper">
+                    <select id="searchEngineSelect" class="search-select" onchange="updateSearchEngine()">
+                        <option value="google">Google</option>
+                        <option value="yahoo">Yahoo!</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="bing">Bing</option>
+                    </select>
+                </div>
+                <div class="search-divider"></div>
+                <input type="text" id="portalSearchInput" name="q" class="search-input" placeholder="検索キーワードを入力..." required autocomplete="off">
+                <button type="submit" class="search-submit-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </form>
         </div>
     </div>
 
@@ -588,6 +711,36 @@
     </div>
 
     <script>
+        // --- 検索エンジン設定の動的切替処理 ---
+        const searchConfig = {
+            google: { action: "https://www.google.com/search", queryParamName: "q" },
+            yahoo: { action: "https://search.yahoo.co.jp/search", queryParamName: "p" },
+            youtube: { action: "https://www.youtube.com/results", queryParamName: "search_query" },
+            bing: { action: "https://www.bing.com/search", queryParamName: "q" }
+        };
+
+        function updateSearchEngine() {
+            const select = document.getElementById('searchEngineSelect');
+            const form = document.getElementById('portalSearchForm');
+            const input = document.getElementById('portalSearchInput');
+            
+            const selectedEngine = select.value;
+            const config = searchConfig[selectedEngine];
+
+            // フォームの送信先とインプットのパラメータ名を動的に変更
+            form.action = config.action;
+            input.name = config.queryParamName;
+            
+            // プレースホルダーのヒントテキストを変更
+            input.placeholder = `${select.options[select.selectedIndex].text} で検索...`;
+            input.focus();
+        }
+
+        function executeSearch() {
+            // 特にバリデーションがなければそのままtrueを返して送信
+            return true;
+        }
+
         // 時計の更新機能
         function updateClock() {
             const now = new Date();
@@ -689,7 +842,7 @@
             }
         };
 
-        // スパークライン描画ヘルパー (スリム化に合わせてサイズ調整)
+        // スパークライン描画ヘルパー
         function drawSparkline(canvasId, dataPoints, strokeColor) {
             const canvas = document.getElementById(canvasId);
             if (!canvas) return;
@@ -996,6 +1149,8 @@
         renderDashboard();
         initNewsFeed();
         renderMarketTable();
+        // 起動時に初期検索エンジンの設定を一度適用する
+        updateSearchEngine();
         setInterval(updateMarketData, 10000);
     </script>
 </body>
