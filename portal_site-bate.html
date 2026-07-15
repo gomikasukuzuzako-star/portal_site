@@ -110,7 +110,7 @@
             line-height: 5rem;
         }
 
-        /* コロン（:）用スタイル（点滅アニメーションを削除しました） */
+        /* コロン（:）用スタイル（点滅アニメーションなし） */
         .time-colon {
             display: inline-block;
             line-height: 4.6rem;
@@ -227,6 +227,42 @@
             transform: scale(1.05);
         }
 
+        /* 予測変換候補ボックスのデザイン */
+        #suggestionBox {
+            position: absolute;
+            top: 54px;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            border-radius: 16px;
+            z-index: 1000;
+            overflow: hidden;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(56, 189, 248, 0.1);
+            margin-top: 5px;
+        }
+
+        .suggestion-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            color: #cbd5e1;
+            transition: 0.2s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+            text-align: left;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background: rgba(56, 189, 248, 0.2);
+            color: #ffffff;
+        }
+
         /* メイングリッド (2カラム構成) */
         .dashboard-grid {
             display: grid;
@@ -265,7 +301,7 @@
         .life-info-card {
             display: flex;
             flex-direction: column;
-            gap: 15px; /* 要素同士の縦の間隔をしっかりと固定 */
+            gap: 15px;
         }
 
         /* カテゴリーカード（左カラム） */
@@ -440,13 +476,13 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .weather-grid-item {
+        .weather-grid-details div {
             display: flex;
             justify-content: space-between;
             color: #cbd5e1;
         }
 
-        .weather-grid-item span {
+        .weather-grid-details div span {
             font-weight: bold;
             color: #ffffff;
             margin-left: 5px;
@@ -629,7 +665,7 @@
                 <span class="digit-container"><span class="digit-strip" id="s1"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span>
                 <span class="digit-container"><span class="digit-strip" id="s2"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span>
             </div>
-            <div class="date" id="date">2026年7月15日 (水)</div>
+            <div class="date" id="date"></div>
         </div>
 
         <div class="search-container">
@@ -651,15 +687,14 @@
                     </svg>
                 </button>
             </form>
+            <div id="suggestionBox"></div>
         </div>
     </div>
 
     <div class="dashboard-grid">
         
         <div class="left-column">
-            
-            <div id="categoriesContainer">
-                </div>
+            <div id="categoriesContainer"></div>
 
             <div class="card admin-card" style="padding: 18px 25px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -686,19 +721,16 @@
                     
                     <div class="form-group" style="margin-top:5px; border-top:1px dashed rgba(255,255,255,0.2); padding-top:20px;">
                         <label>【2】サイトを追加</label>
-                        <select id="linkCategorySelect">
-                            </select>
+                        <select id="linkCategorySelect"></select>
                         <input type="text" id="linkName" placeholder="サイト名（例: Google）" style="margin-top:8px;">
                         <input type="text" id="linkUrl" placeholder="URL（例: google.com）" style="margin-top:8px;">
                         <button onclick="addLink()" class="edit-btn" style="width: 100%; margin-top:12px;">サイトを登録</button>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="right-column">
-            
             <div class="card life-info-card">
                 <h2>☀️ 本日のライフ情報</h2>
                 
@@ -719,15 +751,14 @@
                     </div>
 
                     <div class="weather-grid-details">
-                        <div class="weather-grid-item">降水(午前): <span>10%</span></div>
-                        <div class="weather-grid-item">降水(午後): <span>20%</span></div>
-                        <div class="weather-grid-item">湿度: <span>55%</span></div>
-                        <div class="weather-grid-item">風速: <span>北西 2m/s</span></div>
+                        <div>降水(午前): <span style="color:#fff;">10%</span></div>
+                        <div>降水(午後): <span style="color:#fff;">20%</span></div>
+                        <div>湿度: <span style="color:#fff;">55%</span></div>
+                        <div>風速: <span style="color:#fff;">北西 2m/s</span></div>
                     </div>
                 </a>
 
-                <div class="news-list" id="newsFeed">
-                    </div>
+                <div class="news-list" id="newsFeed"></div>
             </div>
 
             <div class="card">
@@ -750,12 +781,10 @@
                             <th style="text-align: right; padding-right: 4px;">比率</th>
                         </tr>
                     </thead>
-                    <tbody id="market-table-body">
-                        </tbody>
+                    <tbody id="market-table-body"></tbody>
                 </table>
                 <div class="market-date" id="market-update-time">ロード中...</div>
             </div>
-
         </div>
 
     </div>
@@ -781,6 +810,9 @@
             input.name = config.queryParamName;
             
             input.placeholder = `${select.options[select.selectedIndex].text} で検索...`;
+            
+            // 予測変換ボックスを非表示にリセット
+            document.getElementById('suggestionBox').style.display = 'none';
             input.focus();
         }
 
@@ -821,10 +853,82 @@
         setInterval(updateClock, 1000);
         updateClock();
 
+        // --- 改良版：リアルタイム予測変換（一文字ずつの滑らかな連携） ---
+        const queryInput = document.getElementById('portalSearchInput');
+        const suggestionBox = document.getElementById('suggestionBox');
+        let debounceTimeout = null;
+        let isComposing = false; // IME（日本語入力）の入力中フラグ
+
+        // 日本語の変換確定前スタンスを検出
+        queryInput.addEventListener('compositionstart', () => { isComposing = true; });
+        queryInput.addEventListener('compositionend', () => { 
+            isComposing = false; 
+            fetchSuggestions(); // 確定した瞬間に即座に検索
+        });
+
+        queryInput.addEventListener('input', () => {
+            // IME入力中はタイピングごとの過剰なAPI通信を防ぐ（ただしアルファベットなどは通す）
+            if (isComposing) return;
+            
+            // デバウンス処理: タイピングが少し止まった瞬間（150ms）にデータをフェッチ
+            clearTimeout(debounceTimeout);
+            debounceTimeout = setTimeout(fetchSuggestions, 150);
+        });
+
+        async function fetchSuggestions() {
+            const val = queryInput.value.trim();
+            if (val.length < 1) { 
+                suggestionBox.style.display = 'none'; 
+                return; 
+            }
+
+            try {
+                // Chrome用GoogleサジェストAPIをフック
+                const url = `https://suggestqueries.google.com/complete/search?client=chrome&q=${encodeURIComponent(val)}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                const suggestions = data[1];
+
+                suggestionBox.innerHTML = '';
+                if (suggestions && suggestions.length > 0) {
+                    suggestionBox.style.display = 'block';
+                    suggestions.slice(0, 6).forEach(s => {
+                        const div = document.createElement('div');
+                        div.className = 'suggestion-item';
+                        div.textContent = s;
+                        div.onclick = () => {
+                            queryInput.value = s;
+                            suggestionBox.style.display = 'none';
+                            document.getElementById('portalSearchForm').submit();
+                        };
+                        suggestionBox.appendChild(div);
+                    });
+                } else {
+                    suggestionBox.style.display = 'none';
+                }
+            } catch (e) {
+                console.error("予測変換データの取得に失敗しました", e);
+            }
+        }
+
+        // 検索窓の外側をクリックしたときに候補リストを閉じる
+        document.addEventListener('click', (e) => {
+            if (!queryInput.contains(e.target) && !suggestionBox.contains(e.target)) {
+                suggestionBox.style.display = 'none';
+            }
+        });
+
+        // キーボード操作への最適化（Escキーで閉じる）
+        queryInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                suggestionBox.style.display = 'none';
+            }
+        });
+
         // --- ニュースデータ ---
         const newsDataList = [
-            { title: "【地域】ファミマとドコモ、石川県能投地域における移動型販売店舗の運行の実証実験を開始", url: "https://www.family.co.jp/company/news_releases/2026/20260715_01.html" },
-            { title: "【科学】国際物理オリンピックで日本代表が金メダル獲得、広島高3 of 岡野光佑さんら快挙", url: "https://www.47news.jp/14622591.html" },
+            { title: "【地域】ファミマとドコモ、石川県能登地域における移動型販売店舗の運行の実証実験を開始", url: "https://www.family.co.jp/company/news_releases/2026/20260715_01.html" },
+            { title: "【科学】国際物理オリンピックで日本代表が金メダル獲得、広島高3の岡野光佑さんら快挙", url: "https://www.47news.jp/14622591.html" },
             { title: "【IT】Microsoft製品の重大な脆弱性対策セキュリティ更新をIPAが公開、速やかな適用を推奨", url: "https://www.ipa.go.jp/security/security-alert/2026/0715-ms.html" },
             { title: "【為替】ドル円相場、一時急落後に全戻し、FRB関係者発言などで動意を見せる複雑な展開", url: "https://www.gaitame.com/media/entry/2026/07/15/090859" }
         ];
@@ -1031,7 +1135,16 @@
         let isEditMode = false;
 
         const defaultBg = "https://divnil.com/wallpaper/ipad/img/app/m/o/mountains-4k-wallpaper-3840x2160-2048x2048_0b97954feb5ddc0033010b30ba3fd21d_raw.jpg";
-        let savedBgUrl = localStorage.getItem('myDashboardBg') || defaultBg;
+        
+        let storedBg = localStorage.getItem('myDashboardBg');
+        if (storedBg && (storedBg.includes("mountains-4k-wallpaper-3840x2160") === false && storedBg.startsWith("http"))) {
+            if (storedBg.includes("divnil.com/wallpaper/ipad/img/app")) {
+                localStorage.setItem('myDashboardBg', defaultBg);
+                storedBg = defaultBg;
+            }
+        }
+        
+        let savedBgUrl = storedBg || defaultBg;
 
         function applySavedBackground() {
             if (savedBgUrl) {
