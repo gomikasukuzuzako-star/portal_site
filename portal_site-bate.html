@@ -80,13 +80,13 @@
             margin-top: 5px;
         }
 
-        /* メイングリッド (3カラム構成にしてライフ情報を追加) */
+        /* メイングリッド (2カラム構成に再調整) */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr 1fr;
-            gap: 25px;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 30px;
             width: 100%;
-            max-width: 1400px;
+            max-width: 1200px;
         }
 
         /* 各カードの共通スタイル（すりガラス効果） */
@@ -96,18 +96,18 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 16px;
-            padding: 22px;
+            padding: 25px;
             height: fit-content;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             margin-bottom: 25px;
         }
 
         .card h2 {
-            font-size: 1.25rem;
-            margin-bottom: 18px;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
             color: #38bdf8;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 10px;
+            padding-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -120,19 +120,19 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 16px;
-            padding: 22px;
+            padding: 25px;
             height: fit-content;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             margin-bottom: 25px;
         }
 
         .category-card-header {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: #38bdf8;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 10px;
+            padding-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -142,23 +142,23 @@
         .admin-card {
             background: rgba(15, 23, 42, 0.35);
             border: 1px dashed rgba(255, 255, 255, 0.15);
-            margin-top: 10px;
+            margin-top: 20px;
         }
 
         /* 各種ボタン */
-        .edit-btn, .todo-add-btn {
+        .edit-btn {
             background: #38bdf8;
             color: #0f172a;
-            padding: 6px 14px;
+            padding: 6px 16px;
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             cursor: pointer;
             font-weight: bold;
             border: none;
             transition: 0.2s;
         }
 
-        .edit-btn:hover, .todo-add-btn:hover {
+        .edit-btn:hover {
             background: #0ea5e9;
         }
 
@@ -168,7 +168,7 @@
             border: none;
             color: #ef4444;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: bold;
         }
 
@@ -176,7 +176,7 @@
         .shortcut-list {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 12px;
         }
 
         .shortcut-container {
@@ -188,8 +188,8 @@
         .shortcut-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 12px;
+            gap: 12px;
+            padding: 14px;
             background: rgba(255, 255, 255, 0.07);
             border-radius: 8px;
             color: #fff;
@@ -199,7 +199,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             text-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
@@ -209,8 +209,8 @@
         }
 
         .shortcut-icon {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border-radius: 4px;
             object-fit: contain;
         }
@@ -219,74 +219,17 @@
         .delete-link-btn {
             display: none;
             position: absolute;
-            right: 10px;
+            right: 12px;
             background: #ef4444;
             color: white;
             border: none;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            line-height: 20px;
-            text-align: center;
-        }
-
-        /* TODO リストスタイル */
-        .todo-input-group {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-
-        .todo-input-group input {
-            flex: 1;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(15, 23, 42, 0.6);
-            color: white;
-            outline: none;
+            width: 24px;
+            height: 24px;
             font-size: 0.9rem;
-        }
-
-        .todo-list {
-            list-style: none;
-            max-height: 220px;
-            overflow-y: auto;
-        }
-
-        .todo-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-            transition: 0.2s;
-        }
-
-        .todo-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .todo-check-btn {
-            background: none;
-            border: 1px solid #10b981;
-            color: #10b981;
-            border-radius: 4px;
-            padding: 2px 8px;
-            font-size: 0.75rem;
             cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-        .todo-check-btn:hover {
-            background: #10b981;
-            color: #0f172a;
+            line-height: 24px;
+            text-align: center;
         }
 
         /* ライフ（天気・ニュース）スタイル */
@@ -348,33 +291,33 @@
         .edit-form {
             display: none;
             margin-top: 20px;
-            padding: 18px;
+            padding: 20px;
             background: rgba(15, 23, 42, 0.95);
             border-radius: 10px;
             border: 1px dashed rgba(255, 255, 255, 0.2);
             flex-direction: column;
-            gap: 15px;
+            gap: 18px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
         }
 
         .form-group label {
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: #38bdf8;
             font-weight: bold;
         }
 
         .edit-form input, .edit-form select {
-            padding: 10px;
+            padding: 12px;
             border-radius: 6px;
             border: 1px solid #38bdf8;
             background: #1e293b;
             color: #ffffff;
-            font-size: 0.95rem;
+            font-size: 1rem;
             outline: none;
         }
 
@@ -390,11 +333,11 @@
             justify-content: space-between;
             background: rgba(255, 255, 255, 0.07);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 15px;
+            padding: 18px;
             border-radius: 10px;
             color: #fff;
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             font-weight: bold;
             transition: 0.2s;
             text-shadow: 0 2px 4px rgba(0,0,0,0.4);
@@ -409,11 +352,11 @@
         .market-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 5px;
+            margin-top: 10px;
         }
 
         .market-table th, .market-table td {
-            padding: 10px 4px;
+            padding: 12px 6px;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             vertical-align: middle;
@@ -422,11 +365,11 @@
         .market-table th {
             color: #94a3b8;
             font-weight: bold;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
         }
 
         .market-table td {
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
@@ -445,8 +388,8 @@
         }
 
         .market-sparkline {
-            width: 60px;
-            height: 20px;
+            width: 70px;
+            height: 25px;
             vertical-align: middle;
         }
 
@@ -461,7 +404,7 @@
         }
 
         .market-date {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: #94a3b8;
             text-align: right;
             margin-top: 12px;
@@ -494,9 +437,9 @@
             <div id="categoriesContainer">
                 </div>
 
-            <div class="card admin-card" style="padding: 15px 20px;">
+            <div class="card admin-card" style="padding: 18px 25px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-weight: bold; color: #94a3b8; font-size: 0.9rem;">🛠 ポータルシステム設定</span>
+                    <span style="font-weight: bold; color: #94a3b8; font-size: 0.95rem;">🛠 ポータルシステム設定</span>
                     <button onclick="toggleEditMode()" id="editModeBtn" class="edit-btn">編集モード</button>
                 </div>
 
@@ -530,18 +473,6 @@
 
         </div>
 
-        <div class="middle-column">
-            <div class="card">
-                <h2>✅ 今日のTODO</h2>
-                <div class="todo-input-group">
-                    <input type="text" id="todoInput" placeholder="タスクを入力して追加..." onkeypress="handleTodoKey(event)">
-                    <button class="todo-add-btn" onclick="addTodo()">追加</button>
-                </div>
-                <ul class="todo-list" id="todoList">
-                    </ul>
-            </div>
-        </div>
-
         <div class="right-column">
             
             <div class="card">
@@ -550,9 +481,9 @@
                 <a href="https://weather.yahoo.co.jp/weather/" target="_blank" class="weather-panel">
                     <span class="weather-icon" id="weatherIcon">☀️</span>
                     <div class="weather-info">
-                        <div style="font-weight: bold; font-size: 1rem;">川西市近郊の天気</div>
-                        <div style="font-size: 0.85rem; color: #e2e8f0;" id="weatherText">晴れ時々曇り / 降水確率 10%</div>
-                        <div style="font-size: 0.85rem; color: #e2e8f0;">気温: <span style="color:#ef4444; font-weight:bold;">28℃</span> / <span style="color:#38bdf8; font-weight:bold;">19℃</span></div>
+                        <div style="font-weight: bold; font-size: 1.05rem;">川西市近郊の天気</div>
+                        <div style="font-size: 0.9rem; color: #e2e8f0;" id="weatherText">晴れ時々曇り / 降水確率 10%</div>
+                        <div style="font-size: 0.9rem; color: #e2e8f0;">気温: <span style="color:#ef4444; font-weight:bold;">28℃</span> / <span style="color:#38bdf8; font-weight:bold;">19℃</span></div>
                     </div>
                 </a>
 
@@ -562,7 +493,7 @@
 
             <div class="card">
                 <h2>🌐 トレンドキーワード</h2>
-                <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 12px; line-height: 1.5;">今、世の中で何が一番検索されているかリアルタイムでチェックします。</p>
+                <p style="font-size: 0.95rem; color: #cbd5e1; margin-bottom: 15px; line-height: 1.5;">今、世の中で何が一番検索されているかリアルタイムでチェックします。</p>
                 <a href="https://trends.google.co.jp/trends/trendingsearches/daily?geo=JP" target="_blank" class="trend-card-link">
                     📈 Google急上昇ワードを開く
                     <span>➔</span>
@@ -576,7 +507,7 @@
                         <tr>
                             <th>指標</th>
                             <th>現在値</th>
-                            <th style="width: 70px; text-align: center;">推移</th>
+                            <th style="width: 80px; text-align: center;">推移</th>
                             <th style="text-align: right; padding-right: 12px;">前日比</th>
                         </tr>
                     </thead>
@@ -623,7 +554,6 @@
             const feed = document.getElementById('newsFeed');
             feed.innerHTML = '';
             
-            // ランダムに3つのヘッドラインを選んで表示
             const shuffled = [...newsDataList].sort(() => 0.5 - Math.random());
             const selected = shuffled.slice(0, 3);
 
@@ -759,7 +689,7 @@
                     <td><strong>${item.name}</strong></td>
                     <td>${formattedVal}${item.unit}</td>
                     <td style="text-align: center;">
-                        <canvas id="canvas-${key}" class="market-sparkline" width="60" height="20"></canvas>
+                        <canvas id="canvas-${key}" class="market-sparkline" width="70" height="25"></canvas>
                     </td>
                     <td class="${changeClass}" style="text-align: right; padding-right: 12px;">
                         ${prefix}${formattedChange}${item.unit}
@@ -795,50 +725,6 @@
             });
             renderMarketTable();
             renderNewsFeed(); // 一緒にニュースもローテーション
-        }
-
-
-        // --- TODOリスト管理機能 ---
-        let todoList = JSON.parse(localStorage.getItem('myPortalTodos')) || [
-            "朝のメールチェック",
-            "今日のスケジュール確認"
-        ];
-
-        function renderTodos() {
-            const listEl = document.getElementById('todoList');
-            listEl.innerHTML = '';
-            todoList.forEach((todo, idx) => {
-                const li = document.createElement('li');
-                li.className = 'todo-item';
-                li.innerHTML = `
-                    <span>${todo}</span>
-                    <button class="todo-check-btn" onclick="deleteTodo(${idx})">完了</button>
-                `;
-                listEl.appendChild(li);
-            });
-        }
-
-        function addTodo() {
-            const input = document.getElementById('todoInput');
-            const val = input.value.trim();
-            if (val) {
-                todoList.push(val);
-                localStorage.setItem('myPortalTodos', JSON.stringify(todoList));
-                input.value = '';
-                renderTodos();
-            }
-        }
-
-        function handleTodoKey(e) {
-            if (e.key === 'Enter') {
-                addTodo();
-            }
-        }
-
-        function deleteTodo(idx) {
-            todoList.splice(idx, 1);
-            localStorage.setItem('myPortalTodos', JSON.stringify(todoList));
-            renderTodos();
         }
 
 
@@ -1052,7 +938,6 @@
         // --- 初期実行 ＆ タイマー起動 ---
         applySavedBackground();
         renderDashboard();
-        renderTodos();
         renderNewsFeed();
 
         // 最初の一回目の描画
