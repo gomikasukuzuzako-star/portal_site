@@ -82,6 +82,37 @@
             align-items: center;
         }
 
+        /* カテゴリーを個別の枠（カード）にするためのクラス */
+        .category-card {
+            background: rgba(15, 23, 42, 0.5); 
+            backdrop-filter: blur(16px);       
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 25px;
+            height: fit-content;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            margin-bottom: 25px;
+        }
+
+        .category-card-header {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #38bdf8;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* 管理用ヘッダーカード（編集ボタンや編集フォーム用） */
+        .admin-card {
+            background: rgba(15, 23, 42, 0.35);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+        }
+
         /* 編集ボタン */
         .edit-btn {
             background: #38bdf8;
@@ -97,25 +128,6 @@
 
         .edit-btn:hover {
             background: #0ea5e9;
-        }
-
-        /* カテゴリーセクション */
-        .category-section {
-            margin-bottom: 25px;
-            background: rgba(255, 255, 255, 0.02);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .category-header {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #e2e8f0;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         .category-del-btn {
@@ -314,61 +326,56 @@
 </head>
 <body>
 
-    <!-- 時計 -->
     <div class="clock-container">
         <div class="time" id="clock">00:00:00</div>
         <div class="date" id="date">2026年1月1日 (木)</div>
     </div>
 
-    <!-- コンテンツエリア -->
     <div class="dashboard-grid">
         
-        <!-- 左：カテゴリー別お気に入り -->
-        <div class="card">
-            <h2>
-                マイリンク（カテゴリー別）
-                <button onclick="toggleEditMode()" id="editModeBtn" class="edit-btn">編集</button>
-            </h2>
+        <div class="left-column">
             
+            <div class="card admin-card" style="padding: 18px 25px; margin-bottom: 25px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: bold; color: #94a3b8;">🛠 ダッシュボード設定</span>
+                    <button onclick="toggleEditMode()" id="editModeBtn" class="edit-btn">編集モード</button>
+                </div>
+
+                <div id="editForm" class="edit-form">
+                    <div class="form-group" style="margin-bottom:5px; border-bottom:1px dashed rgba(255,255,255,0.2); padding-bottom:15px;">
+                        <label>🖼 壁紙画像を変更（画像URLを入力）</label>
+                        <div style="display:flex; gap:10px;">
+                            <input type="text" id="bgUrlInput" placeholder="https://example.com/image.jpg" style="flex:1;">
+                            <button onclick="updateBackground()" class="edit-btn">適用</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>【1】新しいカテゴリーを追加</label>
+                        <div style="display:flex; gap:10px;">
+                            <input type="text" id="newCatName" placeholder="例: ニュース" style="flex:1;">
+                            <button onclick="addCategory()" class="edit-btn">作成</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top:5px; border-top:1px dashed rgba(255,255,255,0.2); padding-top:20px;">
+                        <label>【2】サイトを追加</label>
+                        <select id="linkCategorySelect">
+                            </select>
+                        <input type="text" id="linkName" placeholder="サイト名（例: Google）" style="margin-top:8px;">
+                        <input type="text" id="linkUrl" placeholder="URL（例: google.com）" style="margin-top:8px;">
+                        <button onclick="addLink()" class="edit-btn" style="width: 100%; margin-top:12px;">サイトを登録</button>
+                    </div>
+                </div>
+            </div>
+
             <div id="categoriesContainer">
-                <!-- JavaScriptで自動生成 -->
-            </div>
-
-            <!-- 編集管理フォーム -->
-            <div id="editForm" class="edit-form">
-                <!-- 背景画像URL変更エリア -->
-                <div class="form-group" style="margin-bottom:5px; border-bottom:1px dashed rgba(255,255,255,0.2); padding-bottom:15px;">
-                    <label>🖼 壁紙画像を変更（画像URLを入力）</label>
-                    <div style="display:flex; gap:10px;">
-                        <input type="text" id="bgUrlInput" placeholder="https://example.com/image.jpg" style="flex:1;">
-                        <button onclick="updateBackground()" class="edit-btn">適用</button>
-                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>【1】新しいカテゴリーを追加</label>
-                    <div style="display:flex; gap:10px;">
-                        <input type="text" id="newCatName" placeholder="例: ニュース" style="flex:1;">
-                        <button onclick="addCategory()" class="edit-btn">作成</button>
-                    </div>
-                </div>
-                
-                <div class="form-group" style="margin-top:5px; border-top:1px dashed rgba(255,255,255,0.2); padding-top:20px;">
-                    <label>【2】サイトを追加</label>
-                    <select id="linkCategorySelect">
-                        <!-- 自動生成 -->
-                    </select>
-                    <input type="text" id="linkName" placeholder="サイト名（例: Google）" style="margin-top:8px;">
-                    <input type="text" id="linkUrl" placeholder="URL（例: google.com）" style="margin-top:8px;">
-                    <button onclick="addLink()" class="edit-btn" style="width: 100%; margin-top:12px;">サイトを登録</button>
-                </div>
-            </div>
         </div>
 
-        <!-- 右：トレンド ＆ マーケット情報 -->
         <div class="right-column">
             
-            <!-- Google 急上昇キーワード -->
             <div class="card">
                 <h2>🌐 トレンドキーワード</h2>
                 <p style="font-size: 0.95rem; color: #cbd5e1; margin-bottom: 15px; line-height: 1.5;">今、世の中で何が一番検索されているかリアルタイムでチェックします。</p>
@@ -378,7 +385,6 @@
                 </a>
             </div>
 
-            <!-- マーケット情報 -->
             <div class="card">
                 <h2>📈 マーケット情報</h2>
                 <table class="market-table">
@@ -391,7 +397,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- 日経平均 -->
                         <tr class="clickable-row" onclick="window.open('https://share.google/3Ngjuj9SP9m8xhgCZ', '_blank')">
                             <td><strong>日経平均</strong></td>
                             <td>66,970.98円</td>
@@ -400,7 +405,6 @@
                             </td>
                             <td class="price-down" style="text-align: right; padding-right: 12px;">-1,586.75円</td>
                         </tr>
-                        <!-- ドル円 -->
                         <tr class="clickable-row" onclick="window.open('https://share.google/UO5xFqVRG9pD4utTG', '_blank')">
                             <td><strong>ドル / 円</strong></td>
                             <td>162.05円</td>
@@ -487,7 +491,7 @@
         drawSparkline('chartUsdJpy', [161.60, 161.75, 161.70, 161.90, 161.85, 162.00, 162.05], '#10b981');
 
 
-        // --- カテゴリー＆リンクデータ管理（「🛠 業務効率化ツール」の中身を充実化） ---
+        // --- カテゴリー＆リンクデータ管理 ---
         const defaultData = {
             "🔍 検索エンジン": [
                 { name: "Google", url: "https://www.google.com" },
@@ -516,9 +520,6 @@
             ]
         };
 
-        // ※ブラウザのLocal Storageに過去の保存データがある場合はそちらがロードされます。
-        // 最新のデフォルトデータ（6つの業務効率化ツール）を強制適用したい場合は、
-        // 画面の「編集」ボタンより不要なものを削除するか、新しく登録を追加してください。
         let dashboardData = JSON.parse(localStorage.getItem('myCategorizedLinks')) || defaultData;
         let isEditMode = false;
 
@@ -561,11 +562,12 @@
                 option.textContent = catName;
                 select.appendChild(option);
 
+                // 👑 カテゴリーごとに独立した .category-card を作成
                 const section = document.createElement('div');
-                section.className = 'category-section';
+                section.className = 'category-card';
 
                 const header = document.createElement('div');
-                header.className = 'category-header';
+                header.className = 'category-card-header';
                 header.innerHTML = `
                     <span>${catName}</span>
                     <button class="category-del-btn" onclick="deleteCategory('${catName}')">カテゴリー削除</button>
@@ -604,12 +606,12 @@
             const form = document.getElementById('editForm');
             
             if (isEditMode) {
-                btn.textContent = "終了";
+                btn.textContent = "設定を閉じる";
                 btn.style.background = "#ef4444";
                 btn.style.color = "#fff";
                 form.style.display = "flex";
             } else {
-                btn.textContent = "編集";
+                btn.textContent = "編集モード";
                 btn.style.background = "#38bdf8";
                 btn.style.color = "#0f172a";
                 form.style.display = "none";
