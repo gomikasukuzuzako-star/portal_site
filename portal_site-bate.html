@@ -208,7 +208,6 @@
             padding: 22px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             margin-bottom: 22px;
-            overflow: hidden;
         }
 
         .card h2 {
@@ -227,6 +226,7 @@
         .life-info-card {
             display: flex;
             flex-direction: column;
+            gap: 15px; /* 要素同士の縦の隙間を完全に固定 */
         }
 
         /* カテゴリーカード（左カラム） */
@@ -347,18 +347,19 @@
             text-align: center;
         }
 
-        /* ライフ情報：詳細お天気パネルスタイル */
+        /* ライフ情報：お天気パネル（完全にレイアウトを独立化） */
         .weather-panel-detailed {
             background: rgba(56, 189, 248, 0.08);
             border: 1px solid rgba(56, 189, 248, 0.25);
             border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 15px;
+            padding: 16px;
             text-decoration: none;
             color: white;
-            display: block;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
             transition: 0.2s ease;
-            height: auto;
+            box-sizing: border-box;
         }
 
         .weather-panel-detailed:hover {
@@ -371,23 +372,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
         }
 
         .weather-main {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 16px;
         }
 
         .weather-big-icon {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             line-height: 1;
         }
 
         .weather-temp-now {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: bold;
         }
 
@@ -395,9 +394,9 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 8px;
-            font-size: 0.78rem;
-            background: rgba(15, 23, 42, 0.3);
-            padding: 8px;
+            font-size: 0.8rem;
+            background: rgba(15, 23, 42, 0.4);
+            padding: 10px;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
@@ -406,12 +405,12 @@
             display: flex;
             justify-content: space-between;
             color: #cbd5e1;
-            white-space: nowrap;
         }
 
         .weather-grid-item span {
             font-weight: bold;
             color: #ffffff;
+            margin-left: 5px;
         }
 
         /* ニュースリスト */
@@ -419,11 +418,12 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            margin-top: 5px;
         }
 
         .news-item {
             display: block;
-            padding: 8px 10px;
+            padding: 10px 12px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 6px;
             color: #e2e8f0;
@@ -431,12 +431,10 @@
             font-size: 0.82rem;
             transition: 0.2s;
             border-left: 3px solid #38bdf8;
-            
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            height: 34px;
-            line-height: 18px;
+            line-height: 1.2;
         }
 
         .news-item:hover {
@@ -659,20 +657,20 @@
                     </div>
                     
                     <div class="weather-main">
-                        <span class="weather-big-icon" id="weatherIcon">☁️</span>
+                        <span class="weather-big-icon" id="weatherIcon">☀️</span>
                         <div>
-                            <div class="weather-temp-now" id="weatherText">曇り</div>
+                            <div class="weather-temp-now" id="weatherText">晴れのち曇</div>
                             <div style="font-size: 0.78rem; color: #cbd5e1; margin-top: 1px;">
-                                気温: <span style="color:#ef4444; font-weight:bold;">33℃</span>
+                                気温: <span style="color:#ef4444; font-weight:bold;">28℃ / 19℃</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="weather-grid-details">
-                        <div class="weather-grid-item">最高: <span style="color: #ef4444;">31℃</span></div>
-                        <div class="weather-grid-item">最低: <span style="color: #38bdf8;">28℃</span></div>
-                        <div class="weather-grid-item">湿度: <span>57%</span></div>
-                        <div class="weather-grid-item">風速: <span>西 3.6m</span></div>
+                        <div class="weather-grid-item">降水(午前): <span>10%</span></div>
+                        <div class="weather-grid-item">降水(午後): <span>20%</span></div>
+                        <div class="weather-grid-item">湿度: <span>55%</span></div>
+                        <div class="weather-grid-item">風速: <span>北西 2m/s</span></div>
                     </div>
                 </a>
 
@@ -759,7 +757,7 @@
         // --- 2026年7月15日 本物のニュースデータ ---
         const newsDataList = [
             { title: "【地域】ファミマとドコモ、石川県能登地域における移動型販売店舗の運行の実証実験を開始", url: "https://www.family.co.jp/company/news_releases/2026/20260715_01.html" },
-            { title: "【科学】国際物理オリンピックで日本代表が金メダル獲得、広島高3の岡野光佑さんら快挙", url: "https://www.47news.jp/14622591.html" },
+            { title: "【科学】国際物理オリンピックで日本代表が金メダル獲得、広島高3 of 岡野光佑さんら快挙", url: "https://www.47news.jp/14622591.html" },
             { title: "【IT】Microsoft製品の重大な脆弱性対策セキュリティ更新をIPAが公開、速やかな適用を推奨", url: "https://www.ipa.go.jp/security/security-alert/2026/0715-ms.html" },
             { title: "【為替】ドル円相場、一時急落後に全戻し、FRB関係者発言などで動意を見せる複雑な展開", url: "https://www.gaitame.com/media/entry/2026/07/15/090859" }
         ];
@@ -908,7 +906,6 @@
                 tbody.appendChild(tr);
 
                 const strokeColor = isUp ? '#10b981' : '#ef4444';
-                drawSparkline(`canvas(` + "`" + `canvas-${key}` + "`" + `), item.history, strokeColor);
                 drawSparkline(`canvas-${key}`, item.history, strokeColor);
             });
 
