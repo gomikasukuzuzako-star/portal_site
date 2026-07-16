@@ -477,6 +477,27 @@
             display: flex;
             align-items: center;
             width: 100%;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        /* 編集モードかつ並び替え中のスタイル */
+        .shortcut-container.dragging {
+            opacity: 0.5;
+            transform: scale(1.05);
+            border: 2px dashed #00f2fe;
+            border-radius: 12px;
+            z-index: 10;
+        }
+
+        /* 長押しドラッグ可能であることを示すスタイル（編集モード時のみ） */
+        body.edit-active .shortcut-container {
+            cursor: grab;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        body.edit-active .shortcut-container:active {
+            cursor: grabbing;
         }
 
         .shortcut-item {
@@ -506,12 +527,18 @@
             transform: translateY(-2px);
         }
 
+        body.edit-active .shortcut-item:hover {
+            /* 編集モード中はホバー浮き上がりアニメーションをオフにしてドラッグしやすくする */
+            transform: none;
+        }
+
         .shortcut-icon {
             width: 30px; 
             height: 30px;
             border-radius: 6px;
             object-fit: contain;
             flex-shrink: 0; 
+            pointer-events: none; /* ドラッグ操作の邪魔にならないようにする */
         }
 
         /* 削除ボタン */
@@ -529,6 +556,7 @@
             cursor: pointer;
             line-height: 30px;
             text-align: center;
+            z-index: 5;
         }
 
         /* 編集フォーム */
@@ -1345,10 +1373,13 @@
 
                 const list = document.createElement('div');
                 list.className = 'shortcut-list';
+                list.dataset.category = catName; // 並び替えイベント用にカテゴリ名を保持
 
                 dashboardData[catName].forEach((link, index) => {
                     const shortcutContainer = document.createElement('div');
                     shortcutContainer.className = 'shortcut-container';
+                    shortcutContainer.dataset.index = index;
+                    shortcutContainer.dataset.category = catName;
 
                     const faviconUrl = `https://www.google.com/s2/favicons?sz=64&domain=${encodeURIComponent(link.url)}`;
 
@@ -1365,6 +1396,7 @@
             });
 
             applyEditModeStyles();
+            setupDragAndDrop(); // ドラッグ＆ドロップ用イベントの設定
         }
 
         function toggleEditMode() {
@@ -1373,6 +1405,7 @@
             const form = document.getElementById('editForm');
             
             if (isEditMode) {
+                document.body.classList.add('edit-active');
                 btn.textContent = "設定を閉じる";
                 btn.style.background = "rgba(239, 68, 68, 0.2)";
                 btn.style.borderColor = "#ef4444";
@@ -1380,6 +1413,7 @@
                 btn.style.textShadow = "0 0 5px rgba(239, 68, 68, 0.5)";
                 form.style.display = "flex";
             } else {
+                document.body.classList.remove('edit-active');
                 btn.textContent = "編集モード";
                 btn.style.background = "rgba(0, 242, 254, 0.2)";
                 btn.style.borderColor = "rgba(0, 242, 254, 0.4)";
@@ -1465,6 +1499,144 @@
             
             // 削除成功のポップアップ
             alert('サイトを削除しました');
+        }
+
+        // ドラッグ＆ドロップ、長押し処理の実装
+        function setupDragAndDrop() {
+            const containers = document.querySelectorAll('.shortcut-container');
+            let dragTarget = null;
+            let touchTimer = null;
+            let isDragging = false;
+
+            containers.forEach(container => {
+                // 編集モードでのみ動作するように制御するラッパー関数
+                const runIfEdit = (fn) => (e) => {
+                    if (!isEditMode) return;
+                    fn(e);
+                };
+
+                // ---- マウス操作用 (PC) ----
+                container.addEventListener('mousedown', runIfEdit((e) => {
+                    if (e.target.classList.contains('delete-link-btn')) return; // ✕ボタンは除外
+                    
+                    // 0.2秒(200ms)の微小長押し（誤クリック防止）でドラッグ開始できるように
+                    touchTimer = setTimeout(() => {
+                        dragTarget = container;
+                        dragTarget.classList.add('dragging');
+                        isDragging = true;
+                    }, 200);
+                }));
+
+                // ---- タッチ操作用 (スマートフォン / タブレット) ----
+                container.addEventListener('touchstart', runIfEdit((e) => {
+                    if (e.target.classList.contains('delete-link-btn')) return;
+                    
+                    // スマホではしっかり長押し(450ms)でドラッグ開始
+                    touchTimer = setTimeout(() => {
+                        dragTarget = container;
+                        dragTarget.classList.add('dragging');
+                        isDragging = true;
+                        // スクロールを一時無効化
+                        document.body.style.overflow = 'hidden';
+                    }, 450);
+                }), { passive: true });
+            });
+
+            // ドラッグ中の位置判定と割り込み処理 (マウス・スワイプ共通)
+            const handleMove = (clientX, clientY) => {
+                if (!isDragging || !dragTarget) return;
+
+                // 衝突している相手を探す
+                const elements = document.elementsFromPoint(clientX, clientY);
+                const hoverContainer = elements.find(el => 
+                    el.classList.contains('shortcut-container') && el !== dragTarget
+                );
+
+                if (hoverContainer) {
+                    const targetList = hoverContainer.parentNode;
+                    const dragList = dragTarget.parentNode;
+
+                    // カテゴリ内での移動、または異なるカテゴリを跨いでの移動に対応
+                    if (targetList === dragList) {
+                        const children = Array.from(targetList.children);
+                        const dragIdx = children.indexOf(dragTarget);
+                        const hoverIdx = children.indexOf(hoverContainer);
+
+                        if (dragIdx < hoverIdx) {
+                            targetList.insertBefore(dragTarget, hoverContainer.nextSibling);
+                        } else {
+                            targetList.insertBefore(dragTarget, hoverContainer);
+                        }
+                    } else {
+                        // 他のカテゴリ枠への移動
+                        targetList.appendChild(dragTarget);
+                    }
+                }
+            };
+
+            // マウス移動時
+            window.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    e.preventDefault();
+                    handleMove(e.clientX, e.clientY);
+                }
+            }, { passive: false });
+
+            // 指スワイプ時
+            window.addEventListener('touchmove', (e) => {
+                if (isDragging) {
+                    if (e.cancelable) e.preventDefault();
+                    const touch = e.touches[0];
+                    handleMove(touch.clientX, touch.clientY);
+                }
+            }, { passive: false });
+
+            // ドラッグ終了（保存処理）
+            const endDrag = () => {
+                clearTimeout(touchTimer);
+                document.body.style.overflow = ''; // スクロール制限解除
+
+                if (!isDragging || !dragTarget) {
+                    isDragging = false;
+                    dragTarget = null;
+                    return;
+                }
+
+                dragTarget.classList.remove('dragging');
+                isDragging = false;
+                dragTarget = null;
+
+                // ドムツリー構造から最新の並びを読み出し、データを更新＆保存
+                const newDashboardData = {};
+                document.querySelectorAll('.category-card').forEach(card => {
+                    const catName = card.querySelector('.category-card-header span').textContent;
+                    newDashboardData[catName] = [];
+                    
+                    card.querySelectorAll('.shortcut-container').forEach(item => {
+                        const linkEl = item.querySelector('.shortcut-item');
+                        const url = linkEl.getAttribute('href') || dashboardData[item.dataset.category][item.dataset.index].url;
+                        const name = linkEl.textContent.trim();
+                        newDashboardData[catName].push({ name, url });
+                    });
+                });
+
+                dashboardData = newDashboardData;
+                saveData();
+                renderDashboard(); // インデックスと各種イベントを振り直す
+            };
+
+            window.addEventListener('mouseup', endDrag);
+            window.addEventListener('touchend', endDrag);
+            
+            // 途中でドラッグが中断された場合
+            window.addEventListener('dragend', endDrag); 
+            window.addEventListener('touchcancel', endDrag);
+            
+            // クリックや軽タップで長押しタイマーをキャンセルする
+            window.addEventListener('selectstart', (e) => { if (isDragging) e.preventDefault(); });
+            containers.forEach(container => {
+                container.addEventListener('click', () => clearTimeout(touchTimer));
+            });
         }
 
         function shutdownSystem() {
