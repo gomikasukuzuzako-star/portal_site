@@ -1453,12 +1453,18 @@
             nameInput.value = '';
             urlInput.value = '';
             renderDashboard();
+            
+            // 登録成功のポップアップ
+            alert('サイトを追加しました');
         }
 
         function deleteLink(catName, index) {
             dashboardData[catName].splice(index, 1);
             saveData();
             renderDashboard();
+            
+            // 削除成功のポップアップ
+            alert('サイトを削除しました');
         }
 
         function shutdownSystem() {
