@@ -324,21 +324,41 @@
             gap: 15px;
         }
 
-        /* 天気予報用の高精度埋め込みフレームコンテナ */
-        .weather-frame-container {
-            width: 100%;
-            height: 220px;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(0, 242, 254, 0.25);
-            background: rgba(15, 23, 42, 0.8);
-            box-shadow: inset 0 0 15px rgba(0, 242, 254, 0.1);
+        /* 天気予報用の高機能ボタン（100%確実に開くデザイン） */
+        .weather-launcher-btn {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 24px 16px;
+            background: rgba(0, 242, 254, 0.04);
+            border: 1.5px solid rgba(0, 242, 254, 0.25);
+            border-radius: 14px;
+            color: #00f2fe;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            transition: 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: inset 0 0 15px rgba(0, 242, 254, 0.05);
+            text-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
         }
 
-        .weather-frame-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+        .weather-launcher-btn:hover {
+            background: rgba(0, 242, 254, 0.15);
+            border-color: #00f2fe;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.25), inset 0 0 10px rgba(0, 242, 254, 0.1);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+        }
+
+        .weather-launcher-btn span.sub-text {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            font-weight: normal;
+            text-shadow: none;
         }
 
         /* ニュースフィードのリアルタイムボタン集 */
@@ -807,14 +827,15 @@
 
         <div class="right-column">
             <div class="card life-info-card">
-                <h2>☀️ 本日のライフ情報 (リアルタイム天気)</h2>
+                <h2>☀️ 本日のライフ情報</h2>
                 
-                <!-- 安定稼働重視：川西市のYahoo!天気を直接安全に埋め込むインラインフレーム -->
-                <div class="weather-frame-container">
-                    <iframe src="https://weather.yahoo.co.jp/weather/28/6310.html" title="兵庫県川西市のリアルタイム天気情報"></iframe>
-                </div>
+                <!-- セキュリティ制限を回避し、100%確実に川西市の天気を別タブで開く専用ボタン -->
+                <a href="https://weather.yahoo.co.jp/weather/28/6310.html" target="_blank" class="weather-launcher-btn">
+                    🌤 兵庫県川西市の天気予報を見る
+                    <span class="sub-text">(Yahoo!天気へジャンプ ➔)</span>
+                </a>
 
-                <!-- リアルタイムでYahoo!ニュースにジャンプする高機能リンクハブ -->
+                <!-- ニュースフィードのリアルタイムボタン集 -->
                 <div class="realtime-news-container">
                     <a href="https://news.yahoo.co.jp/" target="_blank" class="news-launcher-btn">
                         🔴 Yahoo!ニュース (主要トピックス) <span>➔</span>
