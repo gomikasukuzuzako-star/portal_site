@@ -324,23 +324,21 @@
             gap: 15px;
         }
 
-        /* リアルタイムお天気パーツ用の高精度コンテナ */
-        .weather-widget-container {
+        /* 天気予報用の高精度埋め込みフレームコンテナ */
+        .weather-frame-container {
             width: 100%;
+            height: 220px;
             border-radius: 12px;
             overflow: hidden;
-            border: 1px solid rgba(0, 242, 254, 0.2);
-            background: rgba(15, 23, 42, 0.6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px 0;
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: inset 0 0 15px rgba(0, 242, 254, 0.1);
         }
 
-        .weather-widget-container img {
-            max-width: 100%;
-            height: auto;
-            object-fit: contain;
+        .weather-frame-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         /* ニュースフィードのリアルタイムボタン集 */
@@ -811,11 +809,9 @@
             <div class="card life-info-card">
                 <h2>☀️ 本日のライフ情報 (リアルタイム天気)</h2>
                 
-                <!-- 兵庫県川西市の Yahoo!天気をリアルタイム画像型パーツとして埋め込み -->
-                <div class="weather-widget-container">
-                    <a href="https://weather.yahoo.co.jp/weather/28/6310.html" target="_blank">
-                        <img src="https://weather.yahoo.co.jp/weather/promo/widget/v1/28_6310_medium.png" alt="兵庫県川西市のリアルタイム天気" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'40\'><text x=\'10\' y=\'25\' fill=\'%2364748b\'>天気読込中...</text></svg>'">
-                    </a>
+                <!-- 安定稼働重視：川西市のYahoo!天気を直接安全に埋め込むインラインフレーム -->
+                <div class="weather-frame-container">
+                    <iframe src="https://weather.yahoo.co.jp/weather/28/6310.html" title="兵庫県川西市のリアルタイム天気情報"></iframe>
                 </div>
 
                 <!-- リアルタイムでYahoo!ニュースにジャンプする高機能リンクハブ -->
@@ -1265,7 +1261,6 @@
         let dashboardData = JSON.parse(localStorage.getItem('myCategorizedLinks')) || defaultData;
         let isEditMode = false;
 
-        // 1個前のすっきりとしたダークネオン基調（グラデーションベース）をデフォルトに
         const defaultBg = ""; 
         let storedBg = localStorage.getItem('myDashboardBg');
         let savedBgUrl = storedBg !== null ? storedBg : defaultBg;
@@ -1434,6 +1429,10 @@
             dashboardData[catName].splice(index, 1);
             saveData();
             renderDashboard();
+        }
+
+        function shutdownSystem() {
+            // 将来の拡張用の関数フック
         }
 
         function saveData() {
