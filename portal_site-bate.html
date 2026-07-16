@@ -1292,7 +1292,8 @@
         let dashboardData = JSON.parse(localStorage.getItem('myCategorizedLinks')) || defaultData;
         let isEditMode = false;
 
-        const defaultBg = ""; 
+        /* デフォルトの背景画像URLを設定 */
+        const defaultBg = "https://www.10wallpaper.com/wallpaper/1366x768/1804/Mountain_Lake_Nature_4k_HD_Landscape_1366x768.jpg"; 
         let storedBg = localStorage.getItem('myDashboardBg');
         let savedBgUrl = storedBg !== null ? storedBg : defaultBg;
 
