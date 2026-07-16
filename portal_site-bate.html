@@ -81,7 +81,7 @@
             color: #00f2fe;
             text-shadow: 0 0 20px rgba(0, 242, 254, 0.6), 0 0 40px rgba(0, 242, 254, 0.2);
             display: flex;
-            justify-content: center;
+            justify(content): center;
             gap: 2px;
             flex-wrap: wrap; 
         }
@@ -953,6 +953,7 @@
         const suggestionBox = document.getElementById('suggestionBox');
         let debounceTimeout = null;
         let isComposing = false; 
+        let currentSelectedIndex = -1;
 
         function closeSuggestionBox() {
             suggestionBox.style.display = 'none';
@@ -1464,7 +1465,9 @@
         renderDashboard();
         renderMarketTable();
         updateSearchEngine();
-        setInterval(updateMarketData, 10000);
+        
+        // ★ここを10000(10秒)から1000(1秒)に変更しました
+        setInterval(updateMarketData, 1000);
     </script>
 </body>
 </html>
