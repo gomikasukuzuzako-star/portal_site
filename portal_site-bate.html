@@ -47,7 +47,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 50px 24px;
+            padding: 40px 16px; /* モバイル向けに左右の余白を少し縮小 */
             background-repeat: no-repeat;
             background-position: center center;
             background-attachment: fixed;
@@ -60,7 +60,7 @@
         /* ヘッダーエリア */
         .portal-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             text-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
             position: relative;
             width: 100%;
@@ -82,6 +82,7 @@
             display: flex;
             justify-content: center;
             gap: 2px;
+            flex-wrap: wrap; /* 画面が極端に狭い時に折り返せるように保険をかける */
         }
 
         /* 各桁（数字1文字分）の表示エリア */
@@ -130,7 +131,7 @@
         .search-container {
             width: 100%;
             max-width: 780px; /* 検索窓を少し広げてプルダウンの余裕を持たせる */
-            margin: 0 auto 30px auto;
+            margin: 0 auto 20px auto;
             position: relative;
         }
 
@@ -241,6 +242,7 @@
             color: #ffffff;
             font-size: 1.25rem; /* 入力文字を大きく */
             padding: 10px 0;
+            width: 100%; /* 横幅いっぱいに広げる */
         }
 
         .search-input::placeholder {
@@ -284,13 +286,13 @@
             color: #ffffff;
         }
 
-        /* メイングリッド (2カラム構成) */
+        /* メイングリッド (初期状態：パソコン用の2カラム構成) */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: 1.4fr 0.6fr;
-            gap: 30px; /* 間隔を少し広げる */
+            grid-template-columns: 1.35fr 0.65fr;
+            gap: 24px;
             width: 100%;
-            max-width: 1350px; /* 最大幅を拡大 */
+            max-width: 1350px;
             align-items: start;
         }
 
@@ -301,9 +303,9 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 20px; /* 角丸を少し大きく */
-            padding: 28px; /* 余白を広く */
+            padding: 24px; /* 余白を広く */
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
 
         .card h2 {
@@ -331,18 +333,18 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 20px;
-            padding: 30px;
+            padding: 24px;
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
 
         .category-card-header {
             font-size: 1.5rem; /* カテゴリー見出しを大きく */
             font-weight: bold;
             color: #38bdf8;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            padding-bottom: 15px;
+            padding-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -382,17 +384,19 @@
             font-weight: bold;
         }
 
-        /* リンク（ショートカット） */
+        /* リンク（ショートカット）リストのレスポンシブ化 */
         .shortcut-list {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px; /* ボタン同士の間隔を広げる */
+            /* 画面の広さに応じて、1個の幅が最低280pxを下回らない範囲で自動で列数を調整する(超重要) */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px; 
         }
 
         .shortcut-container {
             position: relative;
             display: flex;
             align-items: center;
+            width: 100%;
         }
 
         .shortcut-item {
@@ -411,6 +415,7 @@
             text-overflow: ellipsis;
             font-size: 1.2rem; /* 文字を大きく */
             text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            width: 100%;
         }
 
         .shortcut-item:hover {
@@ -423,6 +428,7 @@
             height: 30px;
             border-radius: 6px;
             object-fit: contain;
+            flex-shrink: 0; /* 縮まないように固定 */
         }
 
         /* 削除ボタン */
@@ -570,6 +576,7 @@
             color: #ffffff;
             font-size: 1.1rem;
             outline: none;
+            width: 100%;
         }
 
         .edit-form select option {
@@ -674,6 +681,7 @@
             transition: 0.2s ease;
             font-weight: bold;
             box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+            flex-shrink: 0;
         }
 
         .search-submit-btn:hover {
@@ -682,9 +690,80 @@
             box-shadow: 0 0 18px rgba(56, 189, 248, 0.6);
         }
 
+        /* ==========================================================================
+           【最重要】レスポンシブ対応用メディアクエリ (タブレット・スマホ用の設定)
+           ========================================================================== */
         @media (max-width: 1024px) {
+            /* 画面横幅が1024px以下（iPadやスマホなど）になったら縦一列にする */
             .dashboard-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            /* 時計の文字サイズを画面に合わせて少し縮小し、はみ出しを防ぐ */
+            .time {
+                font-size: 3.8rem;
+            }
+            .digit-container {
+                height: 4.8rem;
+                width: 2.6rem;
+            }
+            .digit-strip span {
+                height: 4.8rem;
+                line-height: 4.8rem;
+            }
+            .time-colon {
+                line-height: 4.4rem;
+                width: 1.2rem;
+            }
+            .date {
+                font-size: 1.3rem;
+            }
+
+            /* 検索バー内のパーツ縮小対策 */
+            .search-select {
+                font-size: 0.95rem;
+                padding: 6px 28px 6px 12px;
+            }
+            .search-divider {
+                margin: 0 10px;
+            }
+            .search-input {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* スマホ（縦画面）などの極端に狭い画面用 */
+            body {
+                padding: 24px 12px;
+            }
+            .time {
+                font-size: 2.8rem;
+            }
+            .digit-container {
+                height: 3.6rem;
+                width: 2rem;
+            }
+            .digit-strip span {
+                height: 3.6rem;
+                line-height: 3.6rem;
+            }
+            .time-colon {
+                line-height: 3.2rem;
+                width: 0.8rem;
+            }
+            .date {
+                font-size: 1.1rem;
+            }
+            
+            /* プルダウンの文字をさらに最適化 */
+            .search-select {
+                font-size: 0.85rem;
+                padding: 6px 24px 6px 8px;
+            }
+            .search-select-wrapper::after {
+                right: 10px;
             }
         }
     </style>
@@ -739,7 +818,7 @@
             <div id="categoriesContainer"></div>
 
             <div class="card admin-card" style="padding: 22px 30px;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                     <span style="font-weight: bold; color: #94a3b8; font-size: 1.1rem;">🛠 ポータルシステム設定</span>
                     <button onclick="toggleEditMode()" id="editModeBtn" class="edit-btn">編集モード</button>
                 </div>
@@ -747,16 +826,16 @@
                 <div id="editForm" class="edit-form">
                     <div class="form-group" style="margin-bottom:5px; border-bottom:1px dashed rgba(255,255,255,0.2); padding-bottom:15px;">
                         <label>🖼 壁紙画像を変更（画像URLを入力）</label>
-                        <div style="display:flex; gap:10px;">
-                            <input type="text" id="bgUrlInput" placeholder="https://example.com/image.jpg" style="flex:1;">
+                        <div style="display:flex; gap:10px; flex-wrap: wrap;">
+                            <input type="text" id="bgUrlInput" placeholder="https://example.com/image.jpg" style="flex:1; min-width: 200px;">
                             <button onclick="updateBackground()" class="edit-btn">適用</button>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label>【1】新しいカテゴリーを追加</label>
-                        <div style="display:flex; gap:10px;">
-                            <input type="text" id="newCatName" placeholder="例: ニュース" style="flex:1;">
+                        <div style="display:flex; gap:10px; flex-wrap: wrap;">
+                            <input type="text" id="newCatName" placeholder="例: ニュース" style="flex:1; min-width: 200px;">
                             <button onclick="addCategory()" class="edit-btn">作成</button>
                         </div>
                     </div>
@@ -814,17 +893,18 @@
 
             <div class="card">
                 <h2>📈 マーケット情報</h2>
-                <table class="market-table">
-                    <thead>
-                        <tr>
-                            <th>指標</th>
-                            <th>現在値</th>
-                            <th style="width: 65px; text-align: center;">推移</th>
-                            <th style="text-align: right; padding-right: 4px;">比率</th>
-                        </tr>
-                    </thead>
-                    <tbody id="market-table-body"></tbody>
-                </table>
+                <div style="overflow-x: auto; width: 100%;"> <table class="market-table">
+                        <thead>
+                            <tr>
+                                <th>指標</th>
+                                <th>現在値</th>
+                                <th style="width: 65px; text-align: center;">推移</th>
+                                <th style="text-align: right; padding-right: 4px;">比率</th>
+                            </tr>
+                        </thead>
+                        <tbody id="market-table-body"></tbody>
+                    </table>
+                </div>
                 <div class="market-date" id="market-update-time">ロード中...</div>
             </div>
         </div>
@@ -853,7 +933,6 @@
             
             input.placeholder = `${select.options[select.selectedIndex].text} で検索...`;
             
-            // 予測変換ボックスを非表示にリセット
             closeSuggestionBox();
             input.focus();
         }
@@ -870,10 +949,19 @@
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
 
+            // 画面サイズに応じて高さを動的に取得して計算（はみ出し・ズレ防止）
+            const testElement = document.querySelector('.digit-strip span');
+            let digitHeight = 6; // デフォルト 6rem
+            if (testElement) {
+                // レンダリングされた実際の高さを取得し、rem相当から計算
+                const computedStyle = window.getComputedStyle(testElement);
+                digitHeight = parseFloat(computedStyle.height) / parseFloat(window.getComputedStyle(document.documentElement).fontSize);
+            }
+
             function setDigit(id, value) {
                 const strip = document.getElementById(id);
                 if (strip) {
-                    const yOffset = value * 6; // 高さに合わせる (6rem)
+                    const yOffset = value * digitHeight; 
                     strip.style.transform = `translateY(-${yOffset}rem)`;
                 }
             }
@@ -894,24 +982,24 @@
         }
         setInterval(updateClock, 1000);
         updateClock();
+        
+        // 画面サイズが変わった時にも時計のズレを即時直す
+        window.addEventListener('resize', updateClock);
 
         // --- キーボード矢印操作に対応した予測変換（サジェスト）機能 ---
         const queryInput = document.getElementById('portalSearchInput');
         const suggestionBox = document.getElementById('suggestionBox');
         let debounceTimeout = null;
-        let isComposing = false; // IME（日本語入力）の入力中フラグ
-        let currentSelectedIndex = -1; // キーボードで選択されている候補のインデックス
+        let isComposing = false; 
+        let currentSelectedIndex = -1; 
 
-        // サジェストボックスを閉じる共通関数
         function closeSuggestionBox() {
             suggestionBox.style.display = 'none';
             currentSelectedIndex = -1;
         }
 
-        // グローバルコールバック関数（APIレスポンス処理）
         window.handleGoogleSuggest = function(data) {
             try {
-                // 基本的な構造チェック
                 if (!data || !Array.isArray(data) || !data[1] || !Array.isArray(data[1])) {
                     console.warn("サジェストデータの構造が想定外です:", data);
                     closeSuggestionBox();
@@ -928,22 +1016,17 @@
                 suggestionBox.innerHTML = '';
                 currentSelectedIndex = -1; 
 
-                // どんなデータ型（配列、オブジェクト、文字列）が来ても安全に「テキスト情報」を抽出する処理
                 const validSuggestions = [];
                 suggestions.forEach(item => {
                     if (typeof item === 'string') {
-                        // 通常の文字列候補
                         if (item.trim().length > 0) validSuggestions.push(item.trim());
                     } else if (Array.isArray(item) && item.length > 0 && typeof item[0] === 'string') {
-                        // 候補がさらに入れ子配列 [ "キーワード", 0, [ ... ] ] になっている場合への対策
                         if (item[0].trim().length > 0) validSuggestions.push(item[0].trim());
                     } else if (item && typeof item === 'object' && item.phrase) {
-                        // オブジェクトの中に phrase などのキーがある場合への対策
                         validSuggestions.push(String(item.phrase).trim());
                     }
                 });
 
-                // 重複を除去
                 const uniqueSuggestions = [...new Set(validSuggestions)];
 
                 if (uniqueSuggestions.length > 0) {
@@ -953,7 +1036,6 @@
                         div.className = 'suggestion-item';
                         div.textContent = s;
                         
-                        // クリック時の処理
                         div.onclick = () => {
                             queryInput.value = s;
                             closeSuggestionBox();
@@ -970,11 +1052,10 @@
             }
         };
 
-        // 日本語の変換確定前のステータスを検出
         queryInput.addEventListener('compositionstart', () => { isComposing = true; });
         queryInput.addEventListener('compositionend', () => { 
             isComposing = false; 
-            fetchSuggestions(); // 確定した瞬間に検索
+            fetchSuggestions(); 
         });
 
         queryInput.addEventListener('input', () => {
@@ -1001,18 +1082,15 @@
 
             const script = document.createElement('script');
             script.id = 'suggestScript';
-            // YouTubeのサジェストAPIを呼び出す
             script.src = `https://suggestqueries.google.com/complete/search?client=youtube&hl=ja&ds=yt&q=${encodeURIComponent(val)}&callback=handleGoogleSuggest`;
             
-            // スクリプトの読み込み自体が失敗した場合の保険コード
             script.onerror = function() {
-                console.error("サジェストAPIのスクリプト読み込みに失敗しました。一時的な通信制限の可能性があります。");
+                console.error("サジェストAPIのスクリプト読み込みに失敗しました。");
             };
 
             document.body.appendChild(script);
         }
 
-        // キーボード操作（上下矢印キー、Enter、Esc）の制御
         queryInput.addEventListener('keydown', (e) => {
             if (isComposing) return;
 
