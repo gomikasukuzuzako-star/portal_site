@@ -24,45 +24,44 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: rgba(241, 245, 249, 0.5);
+            background: rgba(15, 23, 42, 0.3);
             border-radius: 10px;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: rgba(14, 165, 233, 0.3);
+            background: rgba(56, 189, 248, 0.3);
             border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             transition: background 0.2s;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(14, 165, 233, 0.6);
+            background: rgba(56, 189, 248, 0.6);
         }
 
         body {
-            /* 【変更】背景を明るいグラデーションに変更 */
-            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-            color: #1e293b; /* 【変更】文字色を暗めにして視認性を確保 */
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #f8fafc;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 40px 16px; 
+            padding: 40px 16px; /* モバイル向けに左右の余白を少し縮小 */
             background-repeat: no-repeat;
             background-position: center center;
             background-attachment: fixed;
             background-size: cover;
             transition: background 0.5s ease;
-            -webkit-overflow-scrolling: touch; 
-            font-size: 1.15rem; 
+            -webkit-overflow-scrolling: touch; /* モバイルでの慣性スクロール */
+            font-size: 1.15rem; /* 全体フォントサイズを拡大 */
         }
 
         /* ヘッダーエリア */
         .portal-header {
             text-align: center;
             margin-bottom: 30px;
-            text-shadow: 0 2px 8px rgba(255, 255, 255, 0.8);
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
             position: relative;
             width: 100%;
             max-width: 1300px;
@@ -76,23 +75,23 @@
 
         /* アニメーション対応の時計表示スタイル */
         .time {
-            font-size: 5rem; 
+            font-size: 5rem; /* 時計をさらに大きく */
             font-weight: bold;
             letter-spacing: 2px;
-            color: #0f172a; /* 【変更】時計の文字色を濃く */
+            color: #ffffff;
             display: flex;
             justify-content: center;
             gap: 2px;
-            flex-wrap: wrap; 
+            flex-wrap: wrap; /* 画面が極端に狭い時に折り返せるように保険をかける */
         }
 
         /* 各桁（数字1文字分）の表示エリア */
         .digit-container {
             display: inline-block;
-            height: 6rem; 
-            overflow: hidden; 
+            height: 6rem; /* 高さを拡大 */
+            overflow: hidden; /* はみ出た数字を隠す */
             position: relative;
-            width: 3.4rem; 
+            width: 3.4rem; /* 横幅を拡大してガタつきを防ぐ */
             text-align: center;
         }
 
@@ -102,7 +101,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* スムーズで美しい加減速 */
             display: flex;
             flex-direction: column;
         }
@@ -122,16 +121,16 @@
         }
 
         .date {
-            font-size: 1.6rem; 
-            color: #475569; /* 【変更】日付の文字色を調整 */
+            font-size: 1.6rem; /* 日付を大きく */
+            color: #cbd5e1;
             margin-top: 10px;
             font-weight: 500;
         }
 
-        /* 直通検索バーのスタイル（明るいすりガラス・爽やかなネオン仕様） */
+        /* 直通検索バーのスタイル（すりガラス・サイバーネオン仕様） */
         .search-container {
             width: 100%;
-            max-width: 780px; 
+            max-width: 780px; /* 検索窓を少し広げてプルダウンの余裕を持たせる */
             margin: 0 auto 20px auto;
             position: relative;
         }
@@ -139,60 +138,64 @@
         .search-form {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.6); /* 【変更】検索窓の背景を白の半透明に */
+            background: rgba(15, 23, 42, 0.5);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1.5px solid rgba(14, 165, 233, 0.4); /* 【変更】枠線を明るい青に変更 */
+            border: 1.5px solid rgba(56, 189, 248, 0.4); 
             border-radius: 60px; 
             padding: 6px 12px 6px 12px;
-            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.08);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.12), inset 0 0 12px rgba(56, 189, 248, 0.03);
             transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .search-form:focus-within {
-            border-color: #0ea5e9;
-            box-shadow: 0 0 25px rgba(14, 165, 233, 0.3), inset 0 0 10px rgba(14, 165, 233, 0.05);
+            border-color: #38bdf8;
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.45), inset 0 0 18px rgba(56, 189, 248, 0.15);
             transform: scale(1.015);
         }
 
-        /* プルダウンのラッパー */
+        /* かっこいいプルダウンのラッパー */
         .search-select-wrapper {
             position: relative;
             display: flex;
             align-items: center;
         }
 
-        /* セレクトボックス */
+        /* 近未来感のあるSF風セレクトボックス */
         .search-select {
-            background: rgba(241, 245, 249, 0.7); /* 【変更】背景を明るく */
-            color: #0284c7; /* 【変更】文字色を濃いめの青に */
-            border: 1px solid rgba(14, 165, 233, 0.3);
+            background: rgba(30, 41, 59, 0.4);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
             outline: none;
             font-size: 1.1rem; 
             font-weight: 700;
             cursor: pointer;
-            padding: 8px 36px 8px 18px; 
+            padding: 8px 36px 8px 18px; /* 右側に矢印用の余白 */
             border-radius: 30px;
             appearance: none;
             -webkit-appearance: none;
             transition: all 0.25s ease;
             letter-spacing: 0.5px;
+            text-shadow: 0 0 6px rgba(56, 189, 248, 0.5); /* 文字のネオン発光 */
         }
 
-        /* ホバーした時 */
+        /* ホバーした時の発光強化 */
         .search-select:hover {
-            background: rgba(14, 165, 233, 0.1);
-            border-color: #0ea5e9;
-            color: #0369a1;
+            background: rgba(56, 189, 248, 0.15);
+            border-color: #38bdf8;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+            color: #ffffff;
+            text-shadow: 0 0 8px #ffffff;
         }
 
-        /* フォーカスされた時 */
+        /* フォーカス（クリック）された時 */
         .search-select:focus {
-            background: rgba(255, 255, 255, 0.9);
-            border-color: #0ea5e9;
+            background: rgba(15, 23, 42, 0.8);
+            border-color: #38bdf8;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
         }
 
-        /* カスタム矢印(▼) */
+        /* シャープなネオンブルーのカスタムカスタム矢印(▼) */
         .search-select-wrapper::after {
             content: "";
             position: absolute;
@@ -203,19 +206,22 @@
             height: 0;
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
-            border-top: 6px solid #0284c7; 
+            border-top: 6px solid #38bdf8; /* 三角形の色 */
             pointer-events: none;
             transition: all 0.25s ease;
+            filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.8));
         }
 
+        /* セレクトボックスホバー時に矢印の色も白く輝かせる */
         .search-select-wrapper:hover::after {
-            border-top-color: #0369a1;
+            border-top-color: #ffffff;
+            filter: drop-shadow(0 0 5px #ffffff);
         }
 
-        /* 選択肢メニューのデザイン */
+        /* プルダウンを展開した時の選択肢メニューのデザイン */
         .search-select option {
-            background: #ffffff; /* 【変更】選択肢背景を白に */
-            color: #0284c7;
+            background: #0f172a;
+            color: #38bdf8;
             font-size: 1.1rem;
             font-weight: bold;
             padding: 10px;
@@ -224,7 +230,7 @@
         .search-divider {
             width: 1.5px;
             height: 26px; 
-            background: rgba(0, 0, 0, 0.15); /* 【変更】区切り線を少し暗く */
+            background: rgba(255, 255, 255, 0.15);
             margin: 0 16px;
         }
 
@@ -233,10 +239,10 @@
             background: transparent;
             border: none;
             outline: none;
-            color: #0f172a; /* 【変更】入力文字を黒系に */
-            font-size: 1.25rem; 
+            color: #ffffff;
+            font-size: 1.25rem; /* 入力文字を大きく */
             padding: 10px 0;
-            width: 100%; 
+            width: 100%; /* 横幅いっぱいに広げる */
         }
 
         .search-input::placeholder {
@@ -246,27 +252,27 @@
         /* 予測変換候補ボックスのデザイン */
         #suggestionBox {
             position: absolute;
-            top: 72px; 
+            top: 72px; /* 位置を微調整 */
             left: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.98); /* 【変更】白背景に変更 */
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(20px);
-            border: 1.5px solid rgba(14, 165, 233, 0.4);
+            border: 1.5px solid rgba(56, 189, 248, 0.5);
             border-radius: 20px;
             z-index: 1000;
             overflow: hidden;
             display: none;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), 0 0 20px rgba(14, 165, 233, 0.05);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.15);
             margin-top: 5px;
         }
 
         .suggestion-item {
-            padding: 16px 24px; 
+            padding: 16px 24px; /* 余白を拡大 */
             cursor: pointer;
-            color: #334155; /* 【変更】文字色を変更 */
+            color: #cbd5e1;
             transition: 0.2s;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            font-size: 1.15rem; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 1.15rem; /* 予測文字を大きく */
             text-align: left;
         }
 
@@ -276,11 +282,11 @@
 
         /* マウスホバー時、またはキーボード選択時のスタイル */
         .suggestion-item:hover, .suggestion-item.selected {
-            background: rgba(14, 165, 233, 0.15); /* 【変更】ハイライトを明るい青に */
-            color: #0369a1;
+            background: rgba(56, 189, 248, 0.25);
+            color: #ffffff;
         }
 
-        /* メイングリッド */
+        /* メイングリッド (初期状態：パソコン用の2カラム構成) */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1.35fr 0.65fr;
@@ -290,23 +296,23 @@
             align-items: start;
         }
 
-        /* 各カードの共通スタイル（明るいすりガラス効果） */
+        /* 各カードの共通スタイル（すりガラス効果） */
         .card {
-            background: rgba(255, 255, 255, 0.75); /* 【変更】カード背景を白の半透明に */
+            background: rgba(15, 23, 42, 0.5); 
             backdrop-filter: blur(16px);       
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.6); /* 【変更】枠線を白に */
-            border-radius: 20px; 
-            padding: 24px; 
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06); /* 【変更】影を柔らかく上品に */
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px; /* 角丸を少し大きく */
+            padding: 24px; /* 余白を広く */
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
             margin-bottom: 24px;
         }
 
         .card h2 {
-            font-size: 1.4rem; 
+            font-size: 1.4rem; /* カードの見出しを大きく */
             margin-bottom: 20px;
-            color: #0284c7; /* 【変更】見出し色を濃いめの青に */
-            border-bottom: 1px solid rgba(0, 0, 0, 0.08); /* 【変更】下線を薄いグレーに */
+            color: #38bdf8;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
             padding-bottom: 12px;
             display: flex;
             justify-content: space-between;
@@ -322,22 +328,22 @@
 
         /* カテゴリーカード（左カラム） */
         .category-card {
-            background: rgba(255, 255, 255, 0.75); /* 【変更】背景を白の半透明に */
+            background: rgba(15, 23, 42, 0.5); 
             backdrop-filter: blur(16px);       
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 20px;
             padding: 24px;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
             margin-bottom: 24px;
         }
 
         .category-card-header {
-            font-size: 1.5rem; 
+            font-size: 1.5rem; /* カテゴリー見出しを大きく */
             font-weight: bold;
-            color: #0284c7; /* 【変更】見出し色を変更 */
+            color: #38bdf8;
             margin-bottom: 20px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.08); /* 【変更】下線カラー */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
             padding-bottom: 12px;
             display: flex;
             justify-content: space-between;
@@ -346,16 +352,16 @@
 
         /* 管理用ヘッダーカード */
         .admin-card {
-            background: rgba(255, 255, 255, 0.45); /* 【変更】明るく調整 */
-            border: 1.5px dashed rgba(0, 0, 0, 0.15); /* 【変更】破線をグレーに */
+            background: rgba(15, 23, 42, 0.35);
+            border: 1.5px dashed rgba(255, 255, 255, 0.2);
             margin-top: 25px;
         }
 
         /* 各種ボタン */
         .edit-btn {
-            background: #0ea5e9; /* 【変更】ボタンのメイン色を明るい青に */
-            color: #ffffff; /* 【変更】文字色を白に */
-            padding: 8px 20px; 
+            background: #38bdf8;
+            color: #0f172a;
+            padding: 8px 20px; /* ボタンサイズ拡大 */
             border-radius: 8px;
             font-size: 1.05rem;
             cursor: pointer;
@@ -365,7 +371,7 @@
         }
 
         .edit-btn:hover {
-            background: #0284c7;
+            background: #0ea5e9;
         }
 
         .category-del-btn {
@@ -381,6 +387,7 @@
         /* リンク（ショートカット）リストのレスポンシブ化 */
         .shortcut-list {
             display: grid;
+            /* 画面の広さに応じて、1個の幅が最低280pxを下回らない範囲で自動で列数を調整する(超重要) */
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 16px; 
         }
@@ -395,35 +402,33 @@
         .shortcut-item {
             display: flex;
             align-items: center;
-            gap: 15px; 
-            padding: 18px; 
-            background: rgba(0, 0, 0, 0.03); /* 【変更】リンクボタンの背景を極薄の黒(グレー)に */
-            border: 1px solid rgba(0, 0, 0, 0.04);
+            gap: 15px; /* アイコンと文字の間隔 */
+            padding: 18px; /* 中の余白を増やして押しやすく */
+            background: rgba(255, 255, 255, 0.07);
             border-radius: 12px;
-            color: #334155; /* 【変更】リンク文字色をグレーに */
+            color: #fff;
             text-decoration: none;
             transition: 0.2s;
             flex: 1;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-size: 1.2rem; 
+            font-size: 1.2rem; /* 文字を大きく */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
             width: 100%;
         }
 
         .shortcut-item:hover {
-            background: rgba(14, 165, 233, 0.12); /* 【変更】ホバー時の色を明るい青の半透明に */
-            color: #0284c7;
-            border-color: rgba(14, 165, 233, 0.2);
+            background: rgba(56, 189, 248, 0.25);
             transform: translateY(-2px);
         }
 
         .shortcut-icon {
-            width: 30px; 
+            width: 30px; /* アイコンを大きく */
             height: 30px;
             border-radius: 6px;
             object-fit: contain;
-            flex-shrink: 0; 
+            flex-shrink: 0; /* 縮まないように固定 */
         }
 
         /* 削除ボタン */
@@ -435,7 +440,7 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 30px; 
+            width: 30px; /* 削除ボタンも大きく */
             height: 30px;
             font-size: 1.1rem;
             cursor: pointer;
@@ -445,12 +450,12 @@
 
         /* ライフ情報：お天気パネル */
         .weather-panel-detailed {
-            background: rgba(14, 165, 233, 0.05); /* 【変更】明るい水色背景 */
-            border: 1px solid rgba(14, 165, 233, 0.2);
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.25);
             border-radius: 16px;
             padding: 20px;
             text-decoration: none;
-            color: #334155; /* 【変更】文字色 */
+            color: white;
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -459,8 +464,8 @@
         }
 
         .weather-panel-detailed:hover {
-            background: rgba(14, 165, 233, 0.1);
-            border-color: rgba(14, 165, 233, 0.3);
+            background: rgba(56, 189, 248, 0.15);
+            border-color: rgba(56, 189, 248, 0.4);
             transform: translateY(-2px);
         }
 
@@ -477,36 +482,35 @@
         }
 
         .weather-big-icon {
-            font-size: 3.2rem; 
+            font-size: 3.2rem; /* 天気アイコンを大きく */
             line-height: 1;
         }
 
         .weather-temp-now {
-            font-size: 1.8rem; 
+            font-size: 1.8rem; /* 気温を大きく */
             font-weight: bold;
-            color: #0f172a; /* 【変更】気温の現在地を強調 */
         }
 
         .weather-grid-details {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
-            font-size: 0.95rem; 
-            background: rgba(255, 255, 255, 0.6); /* 【変更】詳細エリアの背景を明るく */
+            font-size: 0.95rem; /* 詳細文字を大きく */
+            background: rgba(15, 23, 42, 0.4);
             padding: 14px;
             border-radius: 10px;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .weather-grid-details div {
             display: flex;
             justify-content: space-between;
-            color: #475569; /* 【変更】文字色調整 */
+            color: #cbd5e1;
         }
 
         .weather-grid-details div span {
             font-weight: bold;
-            color: #0f172a; /* 【変更】値を濃い色に */
+            color: #ffffff;
             margin-left: 5px;
         }
 
@@ -520,14 +524,14 @@
 
         .news-item {
             display: block;
-            padding: 14px 16px; 
-            background: rgba(0, 0, 0, 0.03); /* 【変更】ニュース背景を薄いグレーに */
+            padding: 14px 16px; /* 余白を拡大 */
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 8px;
-            color: #334155; /* 【変更】文字色 */
+            color: #e2e8f0;
             text-decoration: none;
-            font-size: 1rem; 
+            font-size: 1rem; /* ニュース文字を大きく */
             transition: 0.2s;
-            border-left: 4px solid #0ea5e9; /* 【変更】左のアクセントを明るい青に */
+            border-left: 4px solid #38bdf8;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -535,8 +539,8 @@
         }
 
         .news-item:hover {
-            background: rgba(14, 165, 233, 0.08);
-            color: #0284c7;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
             transform: translateX(6px);
         }
 
@@ -545,9 +549,9 @@
             display: none;
             margin-top: 25px;
             padding: 25px;
-            background: rgba(255, 255, 255, 0.98); /* 【変更】フォーム背景を白に */
+            background: rgba(15, 23, 42, 0.95);
             border-radius: 12px;
-            border: 1.5px dashed rgba(0, 0, 0, 0.15);
+            border: 1.5px dashed rgba(255, 255, 255, 0.2);
             flex-direction: column;
             gap: 22px;
         }
@@ -560,24 +564,24 @@
 
         .form-group label {
             font-size: 1.15rem;
-            color: #0284c7;
+            color: #38bdf8;
             font-weight: bold;
         }
 
         .edit-form input, .edit-form select {
             padding: 14px;
             border-radius: 8px;
-            border: 1px solid #0ea5e9;
-            background: #ffffff; /* 【変更】入力欄背景を白に */
-            color: #1e293b; /* 【変更】入力欄文字色 */
+            border: 1px solid #38bdf8;
+            background: #1e293b;
+            color: #ffffff;
             font-size: 1.1rem;
             outline: none;
             width: 100%;
         }
 
         .edit-form select option {
-            background: #ffffff;
-            color: #1e293b;
+            background: #1e293b;
+            color: #ffffff;
         }
 
         /* トレンドリンクスタイル */
@@ -585,20 +589,20 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(0, 0, 0, 0.03); /* 【変更】背景を薄く変更 */
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 16px 20px;
             border-radius: 12px;
-            color: #334155;
+            color: #fff;
             text-decoration: none;
-            font-size: 1.15rem; 
+            font-size: 1.15rem; /* 文字を大きく */
             font-weight: bold;
             transition: 0.2s;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
         .trend-card-link:hover {
-            background: rgba(14, 165, 233, 0.12);
-            color: #0284c7;
+            background: rgba(56, 189, 248, 0.25);
             transform: translateY(-2px);
         }
 
@@ -610,21 +614,21 @@
         }
 
         .market-table th, .market-table td {
-            padding: 12px 6px; 
+            padding: 12px 6px; /* セルの余白を広く */
             text-align: left;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06); /* 【変更】線をグレーに */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             vertical-align: middle;
         }
 
         .market-table th {
-            color: #64748b; /* 【変更】ヘッダー色 */
+            color: #94a3b8;
             font-weight: bold;
-            font-size: 0.9rem; 
+            font-size: 0.9rem; /* ヘッダー文字を大きく */
         }
 
         .market-table td {
-            font-size: 1.05rem; 
-            color: #334155;
+            font-size: 1.05rem; /* 値の文字を大きく */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
         .clickable-row {
@@ -633,7 +637,7 @@
         }
 
         .clickable-row:hover {
-            background-color: rgba(0, 0, 0, 0.03);
+            background-color: rgba(255, 255, 255, 0.08);
         }
 
         .clickable-row:active {
@@ -641,34 +645,34 @@
         }
 
         .market-sparkline {
-            width: 60px; 
+            width: 60px; /* グラフを少し幅広に */
             height: 24px;
             vertical-align: middle;
         }
 
         .price-down {
-            color: #dc2626; /* 【変更】下落の赤を見やすく調整 */
+            color: #ef4444;
             font-weight: bold;
         }
 
         .price-up {
-            color: #16a34a; /* 【変更】上昇の緑を見やすく調整 */
+            color: #10b981;
             font-weight: bold;
         }
 
         .market-date {
-            font-size: 0.85rem; 
-            color: #64748b;
+            font-size: 0.85rem; /* 更新時間の文字を大きく */
+            color: #94a3b8;
             text-align: right;
             margin-top: 12px;
         }
 
         .search-submit-btn {
-            background: #0ea5e9; /* 【変更】検索ボタンの色を変更 */
-            color: #ffffff; /* 【変更】アイコンの色を白に */
+            background: #38bdf8;
+            color: #0f172a;
             border: none;
             border-radius: 50%;
-            width: 46px; 
+            width: 46px; /* ボタンを大きく */
             height: 46px;
             display: flex;
             align-items: center;
@@ -676,23 +680,27 @@
             cursor: pointer;
             transition: 0.2s ease;
             font-weight: bold;
-            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
             flex-shrink: 0;
         }
 
         .search-submit-btn:hover {
-            background: #0284c7;
+            background: #0ea5e9;
             transform: scale(1.08);
-            box-shadow: 0 4px 18px rgba(14, 165, 233, 0.4);
+            box-shadow: 0 0 18px rgba(56, 189, 248, 0.6);
         }
 
-        /* レスポンシブ対応用メディアクエリ (タブレット・スマホ用の設定) */
+        /* ==========================================================================
+           【最重要】レスポンシブ対応用メディアクエリ (タブレット・スマホ用の設定)
+           ========================================================================== */
         @media (max-width: 1024px) {
+            /* 画面横幅が1024px以下（iPadやスマホなど）になったら縦一列にする */
             .dashboard-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
 
+            /* 時計の文字サイズを画面に合わせて少し縮小し、はみ出しを防ぐ */
             .time {
                 font-size: 3.8rem;
             }
@@ -712,6 +720,7 @@
                 font-size: 1.3rem;
             }
 
+            /* 検索バー内のパーツ縮小対策 */
             .search-select {
                 font-size: 0.95rem;
                 padding: 6px 28px 6px 12px;
@@ -725,6 +734,7 @@
         }
 
         @media (max-width: 480px) {
+            /* スマホ（縦画面）などの極端に狭い画面用 */
             body {
                 padding: 24px 12px;
             }
@@ -747,6 +757,7 @@
                 font-size: 1.1rem;
             }
             
+            /* プルダウンの文字をさらに最適化 */
             .search-select {
                 font-size: 0.85rem;
                 padding: 6px 24px 6px 8px;
@@ -790,9 +801,8 @@
                 </div>
                 <div class="search-divider"></div>
                 <input type="text" id="portalSearchInput" name="q" class="search-input" placeholder="検索キーワードを入力..." required autocomplete="off">
-                <!-- 【変更】中のアイコン（stroke）を白(#fff)で描画するように変更 -->
                 <button type="submit" class="search-submit-btn">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
@@ -809,12 +819,12 @@
 
             <div class="card admin-card" style="padding: 22px 30px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                    <span style="font-weight: bold; color: #64748b; font-size: 1.1rem;">🛠 ポータルシステム設定</span>
+                    <span style="font-weight: bold; color: #94a3b8; font-size: 1.1rem;">🛠 ポータルシステム設定</span>
                     <button onclick="toggleEditMode()" id="editModeBtn" class="edit-btn">編集モード</button>
                 </div>
 
                 <div id="editForm" class="edit-form">
-                    <div class="form-group" style="margin-bottom:5px; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:15px;">
+                    <div class="form-group" style="margin-bottom:5px; border-bottom:1px dashed rgba(255,255,255,0.2); padding-bottom:15px;">
                         <label>🖼 壁紙画像を変更（画像URLを入力）</label>
                         <div style="display:flex; gap:10px; flex-wrap: wrap;">
                             <input type="text" id="bgUrlInput" placeholder="https://example.com/image.jpg" style="flex:1; min-width: 200px;">
@@ -830,7 +840,7 @@
                         </div>
                     </div>
                     
-                    <div class="form-group" style="margin-top:5px; border-top:1px dashed rgba(0,0,0,0.1); padding-top:20px;">
+                    <div class="form-group" style="margin-top:5px; border-top:1px dashed rgba(255,255,255,0.2); padding-top:20px;">
                         <label>【2】サイトを追加</label>
                         <select id="linkCategorySelect"></select>
                         <input type="text" id="linkName" placeholder="サイト名（例: Google）" style="margin-top:8px;">
@@ -847,25 +857,25 @@
                 
                 <a href="https://weather.yahoo.co.jp/weather/28/6310.html" target="_blank" class="weather-panel-detailed">
                     <div class="weather-header">
-                        <span style="font-weight: bold; font-size: 1.05rem; color: #0284c7;">📍 兵庫県川西市の天気</span>
-                        <span style="font-size: 0.8rem; color: #64748b; background: rgba(0,0,0,0.05); padding: 2px 6px; border-radius: 4px;">詳細</span>
+                        <span style="font-weight: bold; font-size: 1.05rem; color: #38bdf8;">📍 兵庫県川西市の天気</span>
+                        <span style="font-size: 0.8rem; color: #94a3b8; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">詳細</span>
                     </div>
                     
                     <div class="weather-main">
                         <span class="weather-big-icon" id="weatherIcon">☀️</span>
                         <div>
                             <div class="weather-temp-now" id="weatherText">晴れのち曇</div>
-                            <div style="font-size: 0.95rem; color: #475569; margin-top: 2px;">
-                                気温: <span style="color:#dc2626; font-weight:bold;">28℃ / 19℃</span>
+                            <div style="font-size: 0.95rem; color: #cbd5e1; margin-top: 2px;">
+                                気温: <span style="color:#ef4444; font-weight:bold;">28℃ / 19℃</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="weather-grid-details">
-                        <div>降水(午前): <span>10%</span></div>
-                        <div>降水(午後): <span>20%</span></div>
-                        <div>湿度: <span>55%</span></div>
-                        <div>風速: <span>北西 2m/s</span></div>
+                        <div>降水(午前): <span style="color:#fff;">10%</span></div>
+                        <div>降水(午後): <span style="color:#fff;">20%</span></div>
+                        <div>湿度: <span style="color:#fff;">55%</span></div>
+                        <div>風速: <span style="color:#fff;">北西 2m/s</span></div>
                     </div>
                 </a>
 
@@ -874,7 +884,7 @@
 
             <div class="card">
                 <h2>🌐 トレンドキーワード</h2>
-                <p style="font-size: 0.95rem; color: #475569; margin-bottom: 15px; line-height: 1.5;">今、世の中で一番検索されているワードを瞬時にチェック。</p>
+                <p style="font-size: 0.95rem; color: #cbd5e1; margin-bottom: 15px; line-height: 1.5;">今、世の中で一番検索されているワードを瞬時にチェック。</p>
                 <a href="https://trends.google.co.jp/trends/trendingsearches/daily?geo=JP" target="_blank" class="trend-card-link">
                     📈 急上昇ワードを開く
                     <span>➔</span>
@@ -883,8 +893,7 @@
 
             <div class="card">
                 <h2>📈 マーケット情報</h2>
-                <div style="overflow-x: auto; width: 100%;"> 
-                    <table class="market-table">
+                <div style="overflow-x: auto; width: 100%;"> <table class="market-table">
                         <thead>
                             <tr>
                                 <th>指標</th>
@@ -903,6 +912,7 @@
     </div>
 
     <script>
+        // --- 検索エンジン設定の動的切替処理 ---
         const searchConfig = {
             google: { action: "https://www.google.com/search", queryParamName: "q" },
             yahoo: { action: "https://search.yahoo.co.jp/search", queryParamName: "p" },
@@ -931,6 +941,7 @@
             return true;
         }
 
+        // --- アニメーション対応版の時計・日付更新機能 ---
         function updateClock() {
             const now = new Date();
             
@@ -938,9 +949,11 @@
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
 
+            // 画面サイズに応じて高さを動的に取得して計算（はみ出し・ズレ防止）
             const testElement = document.querySelector('.digit-strip span');
-            let digitHeight = 6; 
+            let digitHeight = 6; // デフォルト 6rem
             if (testElement) {
+                // レンダリングされた実際の高さを取得し、rem相当から計算
                 const computedStyle = window.getComputedStyle(testElement);
                 digitHeight = parseFloat(computedStyle.height) / parseFloat(window.getComputedStyle(document.documentElement).fontSize);
             }
@@ -970,8 +983,10 @@
         setInterval(updateClock, 1000);
         updateClock();
         
+        // 画面サイズが変わった時にも時計のズレを即時直す
         window.addEventListener('resize', updateClock);
 
+        // --- キーボード矢印操作に対応した予測変換（サジェスト）機能 ---
         const queryInput = document.getElementById('portalSearchInput');
         const suggestionBox = document.getElementById('suggestionBox');
         let debounceTimeout = null;
@@ -986,6 +1001,7 @@
         window.handleGoogleSuggest = function(data) {
             try {
                 if (!data || !Array.isArray(data) || !data[1] || !Array.isArray(data[1])) {
+                    console.warn("サジェストデータの構造が想定外です:", data);
                     closeSuggestionBox();
                     return;
                 }
@@ -1031,6 +1047,7 @@
                     closeSuggestionBox();
                 }
             } catch (error) {
+                console.error("サジェスト処理内でエラーが発生しました:", error);
                 closeSuggestionBox();
             }
         };
@@ -1066,6 +1083,11 @@
             const script = document.createElement('script');
             script.id = 'suggestScript';
             script.src = `https://suggestqueries.google.com/complete/search?client=youtube&hl=ja&ds=yt&q=${encodeURIComponent(val)}&callback=handleGoogleSuggest`;
+            
+            script.onerror = function() {
+                console.error("サジェストAPIのスクリプト読み込みに失敗しました。");
+            };
+
             document.body.appendChild(script);
         }
 
@@ -1121,6 +1143,7 @@
             }
         });
 
+        // --- ニュースデータ ---
         const newsDataList = [
             { title: "【地域】ファミマとドコモ、石川県能登地域における移動型販売店舗の運行の実証実験を開始", url: "https://www.family.co.jp/company/news_releases/2026/20260715_01.html" },
             { title: "【科学】国際物理オリンピックで日本代表が金メダル獲得、広島高3の岡野光佑さんら快挙", url: "https://www.47news.jp/14622591.html" },
@@ -1142,6 +1165,7 @@
             });
         }
 
+        // --- マーケットデータ ---
         const marketData = {
             nikkei: {
                 name: "日経平均",
@@ -1235,7 +1259,7 @@
             ctx.lineTo((width - 4) + 2, height);
             ctx.lineTo(2, height);
             ctx.closePath();
-            ctx.fillStyle = strokeColor === '#dc2626' ? 'rgba(220, 38, 38, 0.08)' : 'rgba(22, 163, 74, 0.08)';
+            ctx.fillStyle = strokeColor === '#ef4444' ? 'rgba(239, 68, 68, 0.12)' : 'rgba(16, 185, 129, 0.12)';
             ctx.fill();
         }
 
@@ -1268,7 +1292,7 @@
                 `;
                 tbody.appendChild(tr);
 
-                const strokeColor = isUp ? '#16a34a' : '#dc2626';
+                const strokeColor = isUp ? '#10b981' : '#ef4444';
                 drawSparkline(`canvas-${key}`, item.history, strokeColor);
             });
 
@@ -1290,6 +1314,7 @@
             renderMarketTable();
         }
 
+        // --- カテゴリー＆リンクデータ管理 ---
         const defaultData = {
             "🔍 検索エンジン": [
                 { name: "Google", url: "https://www.google.com" },
@@ -1327,8 +1352,7 @@
         let dashboardData = JSON.parse(localStorage.getItem('myCategorizedLinks')) || defaultData;
         let isEditMode = false;
 
-        // 【変更】デフォルト背景のフォールバック処理を無効化（ライトグラデーションを優先するため、空文字へ変更）
-        const defaultBg = "";
+        const defaultBg = "https://divnil.com/wallpaper/ipad/img/app/m/o/mountains-4k-wallpaper-3840x2160-2048x2048_0b97954feb5ddc0033010b30ba3fd21d_raw.jpg";
         
         let storedBg = localStorage.getItem('myDashboardBg');
         if (storedBg && (storedBg.includes("mountains-4k-wallpaper-3840x2160") === false && storedBg.startsWith("http"))) {
@@ -1342,14 +1366,9 @@
 
         function applySavedBackground() {
             if (savedBgUrl) {
-                // 【変更】ユーザー設定の画像がある場合は明るめの白マスクをかけて重ねる
-                document.body.style.background = `linear-gradient(rgba(248, 250, 252, 0.85), rgba(226, 232, 240, 0.85)), url('${savedBgUrl}') no-repeat center center fixed`;
+                document.body.style.background = `linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)), url('${savedBgUrl}') no-repeat center center fixed`;
                 document.body.style.backgroundSize = "cover";
                 document.getElementById('bgUrlInput').value = savedBgUrl;
-            } else {
-                // 画像がない場合は標準のライトグラデーション
-                document.body.style.background = `linear-gradient(135deg, #f8fafc, #e2e8f0)`;
-                document.getElementById('bgUrlInput').value = '';
             }
         }
 
@@ -1402,7 +1421,7 @@
 
                     shortcutContainer.innerHTML = `
                         <a href="${link.url}" target="_blank" class="shortcut-item" id="link-${catName}-${index}">
-                            <img src="${faviconUrl}" class="shortcut-icon" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\'><circle cx=\'12\' cy=\'12\' r=\'10\'></circle></svg>'">
+                            <img src="${faviconUrl}" class="shortcut-icon" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23fff\' stroke-width=\'2\'><circle cx=\'12\' cy=\'12\' r=\'10\'></circle></svg>'">
                             ${link.name}
                         </a>
                         <button class="delete-link-btn" id="del-${catName}-${index}" onclick="deleteLink('${catName}', ${index})">✕</button>
@@ -1427,8 +1446,8 @@
                 form.style.display = "flex";
             } else {
                 btn.textContent = "編集モード";
-                btn.style.background = "#0ea5e9";
-                btn.style.color = "#ffffff";
+                btn.style.background = "#38bdf8";
+                btn.style.color = "#0f172a";
                 form.style.display = "none";
             }
             applyEditModeStyles();
