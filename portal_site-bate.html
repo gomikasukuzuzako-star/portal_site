@@ -239,6 +239,14 @@
             margin: 0 16px;
         }
 
+        /* 入力欄と✕ボタンを重ねるためのコンテナ */
+        .search-input-wrapper {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
         .search-input {
             flex: 1;
             background: transparent;
@@ -246,12 +254,47 @@
             outline: none;
             color: #ffffff;
             font-size: 1.25rem; 
-            padding: 10px 0;
+            padding: 10px 40px 10px 0; /* 右側に✕ボタン用の余白(40px)を確保 */
             width: 100%; 
         }
 
         .search-input::placeholder {
             color: #64748b;
+        }
+
+        /* 一括リセット（✕）ボタンのネオン風スタイル */
+        .search-clear-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 22px;
+            height: 22px;
+            background-color: rgba(0, 242, 254, 0.15);
+            color: #00f2fe;
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            border-radius: 50%;
+            cursor: pointer;
+            display: none; /* 初期は非表示 */
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 0;
+            line-height: 1;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 8px rgba(0, 242, 254, 0.2);
+            z-index: 5;
+        }
+
+        .search-clear-btn:hover {
+            background-color: rgba(0, 242, 254, 0.35);
+            border-color: #00f2fe;
+            box-shadow: 0 0 12px rgba(0, 242, 254, 0.5);
+        }
+
+        .search-clear-btn:active {
+            transform: translateY(-50%) scale(0.9);
         }
 
         /* 予測変換候補ボックスのデザイン */
@@ -453,6 +496,27 @@
             background: rgba(0, 242, 254, 0.4);
             color: #ffffff;
             box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+        }
+
+        /* 🚨 赤色の危険・警告系ボタン用スタイル */
+        .danger-btn {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            padding: 8px 20px; 
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            font-size: 1.05rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+            text-shadow: 0 0 5px rgba(239, 68, 68, 0.4);
+        }
+
+        .danger-btn:hover {
+            background: rgba(239, 68, 68, 0.35);
+            color: #ffffff;
+            border-color: #ef4444;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
         }
 
         .category-del-btn {
@@ -708,6 +772,226 @@
             box-shadow: 0 0 18px rgba(0, 242, 254, 0.5);
         }
 
+        /* 📅 サイバーカレンダーエリアのスタイル */
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .calendar-title {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        /* 月切り替え用の矢印ボタン */
+        .calendar-nav-btn {
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            color: #00f2fe;
+            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            box-shadow: 0 0 6px rgba(0, 242, 254, 0.1);
+        }
+
+        .calendar-nav-btn:hover {
+            background: rgba(0, 242, 254, 0.35);
+            border-color: #00f2fe;
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .calendar-nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            text-align: center;
+        }
+
+        .calendar-day-label {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #64748b;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* 土曜日と日曜日のラベルカラー */
+        .calendar-day-label.sat { color: #38bdf8; }
+        .calendar-day-label.sun { color: #f87171; }
+
+        .calendar-day {
+            font-size: 0.95rem;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            color: #cbd5e1;
+            transition: all 0.2s;
+        }
+
+        .calendar-day.prev-month, .calendar-day.next-month {
+            color: #475569;
+            font-size: 0.85rem;
+        }
+
+        /* 今日の日付スタイル */
+        .calendar-day.today {
+            background: rgba(0, 242, 254, 0.15);
+            border: 1.5px solid #00f2fe;
+            color: #00f2fe;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(0, 242, 254, 0.6);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+        }
+
+        /* 今日は何の日エリアのスタイル */
+        .day-history-container {
+            margin-top: 18px;
+            padding-top: 15px;
+            border-top: 1.5px dashed rgba(0, 242, 254, 0.2);
+        }
+
+        .day-history-title {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #00f2fe;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+            text-shadow: 0 0 5px rgba(0, 242, 254, 0.3);
+        }
+
+        .day-history-content {
+            font-size: 0.95rem;
+            color: #e2e8f0;
+            line-height: 1.5;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #00f2fe;
+        }
+
+        /* 📝 カスタムメモ帳の追加スタイル */
+        .memo-textarea {
+            width: 100%;
+            height: 150px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            border-radius: 12px;
+            color: #ffffff;
+            padding: 14px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 10px rgba(0, 242, 254, 0.02);
+        }
+
+        .memo-textarea:focus {
+            border-color: #00f2fe;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.25), inset 0 0 10px rgba(0, 242, 254, 0.05);
+        }
+
+        .memo-textarea::placeholder {
+            color: #475569;
+        }
+
+        .memo-status {
+            font-size: 0.85rem;
+            color: #64748b;
+            text-align: right;
+            margin-top: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .memo-status.saved {
+            color: #00e676;
+            text-shadow: 0 0 8px rgba(0, 230, 118, 0.3);
+        }
+
+        /* 🚨 シャットダウンポップアップ通知スタイル */
+        .shutdown-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 2px solid #ef4444;
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.5), inset 0 0 15px rgba(239, 68, 68, 0.1);
+            color: #ffffff;
+            padding: 20px 25px;
+            border-radius: 16px;
+            z-index: 9999;
+            width: 380px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .shutdown-notification.cancel-state {
+            border-color: #00e676;
+            box-shadow: 0 0 25px rgba(0, 230, 118, 0.5), inset 0 0 15px rgba(0, 230, 118, 0.1);
+        }
+
+        .shutdown-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ef4444;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .shutdown-notification.cancel-state .shutdown-title {
+            color: #00e676;
+        }
+
+        .shutdown-msg {
+            font-size: 1rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        .shutdown-progress-bg {
+            background: rgba(255, 255, 255, 0.1);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .shutdown-progress-bar {
+            background: #ef4444;
+            width: 100%;
+            height: 100%;
+            transition: width 0.1s linear;
+        }
+
         /* レスポンシブ対応用メディアクエリ */
         @media (max-width: 1024px) {
             .dashboard-grid {
@@ -776,6 +1060,11 @@
             .search-select-wrapper::after {
                 right: 10px;
             }
+            .shutdown-notification {
+                width: calc(100% - 32px);
+                right: 16px;
+                bottom: 16px;
+            }
         }
     </style>
 </head>
@@ -811,7 +1100,10 @@
                     </select>
                 </div>
                 <div class="search-divider"></div>
-                <input type="text" id="portalSearchInput" name="q" class="search-input" placeholder="検索キーワードを入力..." required autocomplete="off">
+                <div class="search-input-wrapper">
+                    <input type="text" id="portalSearchInput" name="q" class="search-input" placeholder="検索キーワードを入力..." required autocomplete="off">
+                    <button type="button" id="searchClearBtn" class="search-clear-btn" aria-label="文字をクリア">✕</button>
+                </div>
                 <button type="submit" class="search-submit-btn">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 4px rgba(0, 242, 254, 0.6));">
                         <circle cx="11" cy="11" r="8"></circle>
@@ -831,7 +1123,11 @@
             <div class="card admin-card" style="padding: 22px 30px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                     <span style="font-weight: bold; color: #94a3b8; font-size: 1.1rem;">🛠 ポータルシステム設定</span>
-                    <button onclick="toggleEditMode()" id="editModeBtn" class="edit-btn">編集モード</button>
+                    <div style="display: flex; gap: 10px;">
+                        <!-- 🚨 ここにシャットダウンのダミー起動をテストするボタンを設置しました！ -->
+                        <button onclick="shutdownSystem()" class="danger-btn">シャットダウン テスト</button>
+                        <button onclick="toggleEditMode()" id="editModeBtn" class="edit-btn">編集モード</button>
+                    </div>
                 </div>
 
                 <div id="editForm" class="edit-form">
@@ -910,8 +1206,63 @@
                 </div>
                 <div class="market-date" id="market-update-time">ロード中...</div>
             </div>
+
+            <!-- 📅 【追加＆更新】サイバーカレンダー＆今日は何の日カード -->
+            <div class="card">
+                <h2>📅 カレンダー</h2>
+                
+                <!-- カレンダー表示エリア -->
+                <div class="calendar-header">
+                    <button class="calendar-nav-btn" onclick="changeCalendarMonth(-1)">◀</button>
+                    <span id="calendarMonthLabel" class="calendar-title">2026年 7月</span>
+                    <button class="calendar-nav-btn" onclick="changeCalendarMonth(1)">▶</button>
+                </div>
+                <div class="calendar-grid">
+                    <div class="calendar-day-label sun">日</div>
+                    <div class="calendar-day-label">月</div>
+                    <div class="calendar-day-label">火</div>
+                    <div class="calendar-day-label">水</div>
+                    <div class="calendar-day-label">木</div>
+                    <div class="calendar-day-label">金</div>
+                    <div class="calendar-day-label sat">土</div>
+                </div>
+                <div class="calendar-grid" id="calendarDaysBody" style="margin-top: 6px;">
+                    <!-- 日付はJavaScriptで動的に生成します -->
+                </div>
+
+                <!-- 今日は何の日エリア -->
+                <div class="day-history-container">
+                    <div class="day-history-title">
+                        <span>💡</span> <span id="historyTitleLabel">今日は何の日？</span>
+                    </div>
+                    <div class="day-history-content" id="historyContentText">
+                        日付データから情報を読み込んでいます...
+                    </div>
+                </div>
+            </div>
+
+            <!-- 📝 【追加】カスタムネオンメモ帳カード -->
+            <div class="card">
+                <h2>📝 クイックメモ</h2>
+                <textarea id="quickMemo" class="memo-textarea" placeholder="アイデアやタスクをここにメモ...（自動保存されます）"></textarea>
+                <div id="memoStatus" class="memo-status">自動保存完了</div>
+            </div>
         </div>
 
+    </div>
+
+    <!-- 🚨 シャットダウン実行/キャンセル通知エリア -->
+    <div id="shutdownPopup" class="shutdown-notification">
+        <div class="shutdown-title" id="shutdownTitle">
+            <span>⚠</span> <span id="shutdownTitleText">SYSTEM SHUTDOWN ACTIVATED</span>
+        </div>
+        <div class="shutdown-msg" id="shutdownMsg">
+            システムシャットダウンのシークエンスを実行中...<br>
+            <strong style="color:#ef4444;">[右クリック] または [長押し] で中止できます。</strong>
+        </div>
+        <div class="shutdown-progress-bg" id="shutdownProgressWrapper">
+            <div class="shutdown-progress-bar" id="shutdownBar"></div>
+        </div>
     </div>
 
     <script>
@@ -921,6 +1272,24 @@
             youtube: { action: "https://www.youtube.com/results", queryParamName: "search_query" },
             bing: { action: "https://www.bing.com/search", queryParamName: "q" }
         };
+
+        const queryInput = document.getElementById('portalSearchInput');
+        const searchClearBtn = document.getElementById('searchClearBtn');
+
+        function toggleClearButton() {
+            if (queryInput.value.length > 0) {
+                searchClearBtn.style.display = 'flex';
+            } else {
+                searchClearBtn.style.display = 'none';
+            }
+        }
+
+        searchClearBtn.addEventListener('click', () => {
+            queryInput.value = '';
+            toggleClearButton();
+            closeSuggestionBox();
+            queryInput.focus();
+        });
 
         function updateSearchEngine() {
             const select = document.getElementById('searchEngineSelect');
@@ -936,6 +1305,7 @@
             input.placeholder = `${select.options[select.selectedIndex].text} で検索...`;
             
             closeSuggestionBox();
+            toggleClearButton();
             input.focus();
         }
 
@@ -984,7 +1354,6 @@
         
         window.addEventListener('resize', updateClock);
 
-        const queryInput = document.getElementById('portalSearchInput');
         const suggestionBox = document.getElementById('suggestionBox');
         let debounceTimeout = null;
         let isComposing = false; 
@@ -1027,13 +1396,14 @@
 
                 if (uniqueSuggestions.length > 0) {
                     suggestionBox.style.display = 'block';
-                    uniqueSuggestions.slice(0, 6).forEach((s, idx) => {
+                    uniqueSuggestions.slice(0, 8).forEach((s, idx) => {
                         const div = document.createElement('div');
                         div.className = 'suggestion-item';
                         div.textContent = s;
                         
                         div.onclick = () => {
                             queryInput.value = s;
+                            toggleClearButton();
                             closeSuggestionBox();
                             document.getElementById('portalSearchForm').submit();
                         };
@@ -1050,10 +1420,12 @@
         queryInput.addEventListener('compositionstart', () => { isComposing = true; });
         queryInput.addEventListener('compositionend', () => { 
             isComposing = false; 
+            toggleClearButton(); 
             fetchSuggestions(); 
         });
 
         queryInput.addEventListener('input', () => {
+            toggleClearButton(); 
             const val = queryInput.value.trim();
             if (val.length < 1) { 
                 closeSuggestionBox(); 
@@ -1107,6 +1479,7 @@
                     if (currentSelectedIndex >= 0) {
                         e.preventDefault(); 
                         queryInput.value = items[currentSelectedIndex].textContent;
+                        toggleClearButton();
                         closeSuggestionBox();
                         document.getElementById('portalSearchForm').submit();
                     }
@@ -1232,6 +1605,7 @@
 
         function renderMarketTable() {
             const tbody = document.getElementById('market-table-body');
+            if(!tbody) return;
             tbody.innerHTML = '';
 
             Object.keys(marketData).forEach(key => {
@@ -1265,7 +1639,8 @@
 
             const now = new Date();
             const formatTime = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')} 更新`;
-            document.getElementById('market-update-time').textContent = formatTime;
+            const marketTimeEl = document.getElementById('market-update-time');
+            if (marketTimeEl) marketTimeEl.textContent = formatTime;
         }
 
         function updateMarketData() {
@@ -1287,6 +1662,7 @@
                 { name: "Yahoo! JAPAN", url: "https://www.yahoo.co.jp" },
                 { name: "Microsoft Bing", url: "https://www.bing.com" },
                 { name: "Perplexity AI", url: "https://www.perplexity.ai" },
+                { name: "川西市郷土館", url: "http://www.city.kawanishi.hyogo.jp/shisetsu/1003180/1003184.html" },
                 { name: "DuckDuckGo", url: "https://duckduckgo.com" }
             ],
             "🤖 AIツール": [
@@ -1298,10 +1674,12 @@
             "🛠 業務効率化ツール": [
                 { name: "GitHub", url: "https://github.com" },
                 { name: "Notion", url: "https://www.notion.so" },
+                { name: "Canva", url: "https://www.canva.com" },
                 { name: "Trello", url: "https://trello.com" },
                 { name: "Slack", url: "https://slack.com" },
                 { name: "Zoom", url: "https://zoom.us" },
-                { name: "Google ドライブ", url: "https://drive.google.com" }
+                { name: "Google ドライブ", url: "https://drive.google.com" },
+                { name: "YouTube Downloader", url: "https://colab.research.google.com/drive/1pHE8bjhcY7kPfW2RsIemjrAeXAVzQiz7?hl=ja" }
             ],
             "📺 エンタメ・SNS": [
                 { name: "YouTube", url: "https://www.youtube.com" },
@@ -1318,7 +1696,6 @@
         let dashboardData = JSON.parse(localStorage.getItem('myCategorizedLinks')) || defaultData;
         let isEditMode = false;
 
-        /* デフォルトの背景画像URLを設定 */
         const defaultBg = "https://divnil.com/wallpaper/ipad/img/app/m/o/mountains-4k-wallpaper-3840x2160-2048x2048_0b97954feb5ddc0033010b30ba3fd21d_raw.jpg"; 
         let storedBg = localStorage.getItem('myDashboardBg');
         let savedBgUrl = storedBg !== null ? storedBg : defaultBg;
@@ -1373,7 +1750,7 @@
 
                 const list = document.createElement('div');
                 list.className = 'shortcut-list';
-                list.dataset.category = catName; // 並び替えイベント用にカテゴリ名を保持
+                list.dataset.category = catName;
 
                 dashboardData[catName].forEach((link, index) => {
                     const shortcutContainer = document.createElement('div');
@@ -1396,7 +1773,7 @@
             });
 
             applyEditModeStyles();
-            setupDragAndDrop(); // ドラッグ＆ドロップ用イベントの設定
+            setupDragAndDrop();
         }
 
         function toggleEditMode() {
@@ -1488,7 +1865,6 @@
             urlInput.value = '';
             renderDashboard();
             
-            // 登録成功のポップアップ
             alert('サイトを追加しました');
         }
 
@@ -1497,11 +1873,9 @@
             saveData();
             renderDashboard();
             
-            // 削除成功のポップアップ
             alert('サイトを削除しました');
         }
 
-        // ドラッグ＆ドロップ、長押し処理の実装
         function setupDragAndDrop() {
             const containers = document.querySelectorAll('.shortcut-container');
             let dragTarget = null;
@@ -1509,17 +1883,14 @@
             let isDragging = false;
 
             containers.forEach(container => {
-                // 編集モードでのみ動作するように制御するラッパー関数
                 const runIfEdit = (fn) => (e) => {
                     if (!isEditMode) return;
                     fn(e);
                 };
 
-                // ---- マウス操作用 (PC) ----
                 container.addEventListener('mousedown', runIfEdit((e) => {
-                    if (e.target.classList.contains('delete-link-btn')) return; // ✕ボタンは除外
+                    if (e.target.classList.contains('delete-link-btn')) return;
                     
-                    // 0.2秒(200ms)の微小長押し（誤クリック防止）でドラッグ開始できるように
                     touchTimer = setTimeout(() => {
                         dragTarget = container;
                         dragTarget.classList.add('dragging');
@@ -1527,26 +1898,21 @@
                     }, 200);
                 }));
 
-                // ---- タッチ操作用 (スマートフォン / タブレット) ----
                 container.addEventListener('touchstart', runIfEdit((e) => {
                     if (e.target.classList.contains('delete-link-btn')) return;
                     
-                    // スマホではしっかり長押し(450ms)でドラッグ開始
                     touchTimer = setTimeout(() => {
                         dragTarget = container;
                         dragTarget.classList.add('dragging');
                         isDragging = true;
-                        // スクロールを一時無効化
                         document.body.style.overflow = 'hidden';
                     }, 450);
                 }), { passive: true });
             });
 
-            // ドラッグ中の位置判定と割り込み処理 (マウス・スワイプ共通)
             const handleMove = (clientX, clientY) => {
                 if (!isDragging || !dragTarget) return;
 
-                // 衝突している相手を探す
                 const elements = document.elementsFromPoint(clientX, clientY);
                 const hoverContainer = elements.find(el => 
                     el.classList.contains('shortcut-container') && el !== dragTarget
@@ -1556,7 +1922,6 @@
                     const targetList = hoverContainer.parentNode;
                     const dragList = dragTarget.parentNode;
 
-                    // カテゴリ内での移動、または異なるカテゴリを跨いでの移動に対応
                     if (targetList === dragList) {
                         const children = Array.from(targetList.children);
                         const dragIdx = children.indexOf(dragTarget);
@@ -1568,13 +1933,11 @@
                             targetList.insertBefore(dragTarget, hoverContainer);
                         }
                     } else {
-                        // 他のカテゴリ枠への移動
                         targetList.appendChild(dragTarget);
                     }
                 }
             };
 
-            // マウス移動時
             window.addEventListener('mousemove', (e) => {
                 if (isDragging) {
                     e.preventDefault();
@@ -1582,7 +1945,6 @@
                 }
             }, { passive: false });
 
-            // 指スワイプ時
             window.addEventListener('touchmove', (e) => {
                 if (isDragging) {
                     if (e.cancelable) e.preventDefault();
@@ -1591,10 +1953,9 @@
                 }
             }, { passive: false });
 
-            // ドラッグ終了（保存処理）
             const endDrag = () => {
                 clearTimeout(touchTimer);
-                document.body.style.overflow = ''; // スクロール制限解除
+                document.body.style.overflow = '';
 
                 if (!isDragging || !dragTarget) {
                     isDragging = false;
@@ -1606,7 +1967,6 @@
                 isDragging = false;
                 dragTarget = null;
 
-                // ドムツリー構造から最新の並びを読み出し、データを更新＆保存
                 const newDashboardData = {};
                 document.querySelectorAll('.category-card').forEach(card => {
                     const catName = card.querySelector('.category-card-header span').textContent;
@@ -1622,35 +1982,290 @@
 
                 dashboardData = newDashboardData;
                 saveData();
-                renderDashboard(); // インデックスと各種イベントを振り直す
+                renderDashboard();
             };
 
             window.addEventListener('mouseup', endDrag);
             window.addEventListener('touchend', endDrag);
-            
-            // 途中でドラッグが中断された場合
             window.addEventListener('dragend', endDrag); 
             window.addEventListener('touchcancel', endDrag);
             
-            // クリックや軽タップで長押しタイマーをキャンセルする
             window.addEventListener('selectstart', (e) => { if (isDragging) e.preventDefault(); });
             containers.forEach(container => {
                 container.addEventListener('click', () => clearTimeout(touchTimer));
             });
         }
 
+        // 🚨 【統合】シャットダウン制御プログラム
+        let shutdownTimer = null;
+        let shutdownProgressInterval = null;
+        let isShutdownTriggered = false;
+        let isShutdownCanceled = false;
+
         function shutdownSystem() {
-            // 将来の拡張用の関数フック
+            // 既に発動中の場合は重複起動を避ける
+            if (isShutdownTriggered) return;
+
+            isShutdownTriggered = true;
+            isShutdownCanceled = false;
+            
+            const popup = document.getElementById('shutdownPopup');
+            const bar = document.getElementById('shutdownBar');
+            const title = document.getElementById('shutdownTitle');
+            const titleText = document.getElementById('shutdownTitleText');
+            const msg = document.getElementById('shutdownMsg');
+            const progressWrapper = document.getElementById('shutdownProgressWrapper');
+
+            // 初期状態にセット
+            popup.classList.remove('cancel-state');
+            titleText.textContent = "SYSTEM SHUTDOWN ACTIVATED";
+            msg.innerHTML = `システムシャットダウンのシークエンスを実行中...<br><strong style="color:#ef4444;">[右クリック] または [長押し] で中止できます。</strong>`;
+            progressWrapper.style.display = "block";
+            bar.style.width = "100%";
+            popup.style.display = "flex";
+
+            let countdown = 100; // 進捗バー用（ミリ秒単位でデクリメント）
+            const duration = 5000; // 5秒間でシャットダウン
+            const step = 100; // 100msごとに更新
+            
+            // 視覚的なプログレスバーを徐々に減らす
+            shutdownProgressInterval = setInterval(() => {
+                countdown -= (step / duration) * 100;
+                if (countdown <= 0) {
+                    bar.style.width = "0%";
+                    clearInterval(shutdownProgressInterval);
+                } else {
+                    bar.style.width = `${countdown}%`;
+                }
+            }, step);
+
+            // 5秒後の本実行（デモ環境用：アラート出力後にページを閉じる試行）
+            shutdownTimer = setTimeout(() => {
+                clearInterval(shutdownProgressInterval);
+                alert("システムを終了します。");
+                window.close();
+            }, duration);
         }
+
+        // キャンセルイベントリスナーの登録（右クリックまたは長押し）
+        function cancelShutdown(e) {
+            if (!isShutdownTriggered) return;
+            if (e) e.preventDefault(); // 右クリックメニューの表示を防ぐ
+
+            // タイマーのクリア
+            clearTimeout(shutdownTimer);
+            clearInterval(shutdownProgressInterval);
+
+            isShutdownTriggered = false;
+            isShutdownCanceled = true; // セッション内の再発動を防ぐフラグ
+
+            // UIを「キャンセル成功」のネオングリーン表示にアップデート
+            const popup = document.getElementById('shutdownPopup');
+            const titleText = document.getElementById('shutdownTitleText');
+            const msg = document.getElementById('shutdownMsg');
+            const progressWrapper = document.getElementById('shutdownProgressWrapper');
+
+            popup.classList.add('cancel-state');
+            titleText.textContent = "SHUTDOWN CANCELED";
+            msg.innerHTML = `<span style="color:#00e676; font-weight:bold;">シークエンスは正常に中断されました。</span><br>ポータルシステムは安全な運用状態に戻りました。`;
+            progressWrapper.style.display = "none";
+
+            // 3秒後にポップアップ自体をフェードアウトさせて消す
+            setTimeout(() => {
+                popup.style.display = "none";
+                isShutdownCanceled = false;
+            }, 3500);
+        }
+
+        // デスクトップ向けのコンテキストメニュー（右クリック）フック
+        window.addEventListener('contextmenu', (e) => {
+            if (isShutdownTriggered) {
+                cancelShutdown(e);
+            }
+        });
+
+        // モバイル等のタップ長押しでもキャンセルできるように実装
+        let touchCancelTimer = null;
+        window.addEventListener('touchstart', (e) => {
+            if (isShutdownTriggered) {
+                touchCancelTimer = setTimeout(() => {
+                    cancelShutdown(e);
+                }, 600); // 0.6秒の長押しでキャンセル発動
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchend', () => {
+            clearTimeout(touchCancelTimer);
+        });
 
         function saveData() {
             localStorage.setItem('myCategorizedLinks', JSON.stringify(dashboardData));
         }
 
+        /* 📅 【更新】カレンダー＆今日は何の日 制御プログラム */
+        const historyData = {
+            "1-1": "元日：一年の始まりを祝う国民の祝日です。",
+            "1-15": "警視庁創設記念日：1874年のこの日、東京警視庁が創設されました。",
+            "2-11": "建国記念の日：日本の建国をしのび、国を愛する心を養う国民の祝日です。",
+            "2-22": "猫の日：「にゃんにゃんにゃん」の語呂合わせから、猫好きの人々により制定されました。",
+            "2-23": "天皇誕生日：現在の天皇陛下の誕生日に伴う国民の祝日です。",
+            "3-3": "ひな祭り：女の子の健やかな成長と幸せを祈る伝統的な年中行事です。",
+            "3-9": "記念切手記念日：1894年のこの日、日本初の記念切手が発行されました。",
+            "3-20": "春分の日：自然をたたえ、生物をいつくしむ国民の祝日です（年により変動）。",
+            "4-1": "エイプリルフール：年に一度だけ、罪のない嘘をついても良いとされる日です。",
+            "4-6": "城の日：「し(4) ろ(6)」の語呂合わせで、1990年に日本城郭協会が制定しました。",
+            "4-29": "昭和の日：激動の日々を経て復興を遂げた昭和の時代を顧みる祝日です。",
+            "5-3": "憲法記念日：日本国憲法の施行を記念し、国の成長を期する国民の祝日です。",
+            "5-4": "みどりの日：自然に親しむとともにその恩恵に感謝し、豊かな心を育む祝日です。",
+            "5-5": "こどもの日：こどもの人格を重んじ、幸福をはかるとともに母に感謝する祝日です。",
+            "6-1": "電波の日：1950年のこの日、電波法・放送法などが施行されました。",
+            "6-10": "時の記念日：天智天皇が日本で初めて水時計（漏刻）を稼働させた日にちなんでいます。",
+            "7-1": "川西市誕生記念日：1954年のこの日、川西町・多田村・東谷村が合併して川西市が市制を施行、誕生しました。",
+            "7-7": "七夕：織姫と彦星が年に一度、天の川を渡って会うことが許されたロマンチックな日です。",
+            "7-17": "京都祇園祭・前祭：日本三大祭りのひとつ。豪華絢爛な山鉾巡行が京都で行われます。",
+            "7-20": "海の日：海の恩恵に感謝するとともに、海洋国日本の繁栄を願う祝日です。",
+            "8-1": "三ツ矢サイダーの日：川西市平野が発祥である三ツ矢サイダーを記念した日です（矢（8）とイ（1）の語呂合わせ）。",
+            "8-11": "山の日：山に親しむ機会を得て、山の恩恵に感謝する国民の祝日です。",
+            "8-15": "終戦記念日：第二次世界大戦の戦没者を追悼し、平和を祈念する日です。",
+            "9-1": "防災の日：関東大震災が発生した日にちなみ、防災の備えを意識する日として制定されました。",
+            "9-15": "敬老の日：多年にわたり社会につくしてきた老人を敬愛し、長寿を祝う祝日です（第3月曜）。",
+            "9-23": "秋分の日：祖先をうやまい、なくなった人々をしのぶ国民の祝日です（年により変動）。",
+            "10-1": "衣替え：暑い季節から寒い季節へ、衣服を着替える伝統的な節目の日です。",
+            "10-14": "鉄道の日：1872年のこの日、新橋〜横浜間に日本初の鉄道が開業しました。",
+            "11-3": "文化の日：自由と平和を愛し、文化をすすめる国民の祝日です。",
+            "11-23": "勤労感謝の日：勤労をたっとび、生産を祝い、国民がたがいに感謝しあう祝日です。",
+            "12-1": "映画の日：1896年に神戸で日本初の映画（活動写真）が一般公開されたことにちなみます。",
+            "12-24": "クリスマスイブ：クリスマス当日の前夜を家族や大切な人と祝う日です。",
+            "12-25": "クリスマス：イエス・キリスト of 降誕を記念し祝う日です。",
+            "12-31": "大晦日：一年の最後の日の夜。除夜の鐘を鳴らして新しい年を迎える準備をします。"
+        };
+
+        // 表示用の「現在の日付オブジェクト」を保持する変数（初期状態は現在日時）
+        let calendarBaseDate = new Date();
+
+        function generateCalendar() {
+            const year = calendarBaseDate.getFullYear();
+            const month = calendarBaseDate.getMonth(); // 0が1月、11が12月
+            const today = new Date();
+
+            // ラベルの更新
+            const label = document.getElementById('calendarMonthLabel');
+            if (label) label.textContent = `${year}年 ${month + 1}月`;
+
+            // 月の最初の日と最後の日
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            const lastDate = new Date(year, month + 1, 0).getDate();
+            const prevLastDate = new Date(year, month, 0).getDate();
+
+            const body = document.getElementById('calendarDaysBody');
+            if (!body) return;
+            body.innerHTML = '';
+
+            // 前月の日付枠
+            for (let i = firstDayIndex; i > 0; i--) {
+                const dayDiv = document.createElement('div');
+                dayDiv.className = 'calendar-day prev-month';
+                dayDiv.textContent = prevLastDate - i + 1;
+                body.appendChild(dayDiv);
+            }
+
+            // 当月の日付
+            for (let i = 1; i <= lastDate; i++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.className = 'calendar-day';
+                dayDiv.textContent = i;
+
+                // 表示中の年月が「実際の現在年月」と一致し、日付が今日である場合のみ強調
+                if (
+                    i === today.getDate() &&
+                    month === today.getMonth() &&
+                    year === today.getFullYear()
+                ) {
+                    dayDiv.classList.add('today');
+                }
+                body.appendChild(dayDiv);
+            }
+
+            // 翌月の日付枠（グリッド of 端数を埋める）
+            const totalCells = firstDayIndex + lastDate;
+            const remainingCells = (7 - (totalCells % 7)) % 7;
+            for (let i = 1; i <= remainingCells; i++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.className = 'calendar-day next-month';
+                dayDiv.textContent = i;
+                body.appendChild(dayDiv);
+            }
+
+            // 「今日は何の日」を設定
+            // カレンダーが当月表示の場合は「今日の日付」、別月の場合は「その月の1日」のイベントを表示します。
+            const targetDate = (month === today.getMonth() && year === today.getFullYear()) ? today.getDate() : 1;
+            updateHistorySection(month + 1, targetDate);
+        }
+
+        // 「今日は何の日」の内容を書き換える関数
+        function updateHistorySection(month, date) {
+            const key = `${month}-${date}`;
+            const textLabel = document.getElementById('historyContentText');
+            const titleLabel = document.getElementById('historyTitleLabel');
+
+            if (textLabel && titleLabel) {
+                titleLabel.textContent = `本日 ${month}月${date}日は何の日？`;
+                if (historyData[key]) {
+                    textLabel.textContent = historyData[key];
+                } else {
+                    textLabel.textContent = "記念日・歴史的イベントの日です。毎日の新しい発見を楽しもう！";
+                }
+            }
+        }
+
+        // ◀ ボタン、▶ ボタンがクリックされたときの処理
+        function changeCalendarMonth(direction) {
+            calendarBaseDate.setMonth(calendarBaseDate.getMonth() + direction);
+            generateCalendar();
+        }
+
+        /* 📝 【追加】カスタムメモ帳の自動保存・復元制御 */
+        const quickMemoInput = document.getElementById('quickMemo');
+        const memoStatusLabel = document.getElementById('memoStatus');
+        let memoSaveTimeout = null;
+
+        // 保存状態をUIに反映
+        function setMemoStatus(state) {
+            if (state === 'typing') {
+                memoStatusLabel.textContent = '保存中...';
+                memoStatusLabel.classList.remove('saved');
+            } else if (state === 'saved') {
+                memoStatusLabel.textContent = '自動保存完了';
+                memoStatusLabel.classList.add('saved');
+            }
+        }
+
+        // メモのロード処理
+        function loadMemo() {
+            const savedMemo = localStorage.getItem('portalQuickMemo');
+            if (savedMemo !== null) {
+                quickMemoInput.value = savedMemo;
+            }
+            setMemoStatus('saved');
+        }
+
+        // メモ入力時のディバウンス（タイピング停止後500msで自動保存）
+        quickMemoInput.addEventListener('input', () => {
+            setMemoStatus('typing');
+            clearTimeout(memoSaveTimeout);
+            memoSaveTimeout = setTimeout(() => {
+                localStorage.setItem('portalQuickMemo', quickMemoInput.value);
+                setMemoStatus('saved');
+            }, 500);
+        });
+
+        // 初期ロード処理
         applySavedBackground();
         renderDashboard();
         renderMarketTable();
         updateSearchEngine();
+        generateCalendar(); // カレンダーの生成
+        loadMemo(); // メモの読み込み
         
         setInterval(updateMarketData, 1000);
     </script>
