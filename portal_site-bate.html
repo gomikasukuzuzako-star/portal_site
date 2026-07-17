@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html_content = r"""<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -1124,7 +1124,6 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                     <span style="font-weight: bold; color: #94a3b8; font-size: 1.1rem;">🛠 ポータルシステム設定</span>
                     <div style="display: flex; gap: 10px;">
-                        <!-- 🚨 ここにシャットダウンのダミー起動をテストするボタンを設置しました！ -->
                         <button onclick="shutdownSystem()" class="danger-btn">シャットダウン テスト</button>
                         <button onclick="toggleEditMode()" id="editModeBtn" class="edit-btn">編集モード</button>
                     </div>
@@ -1241,11 +1240,24 @@
                 </div>
             </div>
 
-            <!-- 📝 【追加】カスタムネオンメモ帳カード -->
+            <!-- 📝 カスタムネオンメモ帳カード -->
             <div class="card">
                 <h2>📝 クイックメモ</h2>
                 <textarea id="quickMemo" class="memo-textarea" placeholder="アイデアやタスクをここにメモ...（自動保存されます）"></textarea>
                 <div id="memoStatus" class="memo-status">自動保存完了</div>
+            </div>
+
+            <!-- 📱 【追加】QRコード作成カード -->
+            <div class="card">
+                <h2>📱 QRコード作成</h2>
+                <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 5px;">
+                    <input type="text" id="qrInputUrl" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(0, 242, 254, 0.4); background: rgba(15, 23, 42, 0.6); color: white; font-size: 1.05rem; outline: none;" placeholder="URLやテキストを入力..." />
+                    <button onclick="generateQRCode()" class="edit-btn" style="width: 100%; padding: 12px;">QRコード画像を生成</button>
+                    <div id="qrResultContainer" style="display: none; text-align: center; margin-top: 10px; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px dashed rgba(0, 242, 254, 0.3);">
+                        <img id="qrCodeImage" src="" alt="QR Code" style="max-width: 160px; border-radius: 8px; box-shadow: 0 0 15px rgba(0, 242, 254, 0.2); background: white; padding: 5px;" />
+                        <p style="margin-top: 12px; font-size: 0.85rem; color: #94a3b8;">画像を長押し、または右クリックで保存</p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -2259,6 +2271,22 @@
             }, 500);
         });
 
+        /* 📱 QRコード作成ツール */
+        function generateQRCode() {
+            const inputVal = document.getElementById('qrInputUrl').value.trim();
+            const container = document.getElementById('qrResultContainer');
+            const img = document.getElementById('qrCodeImage');
+            
+            if (!inputVal) {
+                alert('QRコード化したいURLや文字を入力してください。');
+                return;
+            }
+            
+            // 外部API (qrserver) を利用して画像生成
+            img.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(inputVal)}`;
+            container.style.display = 'block';
+        }
+
         // 初期ロード処理
         applySavedBackground();
         renderDashboard();
@@ -2271,3 +2299,9 @@
     </script>
 </body>
 </html>
+"""
+
+with open("portal_with_qrcode.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("Created portal_with_qrcode.html")
