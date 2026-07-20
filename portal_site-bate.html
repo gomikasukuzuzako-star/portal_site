@@ -1206,7 +1206,7 @@
                 <div class="market-date" id="market-update-time">ロード中...</div>
             </div>
 
-            <!-- 📅 【追加＆更新】サイバーカレンダー＆今日は何の日カード -->
+            <!-- 📅 カレンダー＆今日は何の日カード -->
             <div class="card">
                 <h2>📅 カレンダー</h2>
                 
@@ -1247,15 +1247,16 @@
                 <div id="memoStatus" class="memo-status">自動保存完了</div>
             </div>
 
-            <!-- 📱 【追加】QRコード作成カード -->
+            <!-- 📱 【追加】QRコード生成ツール -->
             <div class="card">
-                <h2>📱 QRコード作成</h2>
-                <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 5px;">
-                    <input type="text" id="qrInputUrl" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(0, 242, 254, 0.4); background: rgba(15, 23, 42, 0.6); color: white; font-size: 1.05rem; outline: none;" placeholder="URLやテキストを入力..." />
-                    <button onclick="generateQRCode()" class="edit-btn" style="width: 100%; padding: 12px;">QRコード画像を生成</button>
-                    <div id="qrResultContainer" style="display: none; text-align: center; margin-top: 10px; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px dashed rgba(0, 242, 254, 0.3);">
-                        <img id="qrCodeImage" src="" alt="QR Code" style="max-width: 160px; border-radius: 8px; box-shadow: 0 0 15px rgba(0, 242, 254, 0.2); background: white; padding: 5px;" />
-                        <p style="margin-top: 12px; font-size: 0.85rem; color: #94a3b8;">画像を長押し、または右クリックで保存</p>
+                <h2>📱 QRコード生成</h2>
+                <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+                    <input type="text" id="qrUrlInput" class="memo-textarea" style="height: 50px; font-size: 1rem;" placeholder="変換したいURLを入力してください...">
+                    <button onclick="generateQR()" class="edit-btn" style="width: 100%;">QRコードを作成</button>
+                    <div id="qrResult" style="text-align: center; margin-top: 10px; display: none;">
+                        <img id="qrCodeImage" src="" alt="QR Code" style="max-width: 100%; border-radius: 8px; border: 2px solid rgba(0, 242, 254, 0.4); padding: 10px; background: white;">
+                        <br>
+                        <a id="qrDownloadBtn" href="" download="qrcode.png" class="edit-btn" style="display: inline-block; margin-top: 15px; font-size: 0.9rem; padding: 8px 16px; text-decoration: none;">画像をダウンロード</a>
                     </div>
                 </div>
             </div>
@@ -1691,6 +1692,7 @@
                 { name: "Slack", url: "https://slack.com" },
                 { name: "Zoom", url: "https://zoom.us" },
                 { name: "Google ドライブ", url: "https://drive.google.com" },
+                { name: "キムランド", url: "https://kimuland.jp/" },
                 { name: "YouTube Downloader", url: "https://colab.research.google.com/drive/1pHE8bjhcY7kPfW2RsIemjrAeXAVzQiz7?hl=ja" }
             ],
             "📺 エンタメ・SNS": [
@@ -2114,7 +2116,7 @@
             localStorage.setItem('myCategorizedLinks', JSON.stringify(dashboardData));
         }
 
-        /* 📅 【更新】カレンダー＆今日は何の日 制御プログラム */
+        /* 📅 カレンダー＆今日は何の日 制御プログラム */
         const historyData = {
             "1-1": "元日：一年の始まりを祝う国民の祝日です。",
             "1-15": "警視庁創設記念日：1874年のこの日、東京警視庁が創設されました。",
@@ -2236,7 +2238,7 @@
             generateCalendar();
         }
 
-        /* 📝 【追加】カスタムメモ帳の自動保存・復元制御 */
+        /* 📝 カスタムメモ帳の自動保存・復元制御 */
         const quickMemoInput = document.getElementById('quickMemo');
         const memoStatusLabel = document.getElementById('memoStatus');
         let memoSaveTimeout = null;
@@ -2271,20 +2273,35 @@
             }, 500);
         });
 
-        /* 📱 QRコード作成ツール */
-        function generateQRCode() {
-            const inputVal = document.getElementById('qrInputUrl').value.trim();
-            const container = document.getElementById('qrResultContainer');
-            const img = document.getElementById('qrCodeImage');
-            
-            if (!inputVal) {
-                alert('QRコード化したいURLや文字を入力してください。');
+        /* 📱 【追加】QRコード生成ツール */
+        function generateQR() {
+            const inputUrl = document.getElementById('qrUrlInput').value.trim();
+            if (!inputUrl) {
+                alert("URLを入力してください。");
                 return;
             }
             
-            // 外部API (qrserver) を利用して画像生成
-            img.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(inputVal)}`;
-            container.style.display = 'block';
+            const qrImage = document.getElementById('qrCodeImage');
+            const qrResult = document.getElementById('qrResult');
+            const qrDownloadBtn = document.getElementById('qrDownloadBtn');
+
+            // APIを使用してQRコードを生成 (qrserverを利用)
+            const apiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(inputUrl)}`;
+            
+            // 画像を表示
+            qrImage.src = apiUrl;
+            
+            // fetchを使ってblobを取得し、ダウンロード可能にする
+            fetch(apiUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const blobUrl = URL.createObjectURL(blob);
+                    qrDownloadBtn.href = blobUrl;
+                })
+                .catch(console.error);
+
+            // 結果エリアを表示
+            qrResult.style.display = "block";
         }
 
         // 初期ロード処理
