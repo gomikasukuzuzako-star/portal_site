@@ -5,6 +5,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ポータルサイト（β版）</title>
     <style>
+        .crypto-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 24px;
+            color: #f8fafc;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+    
+        .crypto-container h2 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            color: #38bdf8;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    
+        .crypto-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #334155;
+        }
+    
+        .crypto-tab-btn {
+            flex: 1;
+            padding: 10px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+    
+        .crypto-tab-btn.active {
+            color: #38bdf8;
+            border-bottom: 2px solid #38bdf8;
+            margin-bottom: -2px;
+        }
+    
+        .crypto-group {
+            margin-bottom: 16px;
+        }
+    
+        .crypto-group label {
+            display: block;
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+    
+        .crypto-group textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 1rem;
+            box-sizing: border-box;
+            resize: vertical;
+            min-height: 100px;
+        }
+    
+        .crypto-group textarea:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+    
+        .crypto-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #38bdf8;
+            border: none;
+            border-radius: 6px;
+            color: #0f172a;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+    
+        .crypto-btn:hover {
+            background-color: #0284c7;
+        }
+    
+        .crypto-result-box {
+            margin-top: 20px;
+            padding: 16px;
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            position: relative;
+        }
+    
+        .crypto-result-title {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+    
+        .crypto-result-text {
+            word-break: break-all;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+    
+        .crypto-copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #334155;
+            border: none;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+    
+        .crypto-copy-btn:hover {
+            background: #475569;
+        }
+    
+        .crypto-error {
+            color: #f43f5e;
+            font-size: 0.875rem;
+            margin-top: 8px;
+        }
         /* スムーズスクロールを有効化 */
         html {
             scroll-behavior: smooth;
@@ -1066,6 +1201,7 @@
                 bottom: 16px;
             }
         }
+        
     </style>
 </head>
 <body>
@@ -1260,6 +1396,34 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 🔒 【追加】暗号化ツール -->
+             <div class="card">
+                <h2>🔒特殊暗号化</h2>
+                    <div class="crypto-container">
+                        <h2>暗号化・復号ツール</h2>
+
+                        <div class="crypto-tabs">
+                            <button class="crypto-tab-btn active" id="crypto-tab-enc" onclick="switchCryptoTab('encrypt')">暗号化</button>
+                            <button class="crypto-tab-btn" id="crypto-tab-dec" onclick="switchCryptoTab('decrypt')">復号（元に戻す）</button>
+                        </div>
+                    
+                        <div class="crypto-group">
+                            <label id="crypto-input-label" for="cryptoInputText">変換したい文字・数字</label>
+                            <textarea id="cryptoInputText" placeholder="文字を入力してください..."></textarea>
+                        </div>
+                    
+                        <button class="crypto-btn" id="crypto-action-btn" onclick="processCrypto()">暗号化を実行</button>
+                    
+                        <div id="crypto-error-msg" class="crypto-error"></div>
+                    
+                        <div class="crypto-result-box" id="cryptoResultBox" style="display: none;">
+                            <div class="crypto-result-title" id="cryptoResultLabel">結果</div>
+                            <button class="crypto-copy-btn" onclick="copyCryptoResult()">コピー</button>
+                            <div class="crypto-result-text" id="cryptoOutputText"></div>
+                        </div>
+                    </div>
+             </div>
         </div>
 
     </div>
